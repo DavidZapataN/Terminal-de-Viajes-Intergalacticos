@@ -3,11 +3,11 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const baseStyle =
-  'cursor-pointer rounded-md px-4 py-2 font-medium transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2'
+  'cursor-pointer rounded-md px-4 py-2 font-medium transition-all duration-300 ease-in-out'
 
 const variants = {
   primary:
-    'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:from-cyan-600 hover:to-purple-600 focus:ring-[#28c2de]',
+    'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:from-cyan-600 hover:to-purple-600',
   secondary: 'bg-gray-700 text-white hover:bg-gray-600 focus:ring-gray-500',
 }
 

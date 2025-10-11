@@ -59,16 +59,18 @@ export const Login = ({ setActivePage }: Props) => {
             </Button>
           </form>
 
-          <span className="text-sm text-gray-400">
-            ¿Nuevo en la galaxia?
+          <div className="flex flex-col items-center">
+            <span className="text-sm text-gray-400">
+              ¿Nuevo en la galaxia?
+            </span>
             <a
               onClick={() => setActivePage('register')}
               href="#"
               className="ml-1.5 cursor-pointer text-[#06b6d4] hover:text-[#54e5ff]"
             >
-              Registrar credenciales
+              Registrar Credenciales
             </a>
-          </span>
+          </div>
         </div>
       </Card>
     </div>
