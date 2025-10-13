@@ -5,6 +5,7 @@ import clsx from 'clsx'
 export interface Tab {
   name: string
   icon: LucideIcon
+  path: string
 }
 
 interface Props {

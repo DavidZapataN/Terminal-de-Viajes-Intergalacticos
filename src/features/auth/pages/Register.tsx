@@ -3,10 +3,7 @@ import { Card } from '../../../shared/components/Card'
 import { Input } from '../../../shared/components/Input'
 import { Button } from '../../../shared/components/Button'
 import { useState } from 'react'
-
-interface Props {
-  setActivePage: (page: 'login' | 'register') => void
-}
+import { Link } from '@tanstack/react-router'
 
 type Step = 1 | 2 | 3
 
@@ -18,7 +15,7 @@ const stepInfo: Record<Step, string> = {
   3: 'Paso 3 de 3: Seguridad Cuántica',
 }
 
-export const Register = ({ setActivePage }: Props) => {
+export const Register = () => {
   const [currentStep, setCurrentStep] = useState(1)
 
   const handleNextStep = () => {
@@ -191,13 +188,12 @@ export const Register = ({ setActivePage }: Props) => {
               <span className="text-sm text-gray-400">
                 ¿Ya tienes credenciales galácticas?
               </span>
-              <a
-                onClick={() => setActivePage('login')}
-                href="#"
+              <Link
+                to="/login"
                 className="ml-1.5 cursor-pointer text-[#06b6d4] hover:text-[#54e5ff]"
               >
                 Iniciar sesión
-              </a>
+              </Link>
             </div>
           </form>
         </div>

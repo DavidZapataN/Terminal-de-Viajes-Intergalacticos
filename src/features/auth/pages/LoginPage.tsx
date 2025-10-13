@@ -1,13 +1,10 @@
 import { Eye, Lock, Rocket, Shield, User, Zap } from 'lucide-react'
-import { Card } from '../../../shared/components/Card'
-import { Input } from '../../../shared/components/Input'
-import { Button } from '../../../shared/components/Button'
+import { Card } from '@/shared/components/Card'
+import { Input } from '@/shared/components/Input'
+import { Button } from '@/shared/components/Button'
+import { Link } from '@tanstack/react-router'
 
-interface Props {
-  setActivePage: (page: 'login' | 'register') => void
-}
-
-export const Login = ({ setActivePage }: Props) => {
+export const Login = () => {
   return (
     <div className="flex h-full w-full flex-col place-items-center justify-center gap-4">
       <Card>
@@ -60,16 +57,13 @@ export const Login = ({ setActivePage }: Props) => {
           </form>
 
           <div className="flex flex-col items-center">
-            <span className="text-sm text-gray-400">
-              ¿Nuevo en la galaxia?
-            </span>
-            <a
-              onClick={() => setActivePage('register')}
-              href="#"
+            <span className="text-sm text-gray-400">¿Nuevo en la galaxia?</span>
+            <Link
+              to="/registro"
               className="ml-1.5 cursor-pointer text-[#06b6d4] hover:text-[#54e5ff]"
             >
               Registrar Credenciales
-            </a>
+            </Link>
           </div>
         </div>
       </Card>

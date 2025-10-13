@@ -14,6 +14,9 @@ const variants = {
 
 export const Button = ({ variant = 'primary', className, ...props }: Props) => {
   return (
-    <button className={`${baseStyle} ${variants[variant]} ${className}`} {...props}></button>
+    <button
+      className={`${baseStyle} ${variants[variant]} ${className}`}
+      {...props}
+    ></button>
   )
 }

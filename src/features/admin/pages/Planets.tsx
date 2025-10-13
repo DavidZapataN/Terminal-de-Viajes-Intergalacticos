@@ -1,3 +1,3 @@
 export const Planets = () => {
-    return <div>Planets</div>
+  return <div>Planets</div>
 }
