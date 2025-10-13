@@ -1,7 +1,6 @@
 {
   "useTabs": false,
   "jsxSingleQuote": false,
-  "jsxBracketSameLine": false,
   "singleQuote": true,
   "semi": false,
   "trailingComma": "es5",
@@ -9,5 +8,8 @@
   "printWidth": 80,
   "bracketSpacing": true,
   "arrowParens": "avoid",
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindAttributes": ["className"],
+  "tailwindFunctions": ["clsx"],
+  "tailwindStylesheet": "./src/index.css"
 }
