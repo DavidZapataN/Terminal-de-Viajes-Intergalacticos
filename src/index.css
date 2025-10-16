@@ -5,20 +5,20 @@
 
 @font-face {
   font-family: 'Space Mono';
-  src: url('fonts/SpaceMono-Bold.woff2') format('woff2');
+  src: url('/fonts/SpaceMono-Bold.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Space Mono';
-  src: url('fonts/SpaceMono-Regular.woff2') format('woff2');
+  src: url('/fonts/SpaceMono-Regular.woff2') format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Space Grotesk';
-  src: url('fonts/SpaceGrotesk-VariableFont.woff2') format('woff2');
+  src: url('/fonts/SpaceGrotesk-VariableFont.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -159,6 +159,7 @@ body,
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
