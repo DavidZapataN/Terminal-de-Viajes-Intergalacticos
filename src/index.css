@@ -188,3 +188,19 @@ h2 {
 .neon-glow {
   box-shadow: var(--hologram-glow);
 }
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@layer utilities {
+  .animate-twinkling {
+    animation: move-twink-back 200s linear infinite;
+  }
+}
