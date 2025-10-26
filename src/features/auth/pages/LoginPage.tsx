@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, Lock, Rocket, Shield, User, Zap } from 'lucide-react'
+import { Eye, Lock, Rocket, Shield, User, Zap } from 'lucide-react'
 import { Card } from '@/shared/components/Card'
 import { Input } from '@/shared/components/Input'
 import { Button } from '@/shared/components/Button'
