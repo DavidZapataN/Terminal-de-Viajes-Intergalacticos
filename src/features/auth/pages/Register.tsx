@@ -4,6 +4,7 @@ import { Input } from '../../../shared/components/Input'
 import { Button } from '../../../shared/components/Button'
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
+import { Title } from '@/shared/components/Title'
 
 type Step = 1 | 2 | 3
 
@@ -133,9 +134,7 @@ export const Register = () => {
               <Shield size={32} />
             </div>
 
-            <h2 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              Registro Galáctico
-            </h2>
+            <Title>Registro Galáctico</Title>
 
             <span className="text-sm text-gray-400">
               Únase a la Red de Viajeros Intergalácticos

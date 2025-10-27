@@ -3,6 +3,7 @@ import { Card } from '@/shared/components/Card'
 import { Input } from '@/shared/components/Input'
 import { Button } from '@/shared/components/Button'
 import { Link } from '@tanstack/react-router'
+import { Title } from '@/shared/components/Title'
 
 export const Login = () => {
   return (
@@ -14,9 +15,7 @@ export const Login = () => {
               <Rocket size={32} />
             </div>
 
-            <h2 className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              Terminal de Viajes Intergalácticos
-            </h2>
+            <Title>Terminal de Viajes Intergalácticos</Title>
 
             <span className="text-sm text-gray-400">
               Acceso Seguro a la Red Galáctica
