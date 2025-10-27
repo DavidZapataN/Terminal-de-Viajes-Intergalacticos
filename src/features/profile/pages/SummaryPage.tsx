@@ -38,18 +38,18 @@ export const Summary = () => {
             </Button>
           </header>
 
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <ProfileField
               label="Nombre completo"
               value="Comandante Stellar"
               editable={editable}
             />
-            <ProfileField label="ID Galáctico" value="GAL-2024-7X9" />
             <ProfileField
               label="Email Intergaláctico"
               value="stellar@galaxy.com"
               editable={editable}
             />
+            <ProfileField label="ID Galáctico" value="GAL-2024-7X9" />
             <ProfileField label="Fecha de registro" value="14/3/2023" />
           </div>
         </div>

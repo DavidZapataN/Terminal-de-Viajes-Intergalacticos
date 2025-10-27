@@ -25,7 +25,7 @@ export const Summary = () => {
         ))}
       </div>
 
-      <Card width="100%" height="100%">
+      <Card>
         <div className="flex flex-col gap-5 p-5">
           <h2 className="text-cyan-400">Actividad Reciente</h2>
           <RecentActivityCard
