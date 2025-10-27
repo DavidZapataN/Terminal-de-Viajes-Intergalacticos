@@ -1,5 +1,7 @@
+import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import type { Tab } from '@/shared/components/Navbar'
+import { LogOut } from 'lucide-react'
 
 interface Props {
   tabs: Tab[]
@@ -43,6 +45,16 @@ export const ProfileNavbar = ({ tabs, activeTab, setActiveTab }: Props) => {
             </li>
           ))}
         </ul>
+
+        <hr className="mb-4 h-px w-full border-[#6366f133]" />
+
+        <Button
+          variant="text"
+          className="w-full gap-5 !text-destructive hover:!bg-destructive/10 hover:!text-destructive"
+        >
+          Cerrar Sesión
+          <LogOut />
+        </Button>
       </div>
     </Card>
   )

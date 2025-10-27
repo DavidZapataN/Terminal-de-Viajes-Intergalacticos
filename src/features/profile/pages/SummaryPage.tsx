@@ -20,7 +20,7 @@ export const Summary = () => {
             <h2 className="text-cyan-400"> Información Personal </h2>
 
             <Button
-              className="w-max !text-cyan-400 hover:!text-cyan-300"
+              className="!text-cyan-400 hover:!text-cyan-300 active:scale-95"
               variant="text"
               onClick={handleEditClick}
             >
