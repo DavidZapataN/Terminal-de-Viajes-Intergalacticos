@@ -24,7 +24,7 @@ export const Route = createFileRoute('/profile')({
 const tabs: Tab[] = [
   { name: 'Resumen', icon: Shield, path: '/profile/resumen' },
   { name: 'Mis Viajes', icon: Plane, path: '/profile/viajes' },
-  { name: 'Métodos de Pago', icon: CreditCard, path: '/profile/metodos-pago' },
+  // { name: 'Métodos de Pago', icon: CreditCard, path: '/profile/metodos-pago' } // No se sabe si se implementará,
   // { name: 'Datos Biométricos', icon: Heart, path: '/profile/biometrics' }, // No se sabe si se implementará
 ]
 function ProfileLayout() {
