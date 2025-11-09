@@ -1,13 +1,13 @@
 import { Badge } from '@/shared/components/Bagde'
 import { Card } from '@/shared/components/Card'
-import { CircleCheckBig, Clock4, Star } from 'lucide-react'
+import { CircleCheckBig, CircleX, Clock4, Star } from 'lucide-react'
 
 export interface Reservation {
   id: string
   destination: string
   departureDate: string
   returnDate: string
-  status: 'confirmed' | 'pending' | 'completed'
+  status: 'confirmed' | 'in_transit' | 'completed' | 'cancelled'
   ship: string
   cabin: string
 }
@@ -22,7 +22,7 @@ const status = {
     icon: <CircleCheckBig size={16} />,
     style: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
   },
-  pending: {
+  in_transit: {
     name: 'Pendiente',
     icon: <Clock4 size={16} />,
     style: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
@@ -31,6 +31,11 @@ const status = {
     name: 'Completado',
     icon: <Star size={16} />,
     style: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+  },
+  cancelled: {
+    name: 'Cancelado',
+    icon: <CircleX size={16} />,
+    style: 'bg-red-500/20 text-red-400 border-red-500/30',
   },
 }
 

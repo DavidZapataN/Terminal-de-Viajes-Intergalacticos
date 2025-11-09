@@ -1,0 +1,14 @@
+import { filterReservations } from '@/app/router/routes/trips/route'
+import { TripInfoCard } from '../components/TripInfoCard'
+
+export const CanceledTrips = () => {
+  const reservations = filterReservations('cancelled')
+
+  return (
+    <div className="mt-5 flex w-full flex-1 flex-col gap-3">
+      {reservations.map(reservation => (
+        <TripInfoCard key={reservation.id} reservation={reservation} />
+      ))}
+    </div>
+  )
+}
