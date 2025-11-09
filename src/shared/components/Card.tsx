@@ -5,8 +5,7 @@ interface CardProps {
   className?: string
 }
 
-const defaultStyle =
-  'rounded-[15px] border border-transparent p-[1px] [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box]'
+const defaultStyle = 'rounded-[15px] holo-border p-[1px]'
 
 export const Card = ({ children, className }: CardProps) => {
   return (

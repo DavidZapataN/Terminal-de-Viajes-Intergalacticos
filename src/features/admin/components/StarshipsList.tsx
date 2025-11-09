@@ -65,20 +65,14 @@ export const StarshipsList = () => {
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">
-                  <Button
-                    className="border border-transparent [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box]"
-                    variant="secondary"
-                  >
+                  <Button className="holo-border" variant="secondary">
                     <Edit size={16} />
                   </Button>
-                  <Button
-                    className="border border-transparent [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box]"
-                    variant="secondary"
-                  >
+                  <Button className="holo-border" variant="secondary">
                     <Wrench size={16} />
                   </Button>
                   <Button
-                    className="border border-transparent !text-red-400 [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box] hover:!text-white"
+                    className="holo-border !text-red-400 hover:!text-white"
                     variant="secondary"
                   >
                     <Trash2 size={16} />
