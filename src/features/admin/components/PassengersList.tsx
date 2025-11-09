@@ -20,7 +20,7 @@ export interface ReservationAdmin {
   returnDate: string
   passengers: number
   cabinClass: string
-  status: 'confirmed' | 'in-transit' | 'completed' | 'cancelled'
+  status: 'confirmed' | 'in_transit' | 'completed' | 'cancelled'
   totalCost: number
 }
 
@@ -29,7 +29,7 @@ const status = {
     name: 'Confirmada',
     style: 'text-xs bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
   },
-  'in-transit': {
+  in_transit: {
     name: 'En tránsito',
     style: 'text-xs bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
   },

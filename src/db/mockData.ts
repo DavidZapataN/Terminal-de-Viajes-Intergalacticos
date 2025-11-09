@@ -201,9 +201,18 @@ export const mockReservations: Reservation[] = [
     destination: 'TRAPPIST-1e',
     departureDate: '2025-01-10',
     returnDate: '2025-01-17',
-    status: 'pending',
+    status: 'in_transit',
     ship: 'Nebula Cruiser',
     cabin: 'Económica',
+  },
+  {
+    id: 'RES-004',
+    destination: 'Gliese 667Cc',
+    departureDate: '2025-02-20',
+    returnDate: '2025-02-27',
+    status: 'cancelled',
+    ship: 'Cosmic Odyssey',
+    cabin: 'Estándar',
   },
 ]
 
@@ -240,5 +249,16 @@ export const mockReservationsAdmin: ReservationAdmin[] = [
     cabinClass: 'Estándar',
     status: 'cancelled',
     totalCost: 25000,
+  },
+  {
+    id: 'res-004',
+    planetId: 'proxima-centauri-b',
+    shipId: 'nebula-dream',
+    departureDate: '2025-10-10',
+    returnDate: '2025-10-17',
+    passengers: 3,
+    cabinClass: 'Lujo',
+    status: 'in_transit',
+    totalCost: 40000,
   },
 ]
