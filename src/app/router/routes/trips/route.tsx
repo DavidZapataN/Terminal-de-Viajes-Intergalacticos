@@ -1,3 +1,4 @@
+import { mockReservationsAdmin } from '@/db/mockData'
 import { SummaryCard } from '@/features/admin/components/SummaryCard'
 import { Button } from '@/shared/components/Button'
 import { Navbar, type Tab } from '@/shared/components/Navbar'
@@ -34,16 +35,31 @@ const tabs: Tab[] = [
   { name: 'Cancelados', icon: CircleX, path: '/trips/cancelados' },
 ]
 
+export const filterReservations = (status: string) => {
+  switch (status) {
+    case 'active':
+      return mockReservationsAdmin.filter(r =>
+        ['confirmed', 'in_transit'].includes(r.status)
+      )
+    case 'completed':
+      return mockReservationsAdmin.filter(r => r.status === 'completed')
+    case 'cancelled':
+      return mockReservationsAdmin.filter(r => r.status === 'cancelled')
+    default:
+      return mockReservationsAdmin
+  }
+}
+
 const tripsSummary = [
   {
     title: 'Viajes Activos',
-    count: 1,
+    count: filterReservations('active').length,
     icon: PlaneTakeoff,
     color: '#00d3f3',
   },
   {
     title: 'Viajes Completados',
-    count: 1,
+    count: filterReservations('completed').length,
     icon: PlaneLanding,
     color: '#00d492',
   },
