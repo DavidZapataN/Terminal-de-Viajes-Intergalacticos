@@ -9,7 +9,7 @@ import {
   useLocation,
   useNavigate,
 } from '@tanstack/react-router'
-import { ArrowLeft, CreditCard, Plane, Shield } from 'lucide-react'
+import { ArrowLeft, Plane, Shield } from 'lucide-react'
 
 export const Route = createFileRoute('/profile')({
   component: ProfileLayout,
