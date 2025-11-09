@@ -95,7 +95,7 @@ const status = {
 
 export const StarshipsList = () => {
   return (
-    <Card className="holo-border">
+    <Card>
       <Table>
         <TableHeader>
           <TableRow>
