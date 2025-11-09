@@ -49,7 +49,6 @@ function Layout() {
         setActiveTab={handleTabChange}
       />
       <Outlet />
-      <p>Contenido del panel de administración</p>
     </div>
   )
 }
