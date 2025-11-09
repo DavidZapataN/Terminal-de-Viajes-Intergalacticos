@@ -1,39 +1,7 @@
 import { Button } from '@/shared/components/Button'
 import { Plane } from 'lucide-react'
-import {
-  ReservationCard,
-  type ReservationInfo,
-} from '../components/ReservationCard'
-
-const mockReservations: ReservationInfo[] = [
-  {
-    id: 'RES-001',
-    destination: 'Kepler-442b',
-    departureDate: '2024-12-15',
-    returnDate: '2024-12-22',
-    status: 'confirmed',
-    ship: 'Stellar Voyager',
-    cabin: 'Premium',
-  },
-  {
-    id: 'RES-002',
-    destination: 'Proxima Centauri b',
-    departureDate: '2024-11-28',
-    returnDate: '2024-12-05',
-    status: 'completed',
-    ship: 'Galaxy Explorer',
-    cabin: 'Lujo Imperial',
-  },
-  {
-    id: 'RES-003',
-    destination: 'TRAPPIST-1e',
-    departureDate: '2025-01-10',
-    returnDate: '2025-01-17',
-    status: 'pending',
-    ship: 'Nebula Cruiser',
-    cabin: 'Económica',
-  },
-]
+import { ReservationCard } from '../components/ReservationCard'
+import { mockReservations } from '@/db/mockData'
 
 export const Trips = () => {
   return (
