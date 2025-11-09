@@ -1,3 +1,4 @@
+import { mockSpaceships } from '@/db/mockData'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
@@ -20,63 +21,6 @@ export interface Spaceship {
   status: 'active' | 'maintenance' | 'unavailable'
   amenities: string[]
 }
-
-const mockSpaceships: Spaceship[] = [
-  {
-    id: 'starweaver',
-    name: 'Starweaver',
-    class: 'Crucero Galáctico',
-    capacity: 500,
-    speed: 9.8,
-    status: 'active',
-    amenities: [
-      'Spa cuántico',
-      'Holodeck',
-      'Casino gravitacional',
-      'Restaurante molecular',
-    ],
-  },
-  {
-    id: 'void-runner',
-    name: 'Void Runner',
-    class: 'Explorador Rápido',
-    capacity: 150,
-    speed: 12.5,
-    status: 'active',
-    amenities: [
-      'Laboratorio de investigación',
-      'Gimnasio de gravedad cero',
-      'Lounge panorámico',
-    ],
-  },
-  {
-    id: 'nebula-dream',
-    name: 'Nebula Dream',
-    class: 'Lujoso Imperial',
-    capacity: 200,
-    speed: 8.2,
-    status: 'maintenance',
-    amenities: [
-      'Suites imperiales',
-      'Teatro holográfico',
-      'Jardines biológicos',
-      'Spa de teletransporte',
-    ],
-  },
-  {
-    id: 'cosmic-odyssey',
-    name: 'Cosmic Odyssey',
-    class: 'Transbordador Interplanetario',
-    capacity: 300,
-    speed: 10.0,
-    status: 'unavailable',
-    amenities: [
-      'Cafetería estelar',
-      'Sala de juegos antigravedad',
-      'Observatorio espacial',
-    ],
-  },
-]
 
 const status = {
   active: {

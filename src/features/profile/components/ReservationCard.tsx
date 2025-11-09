@@ -2,7 +2,7 @@ import { Badge } from '@/shared/components/Bagde'
 import { Card } from '@/shared/components/Card'
 import { CircleCheckBig, Clock4, Star } from 'lucide-react'
 
-export interface ReservationInfo {
+export interface Reservation {
   id: string
   destination: string
   departureDate: string
@@ -13,7 +13,7 @@ export interface ReservationInfo {
 }
 
 interface Props {
-  reservation: ReservationInfo
+  reservation: Reservation
 }
 
 const status = {
