@@ -1,7 +1,6 @@
+import type { Reservation } from '@/app/types/Reservation'
 import { mockPlanets, mockSpaceships } from '@/db/mockData'
-import type { ReservationAdmin } from '@/features/admin/components/PassengersList'
 import { Badge } from '@/shared/components/Bagde'
-import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
 import {
@@ -9,16 +8,12 @@ import {
   CircleCheckBig,
   CircleX,
   Clock4,
-  Download,
-  Edit,
   Rocket,
   Star,
-  Trash2,
-  Users,
 } from 'lucide-react'
 
 interface Props {
-  reservation: ReservationAdmin
+  reservation: Reservation
 }
 
 const status = {
@@ -91,13 +86,13 @@ export const TripInfoCard = ({ reservation }: Props) => {
                 <span>{ship?.name}</span>
               </p>
 
-              <p className="flex items-center gap-2.5 text-sm">
+              {/* <p className="flex items-center gap-2.5 text-sm">
                 <Users size={16} className="text-purple-400" />
                 <span>
                   {reservation.passengers}
                   {reservation.passengers === 1 ? ' pasajero' : ' pasajeros'}
                 </span>
-              </p>
+              </p> */}
 
               <p className="flex items-center gap-2.5 text-sm">
                 <Calendar size={16} className="text-cyan-400" />
@@ -117,7 +112,7 @@ export const TripInfoCard = ({ reservation }: Props) => {
           </div>
         </div>
 
-        <div className="mt-4 flex gap-2 border-t border-border pt-4">
+        {/* <div className="mt-4 flex gap-2 border-t border-border pt-4">
           <Button className="holo-border text-sm" variant="secondary">
             <Download size={16} className="mr-3" />
             Boleto
@@ -134,7 +129,7 @@ export const TripInfoCard = ({ reservation }: Props) => {
             <Trash2 size={16} className="mr-3" />
             Cancelar
           </Button>
-        </div>
+        </div> */}
       </div>
     </Card>
   )
