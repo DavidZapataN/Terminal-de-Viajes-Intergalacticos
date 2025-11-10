@@ -1,5 +1,6 @@
 import { mockReservationsAdmin } from '@/db/mockData'
 import { SummaryCard } from '@/features/admin/components/SummaryCard'
+import { requireLogin } from '@/lib/utils'
 import { Button } from '@/shared/components/Button'
 import { Navbar, type Tab } from '@/shared/components/Navbar'
 import { Title } from '@/shared/components/Title'
@@ -23,6 +24,7 @@ import {
 export const Route = createFileRoute('/trips')({
   component: TripsLayout,
   beforeLoad: async ({ location }) => {
+    requireLogin(location.pathname)
     // / : Bar character (/).
     // $ : End of the string.
     if (location.pathname.replace(/\/$/, '') === '/trips')

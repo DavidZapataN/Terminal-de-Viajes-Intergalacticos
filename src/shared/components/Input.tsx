@@ -5,6 +5,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: LucideIcon
   actionIcon?: LucideIcon
   className?: string
+  onAction?: () => void
 }
 
 export const Input = ({
@@ -12,6 +13,7 @@ export const Input = ({
   icon: Icon,
   actionIcon: ActionIcon,
   className,
+  onAction,
   ...props
 }: Props) => {
   const fieldGap = label ? 'gap-1.5' : 'gap-0'
@@ -19,7 +21,7 @@ export const Input = ({
   return (
     <div className={`flex w-full flex-col ${fieldGap}`}>
       <label className="text-sm text-gray-400">{label}</label>
-      <div className="relative rounded-md holo-border">
+      <div className="holo-border relative rounded-md">
         {Icon && (
           <Icon
             className="absolute top-1/2 left-2 -translate-y-1/2 transform text-gray-400"
@@ -33,6 +35,7 @@ export const Input = ({
         {ActionIcon && (
           <ActionIcon
             className="absolute top-1/2 right-2 -translate-y-1/2 transform cursor-pointer text-gray-400 transition-colors duration-300 ease-in-out hover:text-gray-300"
+            onClick={onAction}
             size={18}
           />
         )}
