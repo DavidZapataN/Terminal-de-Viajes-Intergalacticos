@@ -203,4 +203,8 @@ h2 {
   .animate-twinkling {
     animation: move-twink-back 200s linear infinite;
   }
+
+  .neon-glow {
+    box-shadow: var(--hologram-glow);
+  }
 }

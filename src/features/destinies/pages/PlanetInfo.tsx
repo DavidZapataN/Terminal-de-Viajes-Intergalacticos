@@ -1,10 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/destinos/$destinoId')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
+export const PlanetInfo = () => {
   return (
     <article className="relative">
       {/* Fondo estrellado */}
