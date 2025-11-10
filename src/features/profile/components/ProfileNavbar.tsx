@@ -1,6 +1,8 @@
+import { useAuthStore } from '@/app/stores/auth-store'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import type { Tab } from '@/shared/components/Navbar'
+import { useNavigate } from '@tanstack/react-router'
 import { LogOut } from 'lucide-react'
 
 interface Props {
@@ -10,20 +12,39 @@ interface Props {
 }
 
 export const ProfileNavbar = ({ tabs, activeTab, setActiveTab }: Props) => {
+  const navigate = useNavigate()
+  const user = useAuthStore(state => state.currentUser)
+  const logout = useAuthStore(state => state.logout)
+
+  const avatarInitials = () => {
+    if (!user) return 'NA'
+    const names = user.name.split(' ')
+    const initials =
+      names.length === 1
+        ? names[0].charAt(0)
+        : names[0].charAt(0) + names[1].charAt(0)
+    return initials.toUpperCase()
+  }
+
   const changeTab = (tab: string) => {
     setActiveTab(tab)
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate({ to: '/' })
   }
 
   return (
     <Card>
       <div className="flex w-[18rem] flex-col items-center gap-4 p-6">
         <div className="flex h-18 w-18 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-4 font-bold text-white">
-          CS
+          {avatarInitials()}
         </div>
 
-        <h2> Comandante Stellar </h2>
+        <h2> {user?.name} </h2>
         <span className="text-sm text-gray-400">Commander</span>
-        <span className="text-sm text-cyan-400">GAL-2024-7X9</span>
+        <span className="text-sm text-cyan-400"> {user?.id} </span>
 
         <hr className="mb-4 h-px w-full border-[#6366f133]" />
 
@@ -51,6 +72,7 @@ export const ProfileNavbar = ({ tabs, activeTab, setActiveTab }: Props) => {
         <Button
           variant="text"
           className="w-full gap-5 !text-destructive hover:!bg-destructive/10 hover:!text-destructive"
+          onClick={handleLogout}
         >
           Cerrar Sesión
           <LogOut />

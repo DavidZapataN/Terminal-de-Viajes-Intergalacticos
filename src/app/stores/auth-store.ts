@@ -11,6 +11,7 @@ interface AuthStore {
   currentUser: User | null
   isLoggedIn: boolean
   isAdmin: boolean
+  updateUser: (name: string, email: string) => void
   login: (email: string, password: string) => boolean
   logout: () => void
 }
@@ -28,6 +29,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       email: 'admin',
       role: 'admin',
       credits: 999999999,
+      createdAt: new Date().toLocaleDateString(),
     },
     {
       id: 'GAL-02',
@@ -35,12 +37,33 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       email: 'prueba',
       role: 'admin',
       credits: 1000000,
+      createdAt: new Date().toLocaleDateString(),
     },
   ],
 
   currentUser: null,
   isLoggedIn: false,
   isAdmin: false,
+
+  updateUser: (name, email) => {
+    const users = get().users
+    const currentUser = get().currentUser
+    if (!currentUser) return
+
+    const updatedAuthUser = usersAuth.find(a => a.id === currentUser.email)
+    if (updatedAuthUser) {
+      updatedAuthUser.id = email
+    }
+    const updatedUser = { ...currentUser, name, email }
+    const updatedUsers = users.map(u =>
+      u.id === currentUser.id ? updatedUser : u
+    )
+
+    set({
+      users: updatedUsers,
+      currentUser: updatedUser,
+    })
+  },
 
   login: (email, password) => {
     const user = get().users.find(u => u.email === email)

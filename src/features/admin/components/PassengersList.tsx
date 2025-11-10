@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/components/Table'
-import { Edit, Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 
 export interface ReservationAdmin {
   id: string
@@ -89,9 +89,9 @@ export const PassengersList = () => {
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-2">
-                    <Button className="holo-border" variant="secondary">
+                    {/* <Button className="holo-border" variant="secondary">
                       <Edit size={16} />
-                    </Button>
+                    </Button> */}
                     <Button
                       className="holo-border !text-red-400 hover:!text-white"
                       variant="secondary"

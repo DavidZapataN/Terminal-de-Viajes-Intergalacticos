@@ -1,5 +1,3 @@
-import { Button } from '@/shared/components/Button'
-import { Plus } from 'lucide-react'
 import { PassengersList } from '../components/PassengersList'
 import { Title } from '@/shared/components/Title'
 
@@ -9,10 +7,10 @@ export const Passengers = () => {
       <header className="flex items-center justify-between">
         <Title>Gestión de Pasajeros</Title>
 
-        <Button className="!text-gray-800 active:scale-95">
+        {/* <Button className="!text-gray-800 active:scale-95">
           <Plus className="mr-3" size={16} />
           Agregar Pasajero
-        </Button>
+        </Button> */}
       </header>
 
       <PassengersList />

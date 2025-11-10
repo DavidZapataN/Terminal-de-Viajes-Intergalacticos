@@ -43,10 +43,14 @@ function ProfileLayout() {
     }
   }
 
+  const handleDashboardClick = () => {
+    navigate({ to: '/' })
+  }
+
   return (
     <div className="flex h-screen w-full flex-col gap-2.5 p-5">
       <header className="flex items-center gap-3">
-        <Button className="w-max" variant="text">
+        <Button className="w-max" variant="text" onClick={handleDashboardClick}>
           <ArrowLeft className="mr-3" size={16} />
           Dashboard
         </Button>

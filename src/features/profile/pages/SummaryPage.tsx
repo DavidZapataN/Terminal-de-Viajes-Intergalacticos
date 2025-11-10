@@ -3,13 +3,38 @@ import { Card } from '@/shared/components/Card'
 import { Edit3, Save, Shield } from 'lucide-react'
 import { ProfileField } from '../components/ProfileField'
 import { Badge } from '@/shared/components/Bagde'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useAuthStore } from '@/app/stores/auth-store'
+import { useReservationsStore } from '@/app/stores/reservations-store'
 
 export const Summary = () => {
+  const user = useAuthStore(state => state.currentUser)
+  const allReservations = useReservationsStore(state => state.reservations)
+
+  const completedReservations = useMemo(
+    () =>
+      allReservations.filter(
+        r => r.status === 'completed' && r.userId === user?.id
+      ).length,
+    [allReservations, user?.id]
+  )
+
+  const updateUser = useAuthStore(state => state.updateUser)
+
   const [editable, setEditable] = useState(false)
+
+  const [form, setForm] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
+  })
 
   const handleEditClick = () => {
     setEditable(prev => !prev)
+  }
+
+  const handleSaveClick = () => {
+    updateUser(form.name, form.email)
+    setEditable(false)
   }
 
   return (
@@ -22,7 +47,7 @@ export const Summary = () => {
             <Button
               className="!text-cyan-400 hover:!text-cyan-300 active:scale-95"
               variant="text"
-              onClick={handleEditClick}
+              onClick={editable ? handleSaveClick : handleEditClick}
             >
               {editable ? (
                 <>
@@ -41,16 +66,21 @@ export const Summary = () => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <ProfileField
               label="Nombre completo"
-              value="Comandante Stellar"
+              value={form.name}
               editable={editable}
+              onChange={value => setForm(prev => ({ ...prev, name: value }))}
             />
             <ProfileField
               label="Email Intergaláctico"
-              value="stellar@galaxy.com"
+              value={form.email}
               editable={editable}
+              onChange={value => setForm(prev => ({ ...prev, email: value }))}
             />
-            <ProfileField label="ID Galáctico" value="GAL-2024-7X9" />
-            <ProfileField label="Fecha de registro" value="14/3/2023" />
+            <ProfileField label="ID Galáctico" value={user?.id || ''} />
+            <ProfileField
+              label="Fecha de registro"
+              value={user?.createdAt || ''}
+            />
           </div>
         </div>
       </Card>
@@ -68,7 +98,7 @@ export const Summary = () => {
               <div className="flex flex-col gap-1">
                 <span> Commander </span>
                 <span className="text-sm text-gray-400">
-                  24 viajes completados
+                  {completedReservations} viajes completados
                 </span>
               </div>
             </div>

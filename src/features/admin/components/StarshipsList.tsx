@@ -174,19 +174,21 @@ export const StarshipsList = ({
                         <Edit size={16} />
                       </Button>
                       <Button
-                        className="holo-border"
-                        variant="secondary"
-                        onClick={() => onPutInActive?.(ship.id)}
-                      >
-                        <Wrench size={16} />
-                      </Button>
-                      <Button
                         className="holo-border !text-red-400 hover:!text-white"
                         variant="secondary"
                         onClick={() => onDelete?.(ship.id)}
                       >
                         <Trash2 size={16} />
                       </Button>
+                      {ship.status !== 'active' && (
+                        <Button
+                          className="holo-border"
+                          variant="secondary"
+                          onClick={() => onPutInActive?.(ship.id)}
+                        >
+                          <Wrench size={16} />
+                        </Button>
+                      )}
                     </>
                   )}
                 </div>

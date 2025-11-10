@@ -1,5 +1,3 @@
-import { Button } from '@/shared/components/Button'
-import { Plus } from 'lucide-react'
 import { PlanetCard } from '../components/PlanetCard'
 import { Title } from '@/shared/components/Title'
 import { usePlanetsStore } from '@/app/stores/planets-store'
@@ -23,10 +21,10 @@ export const Planets = () => {
       <header className="flex items-center justify-between">
         <Title>Gestión de Planetas</Title>
 
-        <Button className="!text-gray-800 active:scale-95">
+        {/* <Button className="!text-gray-800 active:scale-95">
           <Plus className="mr-3" size={16} />
           Agregar Planeta
-        </Button>
+        </Button> */}
       </header>
 
       {planets.map(planet => (
