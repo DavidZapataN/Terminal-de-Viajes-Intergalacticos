@@ -2,6 +2,7 @@ import { mockReservationsAdmin } from '@/db/mockData'
 import { SummaryCard } from '@/features/admin/components/SummaryCard'
 import { Button } from '@/shared/components/Button'
 import { Navbar, type Tab } from '@/shared/components/Navbar'
+import { Title } from '@/shared/components/Title'
 import {
   createFileRoute,
   Outlet,
@@ -89,7 +90,7 @@ function TripsLayout() {
     <div className="flex h-screen w-full flex-col gap-2.5 p-5">
       <header>
         <div className="flex items-center justify-between">
-          <h2 className="text-cyan-400">Mis Reservas Galácticas</h2>
+          <Title>Mis Reservas Galácticas</Title>
           <Button className="!text-gray-800 active:scale-95">
             <Rocket className="mr-3" size={16} />
             Reservar nuevo Viaje

@@ -14,7 +14,7 @@ import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 
 const items = [
   { title: 'Home', url: '/', icon: Home },
-  { title: 'Explorar', url: '/explorar', icon: Map },
+  { title: 'Explorar', url: '/destinies', icon: Map },
   { title: 'Reservar', url: '/booking', icon: Rocket },
   { title: 'Mis Viajes', url: '/trips', icon: Calendar },
   { title: 'Perfil', url: '/profile', icon: User },
