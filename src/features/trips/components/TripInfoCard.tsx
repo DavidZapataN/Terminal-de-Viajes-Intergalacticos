@@ -118,23 +118,17 @@ export const TripInfoCard = ({ reservation }: Props) => {
         </div>
 
         <div className="mt-4 flex gap-2 border-t border-border pt-4">
-          <Button
-            className="border border-transparent text-sm [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box]"
-            variant="secondary"
-          >
+          <Button className="holo-border text-sm" variant="secondary">
             <Download size={16} className="mr-3" />
             Boleto
           </Button>
-          <Button
-            className="border border-transparent text-sm [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box]"
-            variant="secondary"
-          >
+          <Button className="holo-border text-sm" variant="secondary">
             <Edit size={16} className="mr-3" />
             Modificar
           </Button>
 
           <Button
-            className="border border-transparent text-sm !text-red-400 [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box] hover:!text-white"
+            className="holo-border text-sm !text-red-400 hover:!text-white"
             variant="secondary"
           >
             <Trash2 size={16} className="mr-3" />

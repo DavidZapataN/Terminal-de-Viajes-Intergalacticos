@@ -162,7 +162,7 @@ export const Register = () => {
             <div className="flex flex-row justify-center gap-2">
               {currentStep > 1 && (
                 <Button
-                  className="grow-1 rounded-md border border-transparent text-center [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box]"
+                  className="holo-border grow-1 rounded-md text-center"
                   variant="secondary"
                   type="button"
                   onClick={handleBackStep}

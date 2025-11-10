@@ -72,6 +72,14 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  /* Custom Futuristic Variables */
+  --neon-cyan: #06ffa5;
+  --neon-blue: #06b6d4;
+  --neon-purple: #8b5cf6;
+  --deep-space: #0a0a0f;
+  --space-gray: #1e1b4b;
+  --hologram-glow: 0 0 20px rgba(6, 182, 212, 0.5);
 }
 
 html,
@@ -125,7 +133,7 @@ body,
 .dark {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
+  --card: rgb(15, 23, 43);
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
@@ -169,4 +177,14 @@ body,
 h1,
 h2 {
   font-family: 'Space Mono', 'Space Grotesk', 'Courier New', Courier, monospace;
+}
+
+.holo-border {
+  border: 1px solid transparent;
+  background: linear-gradient(#111120, #111120) padding-box,
+    linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-blue)) border-box;
+}
+
+.neon-glow {
+  box-shadow: var(--hologram-glow);
 }
