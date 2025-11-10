@@ -1,21 +1,25 @@
 import { type LucideIcon } from 'lucide-react'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
+  label?: string
   icon?: LucideIcon
   actionIcon?: LucideIcon
+  className?: string
 }
 
 export const Input = ({
   label,
   icon: Icon,
   actionIcon: ActionIcon,
+  className,
   ...props
 }: Props) => {
+  const fieldGap = label ? 'gap-1.5' : 'gap-0'
+
   return (
-    <div className="flex w-full flex-col gap-1.5">
+    <div className={`flex w-full flex-col ${fieldGap}`}>
       <label className="text-sm text-gray-400">{label}</label>
-      <div className="relative rounded-md border border-transparent [background:linear-gradient(#111120,#111120)_padding-box,linear-gradient(45deg,#06ffa5,#8b5cf6,#06b6d4)_border-box]">
+      <div className="relative rounded-md holo-border">
         {Icon && (
           <Icon
             className="absolute top-1/2 left-2 -translate-y-1/2 transform text-gray-400"
@@ -24,7 +28,7 @@ export const Input = ({
         )}
         <input
           {...props}
-          className="w-full rounded-md px-9 py-2 text-white transition-all duration-300 ease-in-out focus:outline-[3px] focus:outline-[#28c2de]"
+          className={`w-full rounded-md px-9 py-2 text-white transition-all duration-300 ease-in-out focus:outline-[3px] focus:outline-[#28c2de] ${className}`}
         />
         {ActionIcon && (
           <ActionIcon

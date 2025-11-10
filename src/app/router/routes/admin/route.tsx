@@ -1,4 +1,5 @@
 import { Navbar, type Tab } from '@/shared/components/Navbar'
+import { Title } from '@/shared/components/Title'
 import {
   createFileRoute,
   Outlet,
@@ -14,7 +15,7 @@ export const Route = createFileRoute('/admin')({
     // / : Bar character (/).
     // $ : End of the string.
     if (location.pathname.replace(/\/$/, '') === '/admin')
-      throw redirect({ to: '/admin/resumen' })
+      throw redirect({ to: '/admin/resumen' })  
   },
 })
 
@@ -39,7 +40,7 @@ function Layout() {
   }
   return (
     <div className="flex h-screen w-full flex-col gap-2.5 p-5">
-      <h2 className="text-cyan-400">Portal Administrativo TVI</h2>
+      <Title>Portal Administrativo TVI</Title>
       <h2 className="text-white">
         Centro de control para operaciones galácticas
       </h2>
@@ -49,7 +50,6 @@ function Layout() {
         setActiveTab={handleTabChange}
       />
       <Outlet />
-      <p>Contenido del panel de administración</p>
     </div>
   )
 }
