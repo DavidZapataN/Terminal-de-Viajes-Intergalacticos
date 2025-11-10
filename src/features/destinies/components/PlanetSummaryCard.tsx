@@ -3,6 +3,7 @@ import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
+import { useNavigate } from '@tanstack/react-router'
 import { Clock, MapPin, Rocket, Star, Users } from 'lucide-react'
 
 interface Props {
@@ -10,9 +11,18 @@ interface Props {
 }
 
 export const PlanetSummaryCard = ({ planet }: Props) => {
+  const navigate = useNavigate()
+
+  const handleCardClick = () => {
+    navigate({ to: `/destinies/${planet.id}` })
+  }
+
   return (
     <Card className="group cursor-pointer hover:[box-shadow:var(--hologram-glow)]">
-      <div className="flex w-full flex-col overflow-hidden">
+      <div
+        className="flex w-full flex-col overflow-hidden"
+        onClick={handleCardClick}
+      >
         <div className="relative h-48 overflow-hidden rounded-t-xl">
           <ImageWithFallback
             src={planet.image}

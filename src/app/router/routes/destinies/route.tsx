@@ -5,7 +5,7 @@ export const Route = createFileRoute('/destinies')({
   beforeLoad: async ({ location }) => {
     // / : Bar character (/).
     // $ : End of the string.
-    if (location.pathname.replace(/\/$/, '') === '/all')
+    if (location.pathname.replace(/\/$/, '') === '/destinies')
       throw redirect({ to: '/destinies/all' })
   },
 })
