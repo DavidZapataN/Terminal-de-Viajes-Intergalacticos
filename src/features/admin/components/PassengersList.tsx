@@ -1,4 +1,5 @@
-import { mockPlanets, mockReservationsAdmin } from '@/db/mockData'
+import { useReservationsStore } from '@/app/stores/reservations-store'
+import { mockPlanets } from '@/db/mockData'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
@@ -44,6 +45,15 @@ const status = {
 }
 
 export const PassengersList = () => {
+  const reservations = useReservationsStore(state => state.reservations)
+  const deleteReservation = useReservationsStore(
+    state => state.deleteReservation
+  )
+
+  const handleDelete = (reservationId: string) => {
+    deleteReservation(reservationId)
+  }
+
   return (
     <Card>
       <Table>
@@ -59,7 +69,7 @@ export const PassengersList = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {mockReservationsAdmin.map(reservation => {
+          {reservations.map(reservation => {
             const planet = mockPlanets.find(p => p.id === reservation.planetId)
             return (
               <TableRow key={reservation.id}>
@@ -68,7 +78,7 @@ export const PassengersList = () => {
                 <TableCell>
                   {new Date(reservation.departureDate).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{reservation.passengers}</TableCell>
+                <TableCell> - </TableCell>
                 <TableCell>
                   <Badge className={status[reservation.status].style}>
                     {status[reservation.status].name}
@@ -85,6 +95,7 @@ export const PassengersList = () => {
                     <Button
                       className="holo-border !text-red-400 hover:!text-white"
                       variant="secondary"
+                      onClick={() => handleDelete(reservation.id)}
                     >
                       <Trash2 size={16} />
                     </Button>

@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       credits: 999999999,
     },
     {
-      id: 'GAL-01',
+      id: 'GAL-02',
       name: 'Comandante Viajero',
       email: 'prueba',
       role: 'admin',

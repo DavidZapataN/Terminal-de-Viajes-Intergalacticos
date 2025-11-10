@@ -1,12 +1,12 @@
 import { mockPlanets } from '@/db/mockData'
-import type { Planet } from '@/features/admin/components/PlanetCard'
+import type { PlanetOld } from '@/features/admin/components/PlanetCard'
 import { Star, Thermometer, Users } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useRef, useState } from 'react'
 import { Title } from './Title'
 
 interface GalacticMapProps {
-  onPlanetClick: (planet: Planet) => void
+  onPlanetClick: (planet: PlanetOld) => void
 }
 
 export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
@@ -49,7 +49,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
     }))
   }
 
-  const handlePlanetClick = (planet: Planet, e: React.MouseEvent) => {
+  const handlePlanetClick = (planet: PlanetOld, e: React.MouseEvent) => {
     e.stopPropagation()
     // Trigger zoom galactic animation before navigating
     const planetElement = e.currentTarget as HTMLElement
