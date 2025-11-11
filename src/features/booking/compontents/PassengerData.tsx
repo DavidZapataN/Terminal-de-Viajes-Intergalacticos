@@ -23,9 +23,26 @@ const cabinClasses = [
   },
 ]
 
-export const PassengerData = () => {
-  // const [selected, setSelected] = useState<Date>()
+interface Props {
+  departureDate: string
+  returnDate: string
+  passengers: number
+  cabinClass: string
+  onUpdateData: (data: {
+    departureDate?: string
+    returnDate?: string
+    passengers?: number
+    cabinClass?: string
+  }) => void
+}
 
+export const PassengerData = ({
+  departureDate,
+  returnDate,
+  passengers,
+  cabinClass,
+  onUpdateData,
+}: Props) => {
   return (
     <Card className="h-max !w-full">
       <div className="flex w-full flex-col gap-4 p-6">
@@ -36,74 +53,63 @@ export const PassengerData = () => {
             label="Fecha de partida"
             placeholder="Seleccionar fecha"
             icon={CalendarIcon}
-            type="text"
-            disabled
+            type="date"
+            value={departureDate}
+            onChange={e => onUpdateData({ departureDate: e.target.value })}
           />
           <Input
             label="Fecha de regreso"
             placeholder="Seleccionar fecha"
             icon={CalendarIcon}
-            type="text"
-            disabled
+            type="date"
+            value={returnDate}
+            onChange={e => onUpdateData({ returnDate: e.target.value })}
           />
           <Input
             label="Número de pasajeros"
             placeholder="Seleccionar pasajeros"
             icon={Users}
-            type="text"
-            disabled
+            type="number"
+            min={1}
+            value={passengers.toString()}
+            onChange={e =>
+              onUpdateData({ passengers: parseInt(e.target.value) || 1 })
+            }
           />
 
           <div className="flex flex-col gap-3">
             Clase de cabina
             {cabinClasses.map(cabin => (
-              <Card className="cursor-pointer">
-                <div className="flex flex-col gap-2 p-4">
-                  <header className="flex items-center justify-between">
-                    <h3 className="text-white">{cabin.name}</h3>
-                    <span className="text-cyan-400">
-                      {cabin.price.toLocaleString()} GC
-                    </span>
-                  </header>
-
-                  <div className="flex flex-wrap gap-1">
-                    {cabin.amenities.map(amenity => (
-                      <span
-                        key={amenity}
-                        className="text-xs text-muted-foreground"
-                      >
-                        {amenity}
+              <div
+                key={cabin.id}
+                onClick={() => onUpdateData({ cabinClass: cabin.id })}
+              >
+                <Card
+                  className={`cursor-pointer ${cabinClass === cabin.id ? 'ring-2 ring-cyan-400' : ''}`}
+                >
+                  <div className="flex flex-col gap-2 p-4">
+                    <header className="flex items-center justify-between">
+                      <h3 className="text-white">{cabin.name}</h3>
+                      <span className="text-cyan-400">
+                        {cabin.price.toLocaleString()} GC
                       </span>
-                    ))}
+                    </header>
+
+                    <div className="flex flex-wrap gap-1">
+                      {cabin.amenities.map(amenity => (
+                        <span
+                          key={amenity}
+                          className="text-xs text-muted-foreground"
+                        >
+                          {amenity}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </div>
             ))}
           </div>
-
-          {/* <div className="flex flex-col gap-1">
-            <span>Fecha de partida</span>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="holo-border w-full justify-start text-left"
-                >
-                  <CalendarIcon className="mr-2" />
-                  {selected
-                    ? selected.toLocaleDateString()
-                    : 'Seleccionar fecha'}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="holo-border m-1 w-auto rounded-md bg-card p-0">
-                <Calendar
-                  mode="single"
-                  selected={selected}
-                  onSelect={setSelected}
-                />
-              </PopoverContent>
-            </Popover>
-          </div> */}
         </div>
       </div>
     </Card>

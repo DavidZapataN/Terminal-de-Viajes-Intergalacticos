@@ -1,4 +1,5 @@
 import { ProfileNavbar } from '@/features/profile/components/ProfileNavbar'
+import { requireLogin } from '@/lib/utils'
 import { Button } from '@/shared/components/Button'
 import type { Tab } from '@/shared/components/Navbar'
 import { Title } from '@/shared/components/Title'
@@ -14,6 +15,7 @@ import { ArrowLeft, Plane, Shield } from 'lucide-react'
 export const Route = createFileRoute('/profile')({
   component: ProfileLayout,
   beforeLoad: async ({ location }) => {
+    requireLogin(location.pathname)
     // / : Bar character (/).
     // $ : End of the string.
     if (location.pathname.replace(/\/$/, '') === '/profile')
@@ -41,10 +43,14 @@ function ProfileLayout() {
     }
   }
 
+  const handleDashboardClick = () => {
+    navigate({ to: '/' })
+  }
+
   return (
     <div className="flex h-screen w-full flex-col gap-2.5 p-5">
       <header className="flex items-center gap-3">
-        <Button className="w-max" variant="text">
+        <Button className="w-max" variant="text" onClick={handleDashboardClick}>
           <ArrowLeft className="mr-3" size={16} />
           Dashboard
         </Button>

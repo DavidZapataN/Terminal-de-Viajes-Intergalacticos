@@ -1,17 +1,33 @@
-import { mockSpaceships } from '@/db/mockData'
 import { Card } from '@/shared/components/Card'
 import { StarshipInfoCard } from './StarshipInfoCard'
+import { useShipsStore } from '@/app/stores/ships-store'
+import { useMemo } from 'react'
 
-const availableShips = mockSpaceships.filter(ship => ship.status === 'active')
+interface Props {
+  selectedShipId: string
+  onSelectShip: (shipId: string) => void
+}
 
-export const SelectStarship = () => {
+export const SelectStarship = ({ selectedShipId, onSelectShip }: Props) => {
+  const ships = useShipsStore(state => state.ships)
+
+  const availableShips = useMemo(
+    () => ships.filter(ship => ship.status === 'active'),
+    [ships]
+  )
+
   return (
     <Card className="h-max !w-full">
       <div className="flex w-full flex-col gap-4 p-6">
         <h3 className="text-cyan-400">Selecciona la nave</h3>
 
         {availableShips.map(ship => (
-          <StarshipInfoCard ship={ship} key={ship.id} />
+          <div key={ship.id} onClick={() => onSelectShip(ship.id)}>
+            <StarshipInfoCard
+              ship={ship}
+              checked={selectedShipId === ship.id}
+            />
+          </div>
         ))}
       </div>
     </Card>

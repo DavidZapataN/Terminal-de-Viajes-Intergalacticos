@@ -2,10 +2,32 @@ import { Eye, Lock, Rocket, Shield, User, Zap } from 'lucide-react'
 import { Card } from '@/shared/components/Card'
 import { Input } from '@/shared/components/Input'
 import { Button } from '@/shared/components/Button'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Title } from '@/shared/components/Title'
+import { useState } from 'react'
+import { useAuthStore } from '@/app/stores/auth-store'
 
 export const Login = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
+
+  const login = useAuthStore(state => state.login)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const success = login(email.trim(), password.trim())
+
+    if (success) {
+      const user = useAuthStore.getState().currentUser
+      if (user?.role === 'admin') navigate({ to: '/admin/resumen' })
+      else navigate({ to: '/' })
+    } else {
+      alert('Credenciales incorrectas')
+    }
+  }
+
   return (
     <div className="flex h-full w-full flex-col place-items-center justify-center gap-4">
       <Card>
@@ -34,22 +56,32 @@ export const Login = () => {
             </div>
           </header>
 
-          <form className="mb-2.5 flex w-full flex-col gap-5">
+          <form
+            onSubmit={handleSubmit}
+            className="mb-2.5 flex w-full flex-col gap-5"
+          >
             <Input
               label="ID Gálactico"
               placeholder="Ingresa tu ID"
               icon={User}
               type="text"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
             />
             <Input
               label="Contraseña Galáctica"
               placeholder="Ingresa tu contraseña"
               icon={Lock}
               actionIcon={Eye}
-              type="password"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              onAction={() => setShowPassword(!showPassword)}
+              required
             />
 
-            <Button>
+            <Button type="submit">
               <Rocket className="mr-5 inline-block" size={16} />
               Iniciar sesión
             </Button>

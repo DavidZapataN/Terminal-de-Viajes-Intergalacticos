@@ -1,15 +1,15 @@
-import { mockPlanets } from '@/db/mockData'
-import type { Planet } from '@/features/admin/components/PlanetCard'
+import { usePlanetsStore } from '@/app/stores/planets-store'
 import { Star, Thermometer, Users } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useRef, useState } from 'react'
 import { Title } from './Title'
 
 interface GalacticMapProps {
-  onPlanetClick: (planet: Planet) => void
+  onPlanetClick: (planetId: string) => void
 }
 
 export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
+  const planets = usePlanetsStore(state => state.planets)
   const [hoveredPlanet, setHoveredPlanet] = useState<string | null>(null)
   const [mapTransform, setMapTransform] = useState({ scale: 1, x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
@@ -49,7 +49,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
     }))
   }
 
-  const handlePlanetClick = (planet: Planet, e: React.MouseEvent) => {
+  const handlePlanetClick = (planetId: string, e: React.MouseEvent) => {
     e.stopPropagation()
     // Trigger zoom galactic animation before navigating
     const planetElement = e.currentTarget as HTMLElement
@@ -57,17 +57,20 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
     planetElement.style.transition = 'transform 0.5s ease-in-out'
 
     setTimeout(() => {
-      onPlanetClick(planet)
+      onPlanetClick(planetId)
     }, 300)
   }
 
-  const connections = [
-    { from: mockPlanets[0], to: mockPlanets[1] },
-    { from: mockPlanets[1], to: mockPlanets[2] },
-    { from: mockPlanets[2], to: mockPlanets[3] },
-    { from: mockPlanets[0], to: mockPlanets[4] },
-    { from: mockPlanets[4], to: mockPlanets[5] },
-  ]
+  const connections =
+    planets.length >= 5
+      ? [
+          { from: planets[0], to: planets[1] },
+          { from: planets[1], to: planets[2] },
+          { from: planets[2], to: planets[3] },
+          { from: planets[0], to: planets[4] },
+          ...(planets.length > 5 ? [{ from: planets[4], to: planets[5] }] : []),
+        ]
+      : []
 
   return (
     <div className="relative h-80 w-full cursor-grab overflow-hidden rounded-lg bg-gradient-to-br from-black via-slate-950 to-indigo-950 active:cursor-grabbing">
@@ -172,7 +175,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
           })}
         </svg>
 
-        {mockPlanets.map((planet, index) => (
+        {planets.map((planet, index) => (
           <motion.div
             key={planet.id}
             className="group absolute cursor-pointer"
@@ -189,7 +192,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
             }}
             onMouseEnter={() => setHoveredPlanet(planet.id)}
             onMouseLeave={() => setHoveredPlanet(null)}
-            onClick={e => handlePlanetClick(planet, e)}
+            onClick={e => handlePlanetClick(planet.id, e)}
           >
             <div className="absolute inset-0 animate-pulse rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 opacity-50 blur-md" />
 
@@ -237,7 +240,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
                     <div className="flex items-center gap-2 text-xs">
                       <div className="flex items-center gap-1">
                         <Users size={14} className="text-blue-400" />
-                        <span>{planet.reviews}</span>
+                        <span>{planet.distance} años luz</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Star size={14} className="text-yellow-400" />

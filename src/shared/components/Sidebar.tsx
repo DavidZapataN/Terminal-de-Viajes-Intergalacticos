@@ -1,4 +1,12 @@
-import { Calendar, Home, Map, Rocket, Settings, User } from 'lucide-react'
+import {
+  Calendar,
+  Home,
+  LogOut,
+  Map,
+  Rocket,
+  Settings,
+  User,
+} from 'lucide-react'
 
 import {
   Sidebar,
@@ -11,6 +19,7 @@ import {
   SidebarMenuItem,
 } from '@/shared/components/ui/sidebar'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
+import { useAuthStore } from '@/app/stores/auth-store'
 
 const items = [
   { title: 'Home', url: '/', icon: Home },
@@ -24,6 +33,9 @@ const items = [
 export function AppSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
+
+  const isLogged = useAuthStore(state => state.isLoggedIn)
+  const logout = useAuthStore(state => state.logout)
 
   const activeItem = (() => {
     const path = location.pathname
@@ -41,6 +53,11 @@ export function AppSidebar() {
 
   const redirectToLogin = () => {
     navigate({ to: '/login' })
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate({ to: '/' })
   }
 
   return (
@@ -77,13 +94,23 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              className="cursor-pointer"
-              onClick={redirectToLogin}
-            >
-              <User />
-              <span>Iniciar Sesión</span>
-            </SidebarMenuButton>
+            {isLogged ? (
+              <SidebarMenuButton
+                className="w-full cursor-pointer justify-center gap-5 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                onClick={handleLogout}
+              >
+                <span>Cerrar sesión</span>
+                <LogOut />
+              </SidebarMenuButton>
+            ) : (
+              <SidebarMenuButton
+                className="cursor-pointer justify-center"
+                onClick={redirectToLogin}
+              >
+                <User />
+                <span>Iniciar Sesión</span>
+              </SidebarMenuButton>
+            )}
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

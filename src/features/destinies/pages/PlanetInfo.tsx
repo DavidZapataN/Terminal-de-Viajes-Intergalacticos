@@ -1,4 +1,3 @@
-import { mockPlanets } from '@/db/mockData'
 import { Button } from '@/shared/components/Button'
 import {
   Activity,
@@ -25,16 +24,47 @@ import { PlanetRatings } from '../components/PlanetRatings'
 import { PlanetReviews, type Review } from '../components/PlanetReviews'
 import { Card } from '@/shared/components/Card'
 import { Title } from '@/shared/components/Title'
+import { useNavigate, useParams } from '@tanstack/react-router'
+import { usePlanetsStore } from '@/app/stores/planets-store'
+import { useMemo } from 'react'
 
 export const PlanetInfo = () => {
-  const planet = mockPlanets.find(p => p.id === 'kepler-442b') || mockPlanets[0]
+  const navigate = useNavigate()
+  const { destinoId } = useParams({ from: '/destinies/$destinoId' })
+  const getPlanetById = usePlanetsStore(state => state.getPlanetById)
+
+  const planet = useMemo(
+    () => getPlanetById(destinoId),
+    [getPlanetById, destinoId]
+  )
+
+  const handleBack = () => {
+    navigate({ to: '/destinies/all' })
+  }
+
+  // Si no se encuentra el planeta, mostrar mensaje
+  if (!planet) {
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-4 p-5">
+        <Globe size={64} className="text-gray-400" />
+        <h2>Planeta no encontrado</h2>
+        <p className="text-gray-400">
+          El planeta que buscas no existe en nuestra base de datos
+        </p>
+        <Button onClick={handleBack}>Volver a explorar planetas</Button>
+      </div>
+    )
+  }
 
   // Mock additional images for carousel
   const planetImages = [
-    planet.image,
-    'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=800',
-    'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
-    'https://images.unsplash.com/photo-1518066000-4b1b4adefcb4?w=800',
+    planet.images[0],
+    planet.images[1] ||
+      'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=800',
+    planet.images[2] ||
+      'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
+    planet.images[3] ||
+      'https://images.unsplash.com/photo-1518066000-4b1b4adefcb4?w=800',
   ]
 
   // Mock technical data
@@ -50,34 +80,38 @@ export const PlanetInfo = () => {
   // Mock activities with more detail
   const detailedActivities = [
     {
-      name: planet.activities[0] || 'Exploración',
+      name: 'Exploración Planetaria',
       description:
         'Descubre paisajes únicos y formaciones geológicas inexploradas',
       difficulty: 'Moderado',
       duration: '4-6 horas',
       price: 2500,
       image:
+        planet.images[1] ||
         'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
       icon: Mountain,
     },
     {
-      name: planet.activities[1] || 'Aventura Acuática',
+      name: 'Aventura Acuática',
       description:
         'Sumérgete en océanos alienígenas con vida marina bioluminiscente',
       difficulty: 'Fácil',
       duration: '2-3 horas',
       price: 1800,
-      image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
+      image:
+        planet.images[2] ||
+        'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
       icon: Waves,
     },
     {
-      name: planet.activities[2] || 'Safari Alienígena',
+      name: 'Safari Alienígena',
       description:
         'Observa la fauna local en su hábitat natural con guías especializados',
       difficulty: 'Fácil',
       duration: '5-7 horas',
       price: 3200,
       image:
+        planet.images[3] ||
         'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400',
       icon: Trees,
     },
@@ -127,7 +161,7 @@ export const PlanetInfo = () => {
 
   return (
     <div className="flex h-screen w-full flex-col gap-4 p-5">
-      <Button className="w-max" variant="text">
+      <Button className="w-max" variant="text" onClick={handleBack}>
         <ArrowLeft className="mr-3" size={16} />
         Volver a explorar planetas
       </Button>
