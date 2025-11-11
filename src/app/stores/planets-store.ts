@@ -5,6 +5,7 @@ import { create } from 'zustand'
 interface PlanetsStore {
   planets: Planet[]
   searchPlanets: (query: string) => Planet[]
+  filterByClimate: (climate: string) => Planet[]
   updatePlanet: (planet: Planet) => void
   deletePlanet: (planetId: string) => void
 }
@@ -18,7 +19,14 @@ export const usePlanetsStore = create<PlanetsStore>((set, get) => ({
       planet =>
         planet.name.toLowerCase().includes(lowerQuery) ||
         planet.system.toLowerCase().includes(lowerQuery) ||
-        planet.description.toLowerCase().includes(lowerQuery)
+        planet.description.toLowerCase().includes(lowerQuery) ||
+        planet.climate.toLowerCase().includes(lowerQuery)
+    )
+  },
+
+  filterByClimate: climate => {
+    return get().planets.filter(
+      planet => planet.climate.toLowerCase() === climate.toLowerCase()
     )
   },
 

@@ -1,10 +1,10 @@
-import type { Planet } from '@/features/admin/components/PlanetCard'
+import type { Planet } from '@/app/types/Planet'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
 import { useNavigate } from '@tanstack/react-router'
-import { Clock, MapPin, Rocket, Star, Users } from 'lucide-react'
+import { Clock, MapPin, Rocket, Star } from 'lucide-react'
 
 interface Props {
   planet: Planet
@@ -25,7 +25,7 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
       >
         <div className="relative h-48 overflow-hidden rounded-t-xl">
           <ImageWithFallback
-            src={planet.image}
+            src={planet.images[0]}
             alt={planet.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
@@ -64,12 +64,12 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
               <Clock className="h-4 w-4 text-purple-400" />
               <span>{planet.distance} años luz</span>
             </div>
-            <div className="flex items-center gap-2 text-sm">
+            {/* <div className="flex items-center gap-2 text-sm">
               <Users className="h-4 w-4 text-emerald-400" />
               <span>{planet.reviews} reseñas</span>
-            </div>
+            </div> */}
           </div>
-          <div className="mb-4 flex flex-wrap gap-1">
+          {/* <div className="mb-4 flex flex-wrap gap-1">
             {planet.activities.slice(0, 2).map(activity => (
               <Badge key={activity} className="text-xs">
                 {activity}
@@ -80,7 +80,7 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
                 +{planet.activities.length - 2} más
               </Badge>
             )}
-          </div>
+          </div> */}
 
           <div className="flex items-center justify-between">
             <div>

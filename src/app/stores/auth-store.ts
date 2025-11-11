@@ -41,9 +41,16 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     },
   ],
 
-  currentUser: null,
-  isLoggedIn: false,
-  isAdmin: false,
+  currentUser: {
+    id: 'GAL-02',
+    name: 'Comandante Viajero',
+    email: 'prueba',
+    role: 'admin',
+    credits: 1000000,
+    createdAt: new Date().toLocaleDateString(),
+  },
+  isLoggedIn: true,
+  isAdmin: true,
 
   updateUser: (name, email) => {
     const users = get().users
