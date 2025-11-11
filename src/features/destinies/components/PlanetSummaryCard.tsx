@@ -14,7 +14,12 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
   const navigate = useNavigate()
 
   const handleCardClick = () => {
-    navigate({ to: `/destinies/${planet.id}` })
+    navigate({ to: `/destinies/$destinoId`, params: { destinoId: planet.id } })
+  }
+
+  const handleBooking = (e: React.MouseEvent) => {
+    e.stopPropagation() // Prevenir que se active el click de la tarjeta
+    navigate({ to: '/booking' })
   }
 
   return (
@@ -89,7 +94,10 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
               </span>
               <span className="ml-1 text-sm text-muted-foreground">GC</span>
             </div>
-            <Button className="border-0 bg-gradient-to-r from-cyan-500 to-purple-500 text-sm text-white hover:from-cyan-600 hover:to-purple-600">
+            <Button
+              className="border-0 bg-gradient-to-r from-cyan-500 to-purple-500 text-sm text-white hover:from-cyan-600 hover:to-purple-600"
+              onClick={handleBooking}
+            >
               <Rocket className="mr-2 h-4 w-4" />
               Reservar Ahora
             </Button>

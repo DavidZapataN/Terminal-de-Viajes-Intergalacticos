@@ -2,8 +2,9 @@ import { Card } from '@/shared/components/Card'
 import { CarrouselImage } from './Carrouselmage'
 import { Title } from '@/shared/components/Title'
 import { Rocket, Star } from 'lucide-react'
-import type { Planet } from '@/features/admin/components/PlanetCard'
 import { Button } from '@/shared/components/Button'
+import type { Planet } from '@/app/types/Planet'
+import { useNavigate } from '@tanstack/react-router'
 
 interface Props {
   planet: Planet
@@ -11,6 +12,12 @@ interface Props {
 }
 
 export const PlanetDetailCard = ({ planet, planetImages }: Props) => {
+  const navigate = useNavigate()
+
+  const handleBooking = () => {
+    navigate({ to: '/booking' })
+  }
+
   return (
     <Card className="overflow-hidden">
       <div className="flex w-full flex-col overflow-hidden">
@@ -21,9 +28,9 @@ export const PlanetDetailCard = ({ planet, planetImages }: Props) => {
             <div className="mb-1 flex items-center gap-1">
               <Star className="h-5 w-5 fill-current text-yellow-400" />
               <span className="text-sm">{planet.rating}</span>
-              <span className="text-sm text-muted-foreground">
+              {/* <span className="text-sm text-muted-foreground">
                 ({planet.reviews} reseñas)
-              </span>
+              </span> */}
             </div>
           </div>
 
@@ -41,7 +48,7 @@ export const PlanetDetailCard = ({ planet, planetImages }: Props) => {
             {planet.description}
           </p>
 
-          <Button>
+          <Button onClick={handleBooking} className="mt-4 w-full">
             <Rocket size={16} className="mr-2" />
             Reservar Viaje a {planet.name}
           </Button>

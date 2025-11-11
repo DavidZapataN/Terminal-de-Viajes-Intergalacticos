@@ -4,6 +4,7 @@ import { create } from 'zustand'
 
 interface PlanetsStore {
   planets: Planet[]
+  getPlanetById: (id: string) => Planet | undefined
   searchPlanets: (query: string) => Planet[]
   filterByClimate: (climate: string) => Planet[]
   updatePlanet: (planet: Planet) => void
@@ -12,6 +13,10 @@ interface PlanetsStore {
 
 export const usePlanetsStore = create<PlanetsStore>((set, get) => ({
   planets: mockPlanetsNew,
+
+  getPlanetById: id => {
+    return get().planets.find(planet => planet.id === id)
+  },
 
   searchPlanets: query => {
     const lowerQuery = query.toLowerCase()
