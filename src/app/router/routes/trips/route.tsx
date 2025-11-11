@@ -1,6 +1,7 @@
-import { mockReservationsAdmin } from '@/db/mockData'
+import { useAuthStore } from '@/app/stores/auth-store'
+import { useReservationsStore } from '@/app/stores/reservations-store'
 import { SummaryCard } from '@/features/admin/components/SummaryCard'
-import { Button } from '@/shared/components/Button'
+import { requireLogin } from '@/lib/utils'
 import { Navbar, type Tab } from '@/shared/components/Navbar'
 import { Title } from '@/shared/components/Title'
 import {
@@ -17,12 +18,13 @@ import {
   CircleX,
   PlaneLanding,
   PlaneTakeoff,
-  Rocket,
 } from 'lucide-react'
+import { useMemo } from 'react'
 
 export const Route = createFileRoute('/trips')({
   component: TripsLayout,
   beforeLoad: async ({ location }) => {
+    requireLogin(location.pathname)
     // / : Bar character (/).
     // $ : End of the string.
     if (location.pathname.replace(/\/$/, '') === '/trips')
@@ -36,48 +38,61 @@ const tabs: Tab[] = [
   { name: 'Cancelados', icon: CircleX, path: '/trips/cancelados' },
 ]
 
-export const filterReservations = (status: string) => {
-  switch (status) {
-    case 'active':
-      return mockReservationsAdmin.filter(r =>
-        ['confirmed', 'in_transit'].includes(r.status)
-      )
-    case 'completed':
-      return mockReservationsAdmin.filter(r => r.status === 'completed')
-    case 'cancelled':
-      return mockReservationsAdmin.filter(r => r.status === 'cancelled')
-    default:
-      return mockReservationsAdmin
-  }
-}
-
-const tripsSummary = [
-  {
-    title: 'Viajes Activos',
-    count: filterReservations('active').length,
-    icon: PlaneTakeoff,
-    color: '#00d3f3',
-  },
-  {
-    title: 'Viajes Completados',
-    count: filterReservations('completed').length,
-    icon: PlaneLanding,
-    color: '#00d492',
-  },
-  {
-    title: 'Total Gastado (GC)',
-    count: 55000,
-    icon: BanknoteArrowDown,
-    color: '#c27aff',
-  },
-]
-
 function TripsLayout() {
   const navigate = useNavigate()
   const location = useLocation()
+  const user = useAuthStore(state => state.currentUser)
+  const allReservations = useReservationsStore(state => state.reservations)
 
   const activeTab =
     tabs.find(tab => location.pathname.startsWith(tab.path))?.name || 'Activos'
+
+  const userReservations = useMemo(
+    () => allReservations.filter(r => r.userId === user?.id),
+    [allReservations, user?.id]
+  )
+
+  const activeReservations = useMemo(
+    () =>
+      userReservations.filter(r =>
+        ['confirmed', 'in_transit'].includes(r.status)
+      ).length,
+    [userReservations]
+  )
+
+  const completedReservations = useMemo(
+    () => userReservations.filter(r => r.status === 'completed').length,
+    [userReservations]
+  )
+
+  const totalSpent = useMemo(
+    () => userReservations.reduce((sum, r) => sum + r.totalCost, 0),
+    [userReservations]
+  )
+
+  const tripsSummary = useMemo(
+    () => [
+      {
+        title: 'Viajes Activos',
+        count: activeReservations,
+        icon: PlaneTakeoff,
+        color: '#00d3f3',
+      },
+      {
+        title: 'Viajes Completados',
+        count: completedReservations,
+        icon: PlaneLanding,
+        color: '#00d492',
+      },
+      {
+        title: 'Total Gastado (GC)',
+        count: totalSpent,
+        icon: BanknoteArrowDown,
+        color: '#c27aff',
+      },
+    ],
+    [activeReservations, completedReservations, totalSpent]
+  )
 
   const handleTabChange = (tabName: string) => {
     const tab = tabs.find(t => t.name === tabName)
@@ -91,10 +106,10 @@ function TripsLayout() {
       <header>
         <div className="flex items-center justify-between">
           <Title>Mis Reservas Galácticas</Title>
-          <Button className="!text-gray-800 active:scale-95">
+          {/* <Button className="!text-gray-800 active:scale-95">
             <Rocket className="mr-3" size={16} />
             Reservar nuevo Viaje
-          </Button>
+          </Button> */}
         </div>
         <h2 className="text-gray-400">Gestiona todos tus viajes espaciales</h2>
       </header>

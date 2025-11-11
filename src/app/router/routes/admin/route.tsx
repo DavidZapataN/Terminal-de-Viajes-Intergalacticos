@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/utils'
 import { Navbar, type Tab } from '@/shared/components/Navbar'
 import { Title } from '@/shared/components/Title'
 import {
@@ -12,10 +13,11 @@ import { Activity, MapPin, Rocket, Users } from 'lucide-react'
 export const Route = createFileRoute('/admin')({
   component: Layout,
   beforeLoad: async ({ location }) => {
+    requireAdmin(location.pathname)
     // / : Bar character (/).
     // $ : End of the string.
     if (location.pathname.replace(/\/$/, '') === '/admin')
-      throw redirect({ to: '/admin/resumen' })  
+      throw redirect({ to: '/admin/resumen' })
   },
 })
 

@@ -1,8 +1,11 @@
+import { usePlanetsStore } from '@/app/stores/planets-store'
+import { useShipsStore } from '@/app/stores/ships-store'
+import type { Reservation } from '@/app/types/Reservation'
 import { Badge } from '@/shared/components/Bagde'
 import { Card } from '@/shared/components/Card'
 import { CircleCheckBig, CircleX, Clock4, Star } from 'lucide-react'
 
-export interface Reservation {
+export interface ReservationOld {
   id: string
   destination: string
   departureDate: string
@@ -40,11 +43,16 @@ const status = {
 }
 
 export const ReservationCard = ({ reservation }: Props) => {
+  const planets = usePlanetsStore.getState().planets
+  const ships = useShipsStore.getState().ships
+  const destinationPlanet = planets.find(p => p.id === reservation.planetId)
+  const ship = ships.find(s => s.id === reservation.shipId)
+
   return (
     <Card>
       <div className="flex flex-col gap-2 p-5">
         <header className="flex items-center justify-between">
-          <h3>{reservation.destination}</h3>
+          <h3>{destinationPlanet ? destinationPlanet.name : 'Desconocido'}</h3>
           <Badge className={status[reservation.status].style}>
             {status[reservation.status].icon}
             <span className="ml-1.5">{status[reservation.status].name}</span>
@@ -58,15 +66,17 @@ export const ReservationCard = ({ reservation }: Props) => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <p className="flex flex-col gap-1">
             <span className="text-sm text-gray-400">Nave:</span>
-            {reservation.ship}
+            {ship ? ship.name : 'Desconocido'}
           </p>
           <p className="flex flex-col gap-1">
             <span className="text-sm text-gray-400">Cabaña:</span>
-            {reservation.cabin}
+            {reservation.cabinClass}
           </p>
           <p className="flex flex-col gap-1">
             <span className="text-sm text-gray-400">Reserva:</span>
-            <span className="font-medium text-cyan-400">{reservation.id}</span>
+            <span className="font-medium text-cyan-400">
+              {reservation.id.toUpperCase()}
+            </span>
           </p>
         </div>
       </div>

@@ -7,8 +7,11 @@ import { Map } from 'lucide-react'
 export const InteractiveMap = () => {
   const navigate = useNavigate()
 
-  const onNavigate = (to: string, params: Record<string, any>) => {
-    navigate({ to, params })
+  const handlePlanetClick = (planetId: string) => {
+    navigate({
+      to: '/destinies/$destinoId',
+      params: { destinoId: planetId },
+    })
   }
 
   return (
@@ -19,11 +22,7 @@ export const InteractiveMap = () => {
           <Title>Mapa Galáctico Interactivo</Title>
         </div>
 
-        <GalacticMap
-          onPlanetClick={planet =>
-            onNavigate('/destinies/planet', { planetId: planet.id })
-          }
-        />
+        <GalacticMap onPlanetClick={handlePlanetClick} />
       </div>
     </Card>
   )
