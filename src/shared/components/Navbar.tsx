@@ -22,13 +22,13 @@ export const Navbar = ({ tabs, activeTab, setActiveTab }: Props) => {
   return (
     <>
       <Card>
-        <ul className="flex w-full gap-0.5 p-1 text-white">
+        <ul className="flex w-full gap-2 p-1 text-white">
           {tabs.map(tab => (
             <li
               onClick={() => changeTab(tab.name)}
               key={tab.name}
               className={clsx(
-                'flex w-full cursor-pointer items-center justify-center gap-4 rounded-full p-2 transition-colors',
+                'flex w-full cursor-pointer items-center justify-center gap-4 rounded-lg p-2 transition-colors',
                 activeTab === tab.name
                   ? 'bg-[#06B6D4] text-black'
                   : 'text-white hover:bg-white/10'
