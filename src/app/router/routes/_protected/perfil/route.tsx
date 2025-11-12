@@ -1,5 +1,4 @@
 import { ProfileNavbar } from '@/features/profile/components/ProfileNavbar'
-import { requireLogin } from '@/lib/utils'
 import { Button } from '@/shared/components/Button'
 import type { Tab } from '@/shared/components/Navbar'
 import { Title } from '@/shared/components/Title'
@@ -12,10 +11,9 @@ import {
 } from '@tanstack/react-router'
 import { ArrowLeft, Plane, Shield } from 'lucide-react'
 
-export const Route = createFileRoute('/perfil')({
+export const Route = createFileRoute('/_protected/perfil')({
   component: ProfileLayout,
   beforeLoad: async ({ location }) => {
-    requireLogin(location.pathname)
     // / : Bar character (/).
     // $ : End of the string.
     if (location.pathname.replace(/\/$/, '') === '/perfil')

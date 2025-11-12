@@ -1,6 +1,6 @@
 import { ActiveTrips } from '@/features/trips/pages/ActiveTrips'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/viajes/activos')({
+export const Route = createFileRoute('/_protected/viajes/activos')({
   component: ActiveTrips,
 })

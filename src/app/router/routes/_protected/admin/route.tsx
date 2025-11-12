@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-router'
 import { Activity, MapPin, Rocket, Users } from 'lucide-react'
 
-export const Route = createFileRoute('/admin')({
+export const Route = createFileRoute('/_protected/admin')({
   component: Layout,
   beforeLoad: async ({ location }) => {
     requireAdmin(location.pathname)
