@@ -1,73 +1,231 @@
-# React + TypeScript + Vite
+# 🚀 Terminal de Viajes Intergalácticos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una aplicación web moderna para gestionar y explorar viajes espaciales a través de la galaxia. Construida con las últimas tecnologías de desarrollo web.
 
-Currently, two official plugins are available:
+## 📋 Tabla de Contenidos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Descripción](#descripción)
+- [Tecnologías](#tecnologías)
+- [Requisitos Previos](#requisitos-previos)
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Características](#características)
+- [Contribuir](#contribuir)
+- [Licencia](#licencia)
 
-## React Compiler
+## 🌟 Descripción
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Terminal de Viajes Intergalácticos es una plataforma completa de gestión de viajes espaciales que permite a los usuarios:
 
-## Expanding the ESLint configuration
+- 🪐 **Explorar destinos galácticos** con información detallada de planetas
+- 🚀 **Reservar viajes espaciales** seleccionando naves y rutas
+- 👤 **Gestionar perfiles** y hacer seguimiento de reservas
+- 🎫 **Administrar viajes activos, completados y cancelados**
+- 🛸 **Panel administrativo** para gestionar planetas, naves y pasajeros
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Con una interfaz moderna, animaciones fluidas y un diseño responsivo, ofrece una experiencia inmersiva completa.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Tecnologías
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Este proyecto está construido con las siguientes tecnologías:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Frontend
+
+- **[React](https://react.dev/)** - Biblioteca de JavaScript para construir interfaces de usuario
+- **[TypeScript](https://www.typescriptlang.org/)** - Superset de JavaScript con tipado estático
+- **[Vite](https://vite.dev/)** - Herramienta de construcción y desarrollo ultrarrápida
+- **[Tailwind CSS](https://tailwindcss.com/)** - Framework CSS para diseño rápido y responsivo
+- **[TanStack Router](https://tanstack.com/router)** - Router moderno para aplicaciones React
+- **[TanStack Query](https://tanstack.com/query)** - Gestión de estado del servidor y caché de datos
+- **[Zustand](https://zustand-demo.pmnd.rs/)** - Gestión de estado ligera y escalable
+- **[Radix UI](https://www.radix-ui.com/)** - Componentes accesibles y sin estilos
+- **[Lucide React](https://lucide.dev/)** - Iconos modernos y personalizables
+- **[Motion](https://motion.dev/)** - Animaciones fluidas y naturales
+
+### Desarrollo
+
+- **[ESLint](https://eslint.org/)** - Linter para mantener calidad de código
+- **[Prettier](https://prettier.io/)** - Formateador de código automático
+
+## 📦 Requisitos Previos
+
+Antes de comenzar, asegúrate de tener instalado:
+
+- **Node.js** (versión 18 o superior)
+- **npm** (viene con Node.js)
+- Un navegador web moderno
+
+## 🚀 Instalación
+
+1. **Clonar el repositorio:**
+
+```bash
+git clone https://github.com/DavidZapataN/Terminal-de-Viajes-Intergalacticos.git
+cd Terminal-de-Viajes-Intergalacticos
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. **Instalar dependencias:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+## 💻 Uso
+
+Para ejecutar la aplicación en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+Luego abre tu navegador en [http://localhost:5173](http://localhost:5173)
+
+## 📁 Estructura del Proyecto
+
+```
+terminal-de-viajes-intergalacticos/
+├── public/
+│   ├── fonts/                    # Fuentes personalizadas
+│   └── images/                   # Imágenes y recursos estáticos
+│
+├── src/
+│   ├── app/
+│   │   ├── router/              # Configuración de rutas
+│   │   │   └── routes/          # Definición de todas las rutas
+│   │   │       ├── __root.tsx   # Layout raíz
+│   │   │       ├── index.tsx    # Página principal
+│   │   │       ├── login.tsx    # Página de inicio de sesión
+│   │   │       ├── registro.tsx # Página de registro
+│   │   │       ├── _protected/  # Rutas protegidas (requieren autenticación)
+│   │   │       │   ├── admin/   # Panel administrativo
+│   │   │       │   ├── perfil/  # Perfil de usuario
+│   │   │       │   ├── reservas/# Gestión de reservas
+│   │   │       │   └── viajes/  # Viajes del usuario
+│   │   │       └── destinos/    # Exploración de destinos
+│   │   │
+│   │   ├── stores/              # Estado global con Zustand
+│   │   │   ├── auth-store.ts    # Autenticación
+│   │   │   ├── planets-store.ts # Planetas
+│   │   │   ├── reservations-store.ts # Reservas
+│   │   │   └── ships-store.ts   # Naves espaciales
+│   │   │
+│   │   └── types/               # Definiciones TypeScript
+│   │       ├── User.ts
+│   │       ├── Planet.ts
+│   │       ├── Starship.ts
+│   │       ├── Reservation.ts
+│   │       └── ...
+│   │
+│   ├── features/                # Módulos por funcionalidad
+│   │   ├── admin/              # Panel de administración
+│   │   │   ├── components/     # Componentes de admin
+│   │   │   └── pages/          # Páginas de admin
+│   │   │
+│   │   ├── auth/               # Autenticación
+│   │   │   └── pages/          # Login y registro
+│   │   │
+│   │   ├── booking/            # Sistema de reservas
+│   │   │   ├── components/     # Flujo de reserva
+│   │   │   └── pages/
+│   │   │
+│   │   ├── dashboard/          # Dashboard principal
+│   │   │   ├── components/     # Mapa interactivo, estadísticas
+│   │   │   └── pages/
+│   │   │
+│   │   ├── destinies/          # Exploración de destinos
+│   │   │   ├── components/     # Info de planetas, reviews
+│   │   │   └── pages/
+│   │   │
+│   │   ├── profile/            # Perfil de usuario
+│   │   │   ├── components/
+│   │   │   └── pages/
+│   │   │
+│   │   └── trips/              # Gestión de viajes
+│   │       ├── components/
+│   │       └── pages/          # Activos, completados, cancelados
+│   │
+│   ├── shared/                 # Componentes compartidos
+│   │   └── components/
+│   │       ├── ui/             # Componentes UI de Radix UI
+│   │       ├── Button.tsx
+│   │       ├── Card.tsx
+│   │       ├── Navbar.tsx
+│   │       ├── Sidebar.tsx
+│   │       ├── GalacticMap.tsx
+│   │       └── ...
+│   │
+│   ├── hooks/                  # Custom hooks
+│   ├── lib/                    # Utilidades
+│   ├── db/                     # Datos mock
+│   ├── assets/                 # Recursos del código
+│   └── main.tsx               # Punto de entrada
+│
+├── eslint.config.js
+├── vite.config.ts
+├── tsconfig.json
+├── tailwind.config.js
+└── package.json
+```
+
+## ✨ Características
+
+### 🎯 Funcionalidades Principales
+
+- **🌌 Exploración de Destinos**
+  - Catálogo completo de planetas con información detallada
+  - Sistema de reseñas y calificaciones
+  - Actividades disponibles por planeta
+  - Galería de imágenes con carrusel
+
+- **🎫 Sistema de Reservas**
+  - Proceso de reserva guiado paso a paso
+  - Selección de naves espaciales
+  - Registro de datos de pasajeros
+  - Confirmación y pago de reservas
+
+- **👤 Gestión de Usuarios**
+  - Autenticación y registro
+  - Perfil personalizable
+  - Historial de viajes
+  - Favoritos y preferencias
+
+- **🛸 Panel de Administración**
+  - Gestión completa de planetas
+  - Administración de naves espaciales
+  - Control de pasajeros
+  - Estadísticas y métricas
+
+- **🚀 Gestión de Viajes**
+  - Viajes activos con seguimiento
+  - Historial de viajes completados
+  - Gestión de cancelaciones
+
+### 🎨 Características Técnicas
+
+- ⚡ **Desarrollo ultrarrápido** con Vite y HMR
+- 🎨 **Interfaz moderna** con Tailwind CSS y animaciones fluidas
+- 📱 **Diseño responsivo** adaptado a todos los dispositivos
+- 🔒 **Tipado fuerte** con TypeScript
+- 🧭 **Enrutamiento avanzado** con TanStack Router
+- 🗃️ **Gestión de estado eficiente** con Zustand
+- 🎭 **Componentes accesibles** con Radix UI
+- 🧹 **Código limpio** con ESLint y Prettier
+
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Para contribuir:
+
+1. Haz un Fork del proyecto
+2. Crea una rama para tu característica (`git checkout -b feature/NuevaCaracteristica`)
+3. Realiza tus cambios y haz commit (`git commit -m 'Agregar nueva característica'`)
+4. Sube los cambios a tu rama (`git push origin feature/NuevaCaracteristica`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto es privado y está desarrollado por [David Zapata](https://github.com/DavidZapataN).
+
+---
+
+**Desarrollado con ❤️ por David Zapata**
