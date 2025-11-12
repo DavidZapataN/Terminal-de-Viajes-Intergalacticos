@@ -101,7 +101,7 @@ export const Booking = () => {
   }
 
   const handleExplorePlanets = () => {
-    navigate({ to: '/destinies' })
+    navigate({ to: '/destinos' })
   }
 
   const handleNextStep = () => {

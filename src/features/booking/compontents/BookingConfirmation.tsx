@@ -51,7 +51,7 @@ export const BookingConfirmation = ({ bookingData, totalCost }: Props) => {
   }
 
   const handleGoToReservations = () => {
-    navigate({ to: '/profile' })
+    navigate({ to: '/perfil' })
   }
 
   return (

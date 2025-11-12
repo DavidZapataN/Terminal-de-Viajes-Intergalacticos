@@ -15,7 +15,7 @@ export const PlanetDetailCard = ({ planet, planetImages }: Props) => {
   const navigate = useNavigate()
 
   const handleBooking = () => {
-    navigate({ to: '/booking' })
+    navigate({ to: '/reservas' })
   }
 
   return (

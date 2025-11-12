@@ -12,22 +12,22 @@ import {
 } from '@tanstack/react-router'
 import { ArrowLeft, Plane, Shield } from 'lucide-react'
 
-export const Route = createFileRoute('/profile')({
+export const Route = createFileRoute('/perfil')({
   component: ProfileLayout,
   beforeLoad: async ({ location }) => {
     requireLogin(location.pathname)
     // / : Bar character (/).
     // $ : End of the string.
-    if (location.pathname.replace(/\/$/, '') === '/profile')
-      throw redirect({ to: '/profile/resumen' })
+    if (location.pathname.replace(/\/$/, '') === '/perfil')
+      throw redirect({ to: '/perfil/resumen' })
   },
 })
 
 const tabs: Tab[] = [
-  { name: 'Resumen', icon: Shield, path: '/profile/resumen' },
-  { name: 'Mis Viajes', icon: Plane, path: '/profile/viajes' },
-  // { name: 'Métodos de Pago', icon: CreditCard, path: '/profile/metodos-pago' } // No se sabe si se implementará,
-  // { name: 'Datos Biométricos', icon: Heart, path: '/profile/biometrics' }, // No se sabe si se implementará
+  { name: 'Resumen', icon: Shield, path: '/perfil/resumen' },
+  { name: 'Mis Viajes', icon: Plane, path: '/perfil/viajes' },
+  // { name: 'Métodos de Pago', icon: CreditCard, path: '/perfil/metodos-pago' } // No se sabe si se implementará,
+  // { name: 'Datos Biométricos', icon: Heart, path: '/perfil/biometrics' }, // No se sabe si se implementará
 ]
 function ProfileLayout() {
   const navigate = useNavigate()

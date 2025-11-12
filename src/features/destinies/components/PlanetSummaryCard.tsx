@@ -14,12 +14,12 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
   const navigate = useNavigate()
 
   const handleCardClick = () => {
-    navigate({ to: `/destinies/$destinoId`, params: { destinoId: planet.id } })
+    navigate({ to: `/destinos/$destinoId`, params: { destinoId: planet.id } })
   }
 
   const handleBooking = (e: React.MouseEvent) => {
     e.stopPropagation() // Prevenir que se active el click de la tarjeta
-    navigate({ to: '/booking' })
+    navigate({ to: '/reservas' })
   }
 
   return (

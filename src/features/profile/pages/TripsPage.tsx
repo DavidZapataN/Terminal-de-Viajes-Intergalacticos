@@ -17,7 +17,7 @@ export const Trips = () => {
   )
 
   const handleNewTrip = () => {
-    navigate({ to: '/destinies' })
+    navigate({ to: '/destinos' })
   }
 
   return (
