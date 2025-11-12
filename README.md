@@ -11,8 +11,6 @@ Una aplicación web moderna para gestionar y explorar viajes espaciales a travé
 - [Uso](#uso)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Características](#características)
-- [Contribuir](#contribuir)
-- [Licencia](#licencia)
 
 ## 🌟 Descripción
 
@@ -221,11 +219,3 @@ Las contribuciones son bienvenidas. Para contribuir:
 3. Realiza tus cambios y haz commit (`git commit -m 'Agregar nueva característica'`)
 4. Sube los cambios a tu rama (`git push origin feature/NuevaCaracteristica`)
 5. Abre un Pull Request
-
-## 📝 Licencia
-
-Este proyecto es privado y está desarrollado por [David Zapata](https://github.com/DavidZapataN).
-
----
-
-**Desarrollado con ❤️ por David Zapata**
