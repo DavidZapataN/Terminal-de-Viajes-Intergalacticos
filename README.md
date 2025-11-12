@@ -35,7 +35,6 @@ Este proyecto está construido con las siguientes tecnologías:
 - **[Vite](https://vite.dev/)** - Herramienta de construcción y desarrollo ultrarrápida
 - **[Tailwind CSS](https://tailwindcss.com/)** - Framework CSS para diseño rápido y responsivo
 - **[TanStack Router](https://tanstack.com/router)** - Router moderno para aplicaciones React
-- **[TanStack Query](https://tanstack.com/query)** - Gestión de estado del servidor y caché de datos
 - **[Zustand](https://zustand-demo.pmnd.rs/)** - Gestión de estado ligera y escalable
 - **[Radix UI](https://www.radix-ui.com/)** - Componentes accesibles y sin estilos
 - **[Lucide React](https://lucide.dev/)** - Iconos modernos y personalizables
