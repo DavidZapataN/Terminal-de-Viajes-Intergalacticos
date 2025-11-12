@@ -23,10 +23,10 @@ import { useAuthStore } from '@/app/stores/auth-store'
 
 const items = [
   { title: 'Home', url: '/', icon: Home },
-  { title: 'Explorar', url: '/destinies', icon: Map },
-  { title: 'Reservar', url: '/booking', icon: Rocket },
-  { title: 'Mis Viajes', url: '/trips', icon: Calendar },
-  { title: 'Perfil', url: '/profile', icon: User },
+  { title: 'Explorar', url: '/destinos', icon: Map },
+  { title: 'Reservar', url: '/reservas', icon: Rocket },
+  { title: 'Mis Viajes', url: '/viajes', icon: Calendar },
+  { title: 'Perfil', url: '/perfil', icon: User },
   { title: 'Admin', url: '/admin', icon: Settings },
 ]
 

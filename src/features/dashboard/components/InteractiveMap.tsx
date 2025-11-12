@@ -9,7 +9,7 @@ export const InteractiveMap = () => {
 
   const handlePlanetClick = (planetId: string) => {
     navigate({
-      to: '/destinies/$destinoId',
+      to: '/destinos/$destinoId',
       params: { destinoId: planetId },
     })
   }

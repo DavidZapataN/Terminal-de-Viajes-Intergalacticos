@@ -38,13 +38,13 @@ export const Home = () => {
   const handleCardClick = (id: string) => {
     switch (id) {
       case 'booking':
-        navigate({ to: '/booking' })
+        navigate({ to: '/reservas' })
         break
       case 'explore':
-        navigate({ to: '/destinies' })
+        navigate({ to: '/destinos' })
         break
       case 'reservations':
-        navigate({ to: '/trips' })
+        navigate({ to: '/viajes' })
         break
       default:
         break

@@ -30,7 +30,7 @@ import { useMemo } from 'react'
 
 export const PlanetInfo = () => {
   const navigate = useNavigate()
-  const { destinoId } = useParams({ from: '/destinies/$destinoId' })
+  const { destinoId } = useParams({ from: '/destinos/$destinoId' })
   const getPlanetById = usePlanetsStore(state => state.getPlanetById)
 
   const planet = useMemo(
@@ -39,7 +39,7 @@ export const PlanetInfo = () => {
   )
 
   const handleBack = () => {
-    navigate({ to: '/destinies/all' })
+    navigate({ to: '/destinos' })
   }
 
   // Si no se encuentra el planeta, mostrar mensaje

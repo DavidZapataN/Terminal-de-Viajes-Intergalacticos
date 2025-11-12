@@ -1,6 +1,7 @@
 import type { Planet } from '@/app/types/Planet'
 import type { Reservation } from '@/app/types/Reservation'
 import type { Starship } from '@/app/types/Starship'
+import type { User } from '@/app/types/User'
 import type { ReservationAdmin } from '@/features/admin/components/PassengersList'
 import type { PlanetOld } from '@/features/admin/components/PlanetCard'
 import type { Spaceship } from '@/features/admin/components/StarshipsList'
@@ -490,5 +491,36 @@ export const mockReservationsAdmin: ReservationAdmin[] = [
     cabinClass: 'Lujo',
     status: 'in_transit',
     totalCost: 40000,
+  },
+]
+
+// Mock Users for Authentication Testing
+export const mockUsers: User[] = [
+  {
+    id: 'user-001',
+    name: 'Ana Martínez',
+    email: 'ana@example.com',
+    password: 'user123', // En producción esto debería estar hasheado
+    role: 'user',
+    credits: 15000,
+    createdAt: '2024-01-15T10:00:00Z',
+  },
+  {
+    id: 'user-002',
+    name: 'Carlos Rodríguez',
+    email: 'carlos@example.com',
+    password: 'user123',
+    role: 'user',
+    credits: 25000,
+    createdAt: '2024-03-20T14:30:00Z',
+  },
+  {
+    id: 'admin-001',
+    name: 'Admin Principal',
+    email: 'admin@example.com',
+    password: 'admin123', // En producción esto debería estar hasheado
+    role: 'admin',
+    credits: 100000,
+    createdAt: '2023-12-01T08:00:00Z',
   },
 ]

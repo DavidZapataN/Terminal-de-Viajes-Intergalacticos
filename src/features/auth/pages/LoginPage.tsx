@@ -2,7 +2,7 @@ import { Eye, Lock, Rocket, Shield, User, Zap } from 'lucide-react'
 import { Card } from '@/shared/components/Card'
 import { Input } from '@/shared/components/Input'
 import { Button } from '@/shared/components/Button'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { Title } from '@/shared/components/Title'
 import { useState } from 'react'
 import { useAuthStore } from '@/app/stores/auth-store'
@@ -12,6 +12,7 @@ export const Login = () => {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+  const search = useSearch({ from: '/login' })
 
   const login = useAuthStore(state => state.login)
 
@@ -21,8 +22,14 @@ export const Login = () => {
 
     if (success) {
       const user = useAuthStore.getState().currentUser
-      if (user?.role === 'admin') navigate({ to: '/admin/resumen' })
-      else navigate({ to: '/' })
+      const redirectTo = (search as { from?: string }).from
+
+      if (redirectTo) {
+        navigate({ to: redirectTo })
+      } else {
+        if (user?.role === 'admin') navigate({ to: '/admin/resumen' })
+        else navigate({ to: '/' })
+      }
     } else {
       alert('Credenciales incorrectas')
     }

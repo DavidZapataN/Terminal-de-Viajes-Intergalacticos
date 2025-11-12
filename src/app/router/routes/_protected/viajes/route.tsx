@@ -1,7 +1,6 @@
 import { useAuthStore } from '@/app/stores/auth-store'
 import { useReservationsStore } from '@/app/stores/reservations-store'
 import { SummaryCard } from '@/features/admin/components/SummaryCard'
-import { requireLogin } from '@/lib/utils'
 import { Navbar, type Tab } from '@/shared/components/Navbar'
 import { Title } from '@/shared/components/Title'
 import {
@@ -21,21 +20,20 @@ import {
 } from 'lucide-react'
 import { useMemo } from 'react'
 
-export const Route = createFileRoute('/trips')({
+export const Route = createFileRoute('/_protected/viajes')({
   component: TripsLayout,
   beforeLoad: async ({ location }) => {
-    requireLogin(location.pathname)
     // / : Bar character (/).
     // $ : End of the string.
-    if (location.pathname.replace(/\/$/, '') === '/trips')
-      throw redirect({ to: '/trips/activos' })
+    if (location.pathname.replace(/\/$/, '') === '/viajes')
+      throw redirect({ to: '/viajes/activos' })
   },
 })
 
 const tabs: Tab[] = [
-  { name: 'Activos', icon: CalendarCheck, path: '/trips/activos' },
-  { name: 'Completados', icon: CircleCheckBig, path: '/trips/completados' },
-  { name: 'Cancelados', icon: CircleX, path: '/trips/cancelados' },
+  { name: 'Activos', icon: CalendarCheck, path: '/viajes/activos' },
+  { name: 'Completados', icon: CircleCheckBig, path: '/viajes/completados' },
+  { name: 'Cancelados', icon: CircleX, path: '/viajes/cancelados' },
 ]
 
 function TripsLayout() {
