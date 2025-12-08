@@ -8,7 +8,7 @@ import { useNavigate } from '@tanstack/react-router'
 
 export const Trips = () => {
   const navigate = useNavigate()
-  const user = useAuthStore(state => state.currentUser)
+  const user = useAuthStore(state => state.user)
   const allReservations = useReservationsStore(state => state.reservations)
 
   const reservations = useMemo(

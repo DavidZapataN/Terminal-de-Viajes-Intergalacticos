@@ -6,9 +6,10 @@ import { Badge } from '@/shared/components/Bagde'
 import { useMemo, useState } from 'react'
 import { useAuthStore } from '@/app/stores/auth-store'
 import { useReservationsStore } from '@/app/stores/reservations-store'
+import { updateProfile } from '@/app/services/auth.service'
 
 export const Summary = () => {
-  const user = useAuthStore(state => state.currentUser)
+  const user = useAuthStore(state => state.user)
   const allReservations = useReservationsStore(state => state.reservations)
 
   const completedReservations = useMemo(
@@ -18,8 +19,6 @@ export const Summary = () => {
       ).length,
     [allReservations, user?.id]
   )
-
-  const updateUser = useAuthStore(state => state.updateUser)
 
   const [editable, setEditable] = useState(false)
 
@@ -33,7 +32,7 @@ export const Summary = () => {
   }
 
   const handleSaveClick = () => {
-    updateUser(form.name, form.email)
+    updateProfile({ name: form.name, email: form.email })
     setEditable(false)
   }
 

@@ -5,7 +5,13 @@ import { Button } from '@/shared/components/Button'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { Title } from '@/shared/components/Title'
 import { useState } from 'react'
-import { useAuthStore } from '@/app/stores/auth-store'
+import { login } from '@/app/services/auth.service'
+import {
+  showError,
+  showSuccess,
+  showLoading,
+  dismissToast,
+} from '@/lib/toast.config'
 
 export const Login = () => {
   const [email, setEmail] = useState('')
@@ -14,24 +20,29 @@ export const Login = () => {
   const navigate = useNavigate()
   const search = useSearch({ from: '/login' })
 
-  const login = useAuthStore(state => state.login)
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const success = login(email.trim(), password.trim())
+    const loadingToast = showLoading('Conectando con la red galáctica...')
+    try {
+      const user = await login({ email, password })
+      dismissToast(loadingToast)
 
-    if (success) {
-      const user = useAuthStore.getState().currentUser
-      const redirectTo = (search as { from?: string }).from
-
-      if (redirectTo) {
-        navigate({ to: redirectTo })
+      if (user) {
+        showSuccess(`¡Bienvenido de vuelta, ${user?.name || 'Comandante'}!`)
+        const redirectTo = (search as { from?: string }).from
+        if (redirectTo) {
+          navigate({ to: redirectTo })
+        } else {
+          if (user?.role === 'admin') navigate({ to: '/admin/resumen' })
+          else navigate({ to: '/' })
+        }
       } else {
-        if (user?.role === 'admin') navigate({ to: '/admin/resumen' })
-        else navigate({ to: '/' })
+        showError('Credenciales incorrectas. Verifica tu email y contraseña.')
       }
-    } else {
-      alert('Credenciales incorrectas')
+    } catch (error) {
+      dismissToast(loadingToast)
+      showError('Error al conectar con el servidor. Intenta nuevamente.')
+      console.error('Login error:', error)
     }
   }
 
@@ -68,8 +79,8 @@ export const Login = () => {
             className="mb-2.5 flex w-full flex-col gap-5"
           >
             <Input
-              label="ID Gálactico"
-              placeholder="Ingresa tu ID"
+              label="Email Gálactico"
+              placeholder="Ingresa tu email"
               icon={User}
               type="text"
               value={email}
