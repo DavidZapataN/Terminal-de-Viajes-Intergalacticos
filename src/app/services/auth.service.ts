@@ -93,8 +93,12 @@ export const updateProfile = async (
     const response = await api.patch<User>(AUTH_ENDPOINTS.PROFILE, profileData)
     setUser(response.data)
     return response.data
-  } catch (error) {
-    throw new Error('No se pudo actualizar el perfil')
+  } catch (error: any) {
+    if (error.response) {
+      const msg = error.response.data?.message || 'Error desconocido'
+      throw new Error(msg)
+    }
+    throw new Error('No se pudo conectar al servidor')
   }
 }
 

@@ -156,7 +156,7 @@ export const showPromise = <T,>(
       },
       error: {
         icon: <XCircle size={20} className="text-red-400" />,
-        duration: 5000,
+        duration: 3000,
       },
     }
   )
