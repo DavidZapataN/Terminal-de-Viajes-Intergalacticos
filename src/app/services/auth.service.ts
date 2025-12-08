@@ -8,7 +8,6 @@ import { useAuthStore } from '../stores/auth-store'
 const AUTH_ENDPOINTS = {
   REGISTER: '/auth/register',
   LOGIN: '/auth/login',
-  REFRESH: '/auth/refresh',
   PROFILE: '/auth/profile',
   CHANGE_PASSWORD: '/auth/change-password',
 }
@@ -61,19 +60,6 @@ export const registerUser = async (userData: RegisterUser): Promise<User> => {
   }
 }
 
-export const refreshToken = async (
-  refreshToken: string
-): Promise<{ accessToken: string }> => {
-  const response = await api.post<{ accessToken: string }>(
-    AUTH_ENDPOINTS.REFRESH,
-    { refreshToken }
-  )
-
-  const { accessToken } = response.data
-  localStorage.setItem('accessToken', accessToken)
-  return response.data
-}
-
 export const getCurrentUser = async (): Promise<User> => {
   try {
     const setUser = useAuthStore.getState().setUser
@@ -111,7 +97,12 @@ export const changePassword = async (
       currentPassword,
       newPassword,
     })
-  } catch (error) {
-    throw new Error('No se pudo cambiar la contraseña')
+  } catch (error: any) {
+    if (error.response) {
+      const msg =
+        error.response.data?.message || 'Error al cambiar la contraseña'
+      throw new Error(msg)
+    }
+    throw new Error('No se pudo conectar al servidor')
   }
 }

@@ -40,7 +40,7 @@ api.interceptors.response.use(
   async error => {
     await new Promise(resolve => setTimeout(resolve, FIXED_DELAY))
 
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && error.response.data?.message === 'No autorizado') {
       const refreshToken = localStorage.getItem('refreshToken')
       if (!refreshToken) return Promise.reject(error)
 
