@@ -1,6 +1,6 @@
 import { api, clearAuthTokens, setAuthTokens } from '@/lib/axios.config'
 import type { User } from '../types/User'
-import type { RegisterUser } from '../types/api/auth/Register'
+import type { RegisterUser } from '../types/api/auth/RegisterUser'
 import type { AuthResponse } from '../types/api/auth/AuthResponse'
 import type { UpdateProfile } from '../types/api/auth/UpdateProfile'
 import { useAuthStore } from '../stores/auth-store'
@@ -45,16 +45,20 @@ export const logout = (): void => {
   clearUser()
 }
 
-export const register = async (userData: RegisterUser): Promise<User> => {
-  const setUser = useAuthStore.getState().setUser
-  const response = await api.post<AuthResponse>(
-    AUTH_ENDPOINTS.REGISTER,
-    userData
-  )
-  const { accessToken, refreshToken, user } = response.data
-  setAuthTokens(accessToken, refreshToken)
-  setUser(user)
-  return user
+export const registerUser = async (userData: RegisterUser): Promise<User> => {
+  try {
+    const setUser = useAuthStore.getState().setUser
+    const response = await api.post<AuthResponse>(
+      AUTH_ENDPOINTS.REGISTER,
+      userData
+    )
+    const { accessToken, refreshToken, user } = response.data
+    setAuthTokens(accessToken, refreshToken)
+    setUser(user)
+    return user
+  } catch (error) {
+    throw new Error('No se pudo registrar el usuario')
+  }
 }
 
 export const refreshToken = async (

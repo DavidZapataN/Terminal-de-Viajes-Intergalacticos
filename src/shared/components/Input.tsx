@@ -20,7 +20,7 @@ export const Input = ({
 
   return (
     <div className={`flex w-full flex-col ${fieldGap}`}>
-      <label className="text-sm text-gray-400">{label}</label>
+      {label && <label className="text-sm text-gray-400">{label}</label>}
       <div className="holo-border relative rounded-md">
         {Icon && (
           <Icon
@@ -30,7 +30,7 @@ export const Input = ({
         )}
         <input
           {...props}
-          className={`w-full rounded-md px-9 py-2 text-white transition-all duration-300 ease-in-out focus:outline-[3px] focus:outline-[#28c2de] ${className}`}
+          className={`w-full rounded-md bg-transparent px-9 py-2 text-white transition-all duration-300 ease-in-out focus:outline-[3px] focus:outline-[#28c2de] ${className || ''}`}
         />
         {ActionIcon && (
           <ActionIcon
