@@ -1,31 +1,29 @@
 import { Input } from '@/shared/components/Input'
+import { forwardRef } from 'react'
 
-interface Props {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
-  value: string
   editable?: boolean
-  onChange?: (value: string) => void
 }
 
-export const ProfileField = ({ label, value, editable, onChange }: Props) => {
-  if (!editable) {
+export const ProfileField = forwardRef<HTMLInputElement, Props>(
+  ({ label, value, editable, ...props }, ref) => {
+    if (!editable) {
+      return (
+        <div className="flex flex-col gap-1">
+          <span className="text-gray-400">{label}</span>
+          <span>{value}</span>
+        </div>
+      )
+    }
+
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-0">
         <span className="text-gray-400">{label}</span>
-        <span>{value}</span>
+        <Input className="!px-4" ref={ref} {...props} />
       </div>
     )
   }
+)
 
-  return (
-    <div className="flex flex-col gap-0">
-      <span className="text-gray-400">{label}</span>
-      <Input
-        className="!px-4"
-        value={value}
-        onChange={e => onChange?.(e.target.value)}
-        required
-      />
-    </div>
-  )
-}
+ProfileField.displayName = 'ProfileField'

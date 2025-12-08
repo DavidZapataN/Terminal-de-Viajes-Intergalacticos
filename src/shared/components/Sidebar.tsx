@@ -19,6 +19,7 @@ import {
   SidebarMenuItem,
 } from '@/shared/components/ui/sidebar'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
+import { logout } from '@/app/services/auth.service'
 import { useAuthStore } from '@/app/stores/auth-store'
 
 const items = [
@@ -34,8 +35,8 @@ export function AppSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const isLogged = useAuthStore(state => state.isLoggedIn)
-  const logout = useAuthStore(state => state.logout)
+  const isLogged = useAuthStore(state => !!state.user)
+  const isAdmin = useAuthStore(state => state.isAdmin)
 
   const activeItem = (() => {
     const path = location.pathname
@@ -52,7 +53,7 @@ export function AppSidebar() {
   })()
 
   const redirectToLogin = () => {
-    navigate({ to: '/login' })
+    navigate({ to: '/login', search: { from: location.pathname } })
   }
 
   const handleLogout = () => {
@@ -67,6 +68,17 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map(item => {
+                if (
+                  !isLogged &&
+                  (item.title === 'Perfil' || item.title === 'Mis Viajes')
+                ) {
+                  return null
+                }
+
+                if (!isAdmin && item.title === 'Admin') {
+                  return null
+                }
+
                 const isActive = activeItem === item.title
                 return (
                   <SidebarMenuItem key={item.title}>

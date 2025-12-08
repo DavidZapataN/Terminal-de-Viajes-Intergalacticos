@@ -183,13 +183,10 @@ h2 {
   border: 1px solid transparent;
   background:
     linear-gradient(#111120, #111120) padding-box,
-    linear-gradient(
-        45deg,
-        var(--neon-cyan),
-        var(--neon-purple),
-        var(--neon-blue)
-      )
-      border-box;
+    linear-gradient(45deg,
+      var(--neon-cyan),
+      var(--neon-purple),
+      var(--neon-blue)) border-box;
 }
 
 .neon-glow {
@@ -203,6 +200,30 @@ h2 {
 
   to {
     background-position: -10000px 5000px;
+  }
+}
+
+@keyframes toast-enter {
+  0% {
+    transform: translateX(100%) scale(0.7);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-exit {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%) scale(0.7);
+    opacity: 0;
   }
 }
 

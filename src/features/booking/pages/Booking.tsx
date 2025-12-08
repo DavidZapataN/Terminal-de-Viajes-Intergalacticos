@@ -31,7 +31,7 @@ export const Booking = () => {
   const createReservation = useReservationsStore(
     state => state.createReservation
   )
-  const currentUser = useAuthStore(state => state.currentUser)
+  const currentUser = useAuthStore(state => state.user)
 
   const [step, setStep] = useState(1)
   const [bookingData, setBookingData] = useState<BookingData>({

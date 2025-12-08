@@ -1,3 +1,4 @@
+import { logout } from '@/app/services/auth.service'
 import { useAuthStore } from '@/app/stores/auth-store'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
@@ -13,8 +14,7 @@ interface Props {
 
 export const ProfileNavbar = ({ tabs, activeTab, setActiveTab }: Props) => {
   const navigate = useNavigate()
-  const user = useAuthStore(state => state.currentUser)
-  const logout = useAuthStore(state => state.logout)
+  const user = useAuthStore(state => state.user)
 
   const avatarInitials = () => {
     if (!user) return 'NA'
