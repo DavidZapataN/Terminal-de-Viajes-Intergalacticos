@@ -36,9 +36,9 @@ export const starshipSchema = z.object({
   }),
   amenities: z
     .array(z.string())
-    .min(1, 'Debe agregar al menos una amenidad')
+    .min(1, 'Debe agregar al menos una comodidad')
     .refine(arr => arr.every(item => item.trim().length > 0), {
-      message: 'Las amenidades no pueden estar vacías',
+      message: 'Las comodidades no pueden estar vacías',
     }),
   cabins: z
     .array(cabinSchema)
