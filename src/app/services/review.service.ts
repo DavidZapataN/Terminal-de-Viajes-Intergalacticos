@@ -4,6 +4,34 @@ import type { CreateReview } from '../types/api/review/CreateReview'
 import type { ReviewReply } from '../types/ReviewReply'
 import type { CreateReviewReply } from '../types/api/review/CreateReviewReply'
 
+export const likeReview = async (
+  reviewId: number
+): Promise<{ message: string; likedByUsers: number[] }> => {
+  try {
+    const response = await api.post<{
+      message: string
+      likedByUsers: number[]
+    }>(`/review/like/${reviewId}`)
+    return response.data
+  } catch (error) {
+    throw new Error('Error liking review')
+  }
+}
+
+export const unlikeReview = async (
+  reviewId: number
+): Promise<{ message: string; likedByUsers: number[] }> => {
+  try {
+    const response = await api.delete<{
+      message: string
+      likedByUsers: number[]
+    }>(`/review/like/${reviewId}`)
+    return response.data
+  } catch (error) {
+    throw new Error('Error unliking review')
+  }
+}
+
 export const getReviewsByDestinyId = async (
   destinyId: number
 ): Promise<Review[]> => {
@@ -40,28 +68,6 @@ export const deleteReview = async (id: number): Promise<void> => {
     await api.delete(`/review/${id}`)
   } catch (error) {
     throw new Error('Error deleting review')
-  }
-}
-
-export const likeReview = async (
-  reviewId: number,
-  userId: number
-): Promise<void> => {
-  try {
-    await api.post(`/review/${reviewId}/like`, { userId })
-  } catch (error) {
-    throw new Error('Error liking review')
-  }
-}
-
-export const unlikeReview = async (
-  reviewId: number,
-  userId: number
-): Promise<void> => {
-  try {
-    await api.post(`/review/${reviewId}/unlike`, { userId })
-  } catch (error) {
-    throw new Error('Error unliking review')
   }
 }
 

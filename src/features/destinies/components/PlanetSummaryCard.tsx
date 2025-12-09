@@ -1,24 +1,34 @@
-import type { Planet } from '@/app/types/Destiny'
+import type { Destiny } from '@/app/types/Destiny'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
 import { useNavigate } from '@tanstack/react-router'
-import { Clock, MapPin, Rocket, Star } from 'lucide-react'
+import { Clock, MapPin, Rocket, Star, Users } from 'lucide-react'
 
 interface Props {
-  planet: Planet
+  planet: Destiny
+}
+
+const atmosphereName = {
+  breathable: 'Respirable',
+  'not breathable': 'No respirable',
+  toxic: 'Tóxica',
+  none: 'Sin atmósfera',
 }
 
 export const PlanetSummaryCard = ({ planet }: Props) => {
   const navigate = useNavigate()
 
   const handleCardClick = () => {
-    navigate({ to: `/destinos/$destinoId`, params: { destinoId: planet.id } })
+    navigate({
+      to: `/destinos/$destinoId`,
+      params: { destinoId: planet.id.toString() },
+    })
   }
 
   const handleBooking = (e: React.MouseEvent) => {
-    e.stopPropagation() // Prevenir que se active el click de la tarjeta
+    e.stopPropagation()
     navigate({ to: '/reservas' })
   }
 
@@ -34,15 +44,18 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
             alt={planet.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
           <div className="absolute top-4 left-4">
             <Badge className="border-cyan-400/50 bg-black/50 text-white">
               {planet.system}
             </Badge>
           </div>
+
           <div className="absolute top-4 right-4 flex items-center gap-1 rounded-lg bg-black/50 px-2 py-1">
             <Star size={10} className="fill-current text-yellow-400" />
-            <span className="text-sm text-white">{planet.rating}</span>
+            <span className="text-sm text-white">
+              {planet.reviewSummary.averageRating}
+            </span>
           </div>
 
           <div className="absolute inset-0 flex items-center justify-center bg-cyan-400/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -63,29 +76,18 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
           <div className="mb-4 space-y-3">
             <div className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4 text-cyan-400" />
-              <span>Clima: {planet.climate}</span>
+              <span>Atmósfera: {atmosphereName[planet.atmosphere]}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Clock className="h-4 w-4 text-purple-400" />
               <span>{planet.distance} años luz</span>
             </div>
-            {/* <div className="flex items-center gap-2 text-sm">
+
+            <div className="flex items-center gap-2 text-sm">
               <Users className="h-4 w-4 text-emerald-400" />
-              <span>{planet.reviews} reseñas</span>
-            </div> */}
+              <span>{planet.reviewSummary.totalReviews} reseñas</span>
+            </div>
           </div>
-          {/* <div className="mb-4 flex flex-wrap gap-1">
-            {planet.activities.slice(0, 2).map(activity => (
-              <Badge key={activity} className="text-xs">
-                {activity}
-              </Badge>
-            ))}
-            {planet.activities.length > 2 && (
-              <Badge className="text-xs">
-                +{planet.activities.length - 2} más
-              </Badge>
-            )}
-          </div> */}
 
           <div className="flex items-center justify-between">
             <div>
@@ -95,7 +97,7 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
               <span className="ml-1 text-sm text-muted-foreground">GC</span>
             </div>
             <Button
-              className="border-0 bg-gradient-to-r from-cyan-500 to-purple-500 text-sm text-white hover:from-cyan-600 hover:to-purple-600"
+              className="border-0 bg-linear-to-r from-cyan-500 to-purple-500 text-sm text-white hover:from-cyan-600 hover:to-purple-600"
               onClick={handleBooking}
             >
               <Rocket className="mr-2 h-4 w-4" />

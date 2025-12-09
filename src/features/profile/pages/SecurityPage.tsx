@@ -112,7 +112,7 @@ export const SecurityPage = () => {
                   icon={Lock}
                   type={showCurrentPassword ? 'text' : 'password'}
                   placeholder="Ingresa tu contraseña actual"
-                  className="!pr-12 !pl-12"
+                  className="pr-12! pl-12!"
                   {...register('currentPassword')}
                 />
                 <button
@@ -144,7 +144,7 @@ export const SecurityPage = () => {
                   icon={Lock}
                   type={showNewPassword ? 'text' : 'password'}
                   placeholder="Ingresa tu nueva contraseña"
-                  className="!pr-12 !pl-12"
+                  className="pr-12! pl-12!"
                   {...register('newPassword')}
                 />
                 <button
@@ -199,7 +199,7 @@ export const SecurityPage = () => {
                   icon={Lock}
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirma tu nueva contraseña"
-                  className="!pr-12 !pl-12"
+                  className="pr-12! pl-12!"
                   {...register('confirmPassword')}
                 />
                 <button
@@ -234,7 +234,7 @@ export const SecurityPage = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
+                className="bg-linear-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
               >
                 {isSubmitting ? 'Actualizando...' : 'Actualizar Contraseña'}
               </Button>

@@ -1,9 +1,9 @@
-import type { Spaceship } from '@/features/admin/components/StarshipsList'
+import type { Starship } from '@/app/types/Starship'
 import { Card } from '@/shared/components/Card'
 import { Check } from 'lucide-react'
 
 interface Props {
-  ship: Spaceship
+  ship: Starship
   checked?: boolean
 }
 
@@ -21,7 +21,6 @@ export const StarshipInfoCard = ({ ship, checked }: Props) => {
           </div>
           <div className="flex gap-4 text-sm text-muted-foreground">
             <span>Capacidad: {ship.capacity}</span>
-            <span>Velocidad: Warp {ship.speed}</span>
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
             {ship.amenities.slice(0, 3).map(amenity => (

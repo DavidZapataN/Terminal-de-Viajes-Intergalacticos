@@ -12,7 +12,7 @@ export const ActiveTrips = () => {
       allReservations.filter(
         r =>
           ['confirmed', 'in_transit'].includes(r.status) &&
-          r.userId === user?.id
+          r.userId === user?.id.toString()
       ),
     [allReservations, user?.id]
   )
