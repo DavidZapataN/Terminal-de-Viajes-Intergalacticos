@@ -25,6 +25,38 @@ export const getDestinyReviewSummary = async (
   }
 }
 
+export const likeDestiny = async (
+  destinyId: number
+): Promise<{ message: string; likedByUsers: number[] }> => {
+  try {
+    const updateDestinyLikes = useDestinyStore.getState().updateDestinyLikes
+    const response = await api.post<{
+      message: string
+      likedByUsers: number[]
+    }>(`/destiny/like/${destinyId}`)
+    updateDestinyLikes(destinyId, response.data.likedByUsers)
+    return response.data
+  } catch (error) {
+    throw new Error('Error liking destiny')
+  }
+}
+
+export const unlikeDestiny = async (
+  destinyId: number
+): Promise<{ message: string; likedByUsers: number[] }> => {
+  try {
+    const updateDestinyLikes = useDestinyStore.getState().updateDestinyLikes
+    const response = await api.delete<{
+      message: string
+      likedByUsers: number[]
+    }>(`/destiny/like/${destinyId}`)
+    updateDestinyLikes(destinyId, response.data.likedByUsers)
+    return response.data
+  } catch (error) {
+    throw new Error('Error unliking destiny')
+  }
+}
+
 export const getDestinies = async (
   filters?: FilterDestiny
 ): Promise<Destiny[]> => {

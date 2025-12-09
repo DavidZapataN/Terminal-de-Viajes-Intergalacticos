@@ -28,6 +28,11 @@ import {
   getReviewsByDestinyId,
   createReview,
 } from '@/app/services/review.service'
+import {
+  getDestinyReviewSummary,
+  likeDestiny,
+  unlikeDestiny,
+} from '@/app/services/destiny.service'
 import type { Review as ReviewType } from '@/app/types/Review'
 import type { CreateReview } from '@/app/types/api/review/CreateReview'
 import { CreateReviewModal } from '../components/CreateReviewModal'
@@ -44,10 +49,14 @@ export const PlanetInfo = () => {
   const { destinoId } = useParams({ from: '/destinos/$destinoId' })
   const destinies = useDestinyStore(state => state.destinies)
   const isLoadingDestinies = useDestinyStore(state => state.isLoading)
+  const updateDestinyReviewSummary = useDestinyStore(
+    state => state.updateDestinyReviewSummary
+  )
   const currentUser = useAuthStore(state => state.user)
   const [reviews, setReviews] = useState<ReviewType[]>([])
   const [isLoadingReviews, setIsLoadingReviews] = useState(true)
   const [showCreateReviewModal, setShowCreateReviewModal] = useState(false)
+  const [isTogglingDestinyLike, setIsTogglingDestinyLike] = useState(false)
 
   const planet = useMemo(() => {
     return destinies.find(d => d.id === parseInt(destinoId))
@@ -78,10 +87,61 @@ export const PlanetInfo = () => {
   const handleCreateReview = async (reviewData: CreateReview) => {
     const newReview = await createReview(reviewData)
     setReviews(prev => [newReview, ...prev])
+
+    if (planet) {
+      try {
+        const updatedSummary = await getDestinyReviewSummary(planet.id)
+        updateDestinyReviewSummary(planet.id, updatedSummary)
+      } catch (error) {
+        console.error('Error al actualizar el resumen de reseñas:', error)
+      }
+    }
   }
 
-  const handleReviewDeleted = (reviewId: number) => {
+  const handleReviewDeleted = async (reviewId: number) => {
     setReviews(prev => prev.filter(r => r.id !== reviewId))
+
+    if (planet) {
+      try {
+        const updatedSummary = await getDestinyReviewSummary(planet.id)
+        updateDestinyReviewSummary(planet.id, updatedSummary)
+      } catch (error) {
+        console.error('Error al actualizar el resumen de reseñas:', error)
+      }
+    }
+  }
+
+  const handleReviewLikesUpdated = (
+    reviewId: number,
+    likedByUsers: number[]
+  ) => {
+    setReviews(prev =>
+      prev.map(r => (r.id === reviewId ? { ...r, likedByUsers } : r))
+    )
+  }
+
+  const handleToggleDestinyLike = async () => {
+    if (!currentUser || !planet) {
+      alert('Debes iniciar sesión para agregar a favoritos')
+      return
+    }
+
+    setIsTogglingDestinyLike(true)
+    try {
+      const userId = currentUser.id
+      const isLiked = planet.likedByUsers.includes(userId)
+
+      if (isLiked) {
+        await unlikeDestiny(planet.id)
+      } else {
+        await likeDestiny(planet.id)
+      }
+    } catch (error) {
+      console.error('Error al actualizar favoritos:', error)
+      alert('Error al actualizar favoritos')
+    } finally {
+      setIsTogglingDestinyLike(false)
+    }
   }
 
   const handleOpenReviewModal = () => {
@@ -155,7 +215,7 @@ export const PlanetInfo = () => {
     rating: review.rating,
     date: new Date(review.createdAt).toLocaleDateString('es-ES'),
     comment: review.content,
-    helpful: review.likedByUsers.length,
+    likedByUsers: review.likedByUsers,
   }))
 
   return (
@@ -181,6 +241,7 @@ export const PlanetInfo = () => {
               reviews={formattedReviews}
               currentUserId={currentUser?.id}
               onReviewDeleted={handleReviewDeleted}
+              onReviewLikesUpdated={handleReviewLikesUpdated}
             />
           )}
 
@@ -190,10 +251,25 @@ export const PlanetInfo = () => {
 
               <Button
                 variant="text"
-                className="holo-border w-full justify-start"
+                className={`holo-border w-full justify-start ${
+                  currentUser && planet.likedByUsers.includes(currentUser.id)
+                    ? 'text-red-400'
+                    : ''
+                }`}
+                onClick={handleToggleDestinyLike}
+                disabled={isTogglingDestinyLike}
               >
-                <Heart size={18} className="mr-2" />
-                Agregar a favoritos
+                <Heart
+                  size={18}
+                  className={`mr-2 ${
+                    currentUser && planet.likedByUsers.includes(currentUser.id)
+                      ? 'fill-current'
+                      : ''
+                  }`}
+                />
+                {currentUser && planet.likedByUsers.includes(currentUser.id)
+                  ? 'Quitar de favoritos'
+                  : 'Agregar a favoritos'}
               </Button>
               <Button
                 variant="text"

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { Destiny } from '../types/Destiny'
 import type { Activity } from '../types/Activity'
+import type { ReviewSummary } from '../types/ReviewSummary'
 
 interface DestinyStore {
   destinies: Destiny[]
@@ -10,6 +11,11 @@ interface DestinyStore {
   addDestiny: (destiny: Destiny) => void
   updateDestiny: (destiny: Destiny) => void
   deleteDestiny: (destinyId: number) => void
+  updateDestinyReviewSummary: (
+    destinyId: number,
+    reviewSummary: ReviewSummary
+  ) => void
+  updateDestinyLikes: (destinyId: number, likedByUsers: number[]) => void
   addActivity: (destinyId: number, activity: Activity) => void
   updateActivity: (
     destinyId: number,
@@ -39,6 +45,20 @@ export const useDestinyStore = create<DestinyStore>(set => ({
   deleteDestiny: destinyId =>
     set(state => ({
       destinies: state.destinies.filter(d => d.id !== destinyId),
+    })),
+
+  updateDestinyReviewSummary: (destinyId, reviewSummary) =>
+    set(state => ({
+      destinies: state.destinies.map(d =>
+        d.id === destinyId ? { ...d, reviewSummary } : d
+      ),
+    })),
+
+  updateDestinyLikes: (destinyId, likedByUsers) =>
+    set(state => ({
+      destinies: state.destinies.map(d =>
+        d.id === destinyId ? { ...d, likedByUsers } : d
+      ),
     })),
 
   addActivity: (destinyId, activity) =>

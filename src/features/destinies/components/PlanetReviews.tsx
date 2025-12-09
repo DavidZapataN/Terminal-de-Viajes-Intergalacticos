@@ -23,6 +23,8 @@ import {
   deleteReview,
   createReviewReply,
   deleteReviewReply,
+  likeReview,
+  unlikeReview,
 } from '@/app/services/review.service'
 import type { ReviewReply } from '@/app/types/ReviewReply'
 import { Input } from '@/shared/components/Input'
@@ -35,23 +37,26 @@ export interface Review {
   date: string
   rating: number
   comment: string
-  helpful: number
+  likedByUsers: number[]
 }
 
 interface Props {
   reviews: Review[]
   currentUserId?: number
   onReviewDeleted: (reviewId: number) => void
+  onReviewLikesUpdated: (reviewId: number, likedByUsers: number[]) => void
 }
 
 const ReviewItem = ({
   review,
   currentUserId,
   onDelete,
+  onLikesUpdated,
 }: {
   review: Review
   currentUserId?: number
   onDelete: (reviewId: number) => void
+  onLikesUpdated: (reviewId: number, likedByUsers: number[]) => void
 }) => {
   const [showReplies, setShowReplies] = useState(false)
   const [replies, setReplies] = useState<ReviewReply[]>([])
@@ -60,8 +65,12 @@ const ReviewItem = ({
   const [showReplyInput, setShowReplyInput] = useState(false)
   const [replyContent, setReplyContent] = useState('')
   const [isSubmittingReply, setIsSubmittingReply] = useState(false)
+  const [isTogglingLike, setIsTogglingLike] = useState(false)
 
   const isOwnReview = currentUserId === review.authorId
+  const isLiked = currentUserId
+    ? review.likedByUsers.includes(currentUserId)
+    : false
 
   const handleDelete = async () => {
     setIsDeleting(true)
@@ -133,6 +142,25 @@ const ReviewItem = ({
     }
   }
 
+  const handleToggleLike = async () => {
+    if (!currentUserId) {
+      alert('Debes iniciar sesión para dar like')
+      return
+    }
+
+    setIsTogglingLike(true)
+    try {
+      const response = isLiked
+        ? await unlikeReview(review.id)
+        : await likeReview(review.id)
+      onLikesUpdated(review.id, response.likedByUsers)
+    } catch (error) {
+      console.error('Error al actualizar like:', error)
+    } finally {
+      setIsTogglingLike(false)
+    }
+  }
+
   return (
     <div className="border-b border-border pb-4 last:border-b-0">
       <div className="flex items-start gap-3">
@@ -184,9 +212,17 @@ const ReviewItem = ({
           <p className="mb-2 text-sm text-muted-foreground">{review.comment}</p>
 
           <div className="flex items-center gap-2">
-            <Button variant="text" className="h-6 px-2 text-xs">
-              <Heart size={14} className="mr-1" />
-              Útil ({review.helpful})
+            <Button
+              variant="text"
+              className={`h-6 px-2 text-xs ${isLiked ? 'text-red-400' : ''}`}
+              onClick={handleToggleLike}
+              disabled={isTogglingLike}
+            >
+              <Heart
+                size={14}
+                className={`mr-1 ${isLiked ? 'fill-current' : ''}`}
+              />
+              Útil ({review.likedByUsers.length})
             </Button>
             <Button
               variant="text"
@@ -313,7 +349,14 @@ export const PlanetReviews = ({
   reviews,
   currentUserId,
   onReviewDeleted,
+  onReviewLikesUpdated,
 }: Props) => {
+  const [showAll, setShowAll] = useState(false)
+  const REVIEWS_LIMIT = 10
+
+  const displayedReviews = showAll ? reviews : reviews.slice(0, REVIEWS_LIMIT)
+  const hasMoreReviews = reviews.length > REVIEWS_LIMIT
+
   if (reviews.length === 0) {
     return (
       <Card>
@@ -331,20 +374,29 @@ export const PlanetReviews = ({
   return (
     <Card>
       <div className="flex w-full flex-col gap-4 p-6">
-        <Title>Reseñas de viajeros</Title>
+        <Title>Reseñas de viajeros ({reviews.length})</Title>
 
-        {reviews.map(review => (
+        {displayedReviews.map(review => (
           <ReviewItem
             key={review.id}
             review={review}
             currentUserId={currentUserId}
             onDelete={onReviewDeleted}
+            onLikesUpdated={onReviewLikesUpdated}
           />
         ))}
 
-        <Button variant="text" className="holo-border mt-4 w-full">
-          Ver todas las reseñas
-        </Button>
+        {hasMoreReviews && (
+          <Button
+            variant="text"
+            className="holo-border mt-4 w-full"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll
+              ? 'Ver menos reseñas'
+              : `Ver todas las reseñas (${reviews.length - REVIEWS_LIMIT} más)`}
+          </Button>
+        )}
       </div>
     </Card>
   )
