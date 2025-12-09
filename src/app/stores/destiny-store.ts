@@ -4,7 +4,9 @@ import type { Activity } from '../types/Activity'
 
 interface DestinyStore {
   destinies: Destiny[]
+  isLoading: boolean
   setDestinies: (destinies: Destiny[]) => void
+  setIsLoading: (isLoading: boolean) => void
   addDestiny: (destiny: Destiny) => void
   updateDestiny: (destiny: Destiny) => void
   deleteDestiny: (destinyId: number) => void
@@ -19,8 +21,10 @@ interface DestinyStore {
 
 export const useDestinyStore = create<DestinyStore>(set => ({
   destinies: [],
+  isLoading: false,
 
   setDestinies: destinies => set({ destinies }),
+  setIsLoading: isLoading => set({ isLoading }),
 
   addDestiny: destiny =>
     set(state => ({

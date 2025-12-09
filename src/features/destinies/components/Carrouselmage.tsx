@@ -1,13 +1,13 @@
-import type { Planet } from '@/features/admin/components/PlanetCard'
+import type { Destiny } from '@/app/types/Destiny'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
-import { Camera, ChevronLeft, ChevronRight, Share } from 'lucide-react'
+import { Camera, ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useState } from 'react'
 
 interface Props {
-  planet: Planet
+  planet: Destiny
   planetImages: string[]
 }
 
@@ -25,7 +25,7 @@ export const CarrouselImage = ({ planet, planetImages }: Props) => {
   }
 
   return (
-    <div className="relative h-96 overflow-hidden rounded-t-xl bg-gradient-to-br from-indigo-950 to-purple-950">
+    <div className="relative h-96 overflow-hidden rounded-t-xl bg-linear-to-br from-indigo-950 to-purple-950">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentImageIndex}
@@ -40,19 +40,19 @@ export const CarrouselImage = ({ planet, planetImages }: Props) => {
             alt={`${planet.name} vista ${currentImageIndex + 1}`}
             className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 
       <button
         onClick={prevImage}
-        className="absolute top-1/2 left-4 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70"
+        className="absolute top-1/2 left-4 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70"
       >
         <ChevronLeft size={16} className="text-cyan-400" />
       </button>
       <button
         onClick={nextImage}
-        className="absolute top-1/2 right-4 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70"
+        className="absolute top-1/2 right-4 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70"
       >
         <ChevronRight size={16} className="text-cyan-400" />
       </button>
@@ -80,16 +80,10 @@ export const CarrouselImage = ({ planet, planetImages }: Props) => {
       <div className="absolute top-4 right-4 flex gap-2">
         <Button
           variant="text"
-          className="border border-cyan-400/50 !bg-black/50 text-white backdrop-blur-sm hover:!bg-cyan-400/10"
+          className="cursor-text! border border-cyan-400/50 bg-black/50! text-white backdrop-blur-sm"
         >
           <Camera size={16} className="mr-2" />
           Galería
-        </Button>
-        <Button
-          variant="text"
-          className="border border-cyan-400/50 !bg-black/50 text-white backdrop-blur-sm hover:!bg-cyan-400/10"
-        >
-          <Share size={16} />
         </Button>
       </div>
     </div>

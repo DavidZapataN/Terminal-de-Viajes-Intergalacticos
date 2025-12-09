@@ -7,12 +7,9 @@ import {
   Heart,
   MapPin,
   MessageCircle,
-  Mountain,
   Share,
   Thermometer,
-  Trees,
   Users,
-  Waves,
 } from 'lucide-react'
 import { PlanetDetailCard } from '../components/PlanetDetailCard'
 import {
@@ -21,163 +18,140 @@ import {
 } from '../components/PlanetTechnicalSheet'
 import { PlanetActivities } from '../components/PlanetActivities'
 import { PlanetRatings } from '../components/PlanetRatings'
-import { PlanetReviews, type Review } from '../components/PlanetReviews'
+import { PlanetReviews } from '../components/PlanetReviews'
 import { Card } from '@/shared/components/Card'
 import { Title } from '@/shared/components/Title'
 import { useNavigate, useParams } from '@tanstack/react-router'
-import { usePlanetsStore } from '@/app/stores/planets-store'
-import { useMemo } from 'react'
+import { useDestinyStore } from '@/app/stores/destiny-store'
+import { useEffect, useState, useMemo } from 'react'
+import { getReviewsByDestinyId } from '@/app/services/review.service'
+import type { Review as ReviewType } from '@/app/types/Review'
+
+const atmosphereName = {
+  breathable: 'Respirable',
+  'not breathable': 'No respirable',
+  toxic: 'Tóxica',
+  none: 'Sin atmósfera',
+}
 
 export const PlanetInfo = () => {
   const navigate = useNavigate()
   const { destinoId } = useParams({ from: '/destinos/$destinoId' })
-  const getPlanetById = usePlanetsStore(state => state.getPlanetById)
+  const destinies = useDestinyStore(state => state.destinies)
+  const isLoadingDestinies = useDestinyStore(state => state.isLoading)
+  const [reviews, setReviews] = useState<ReviewType[]>([])
+  const [isLoadingReviews, setIsLoadingReviews] = useState(true)
 
-  const planet = useMemo(
-    () => getPlanetById(destinoId),
-    [getPlanetById, destinoId]
-  )
+  const planet = useMemo(() => {
+    return destinies.find(d => d.id === parseInt(destinoId))
+  }, [destinies, destinoId])
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      if (!planet) return
+
+      setIsLoadingReviews(true)
+      try {
+        const reviewsData = await getReviewsByDestinyId(planet.id)
+        setReviews(reviewsData)
+      } catch (error) {
+        console.error('Error al cargar reviews:', error)
+      } finally {
+        setIsLoadingReviews(false)
+      }
+    }
+
+    loadReviews()
+  }, [planet])
 
   const handleBack = () => {
     navigate({ to: '/destinos' })
   }
 
-  // Si no se encuentra el planeta, mostrar mensaje
-  if (!planet) {
+  if (isLoadingDestinies) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center gap-4 p-5">
-        <Globe size={64} className="text-gray-400" />
-        <h2>Planeta no encontrado</h2>
+        <Globe size={64} className="animate-spin text-cyan-400" />
+        <h2>Cargando destino...</h2>
         <p className="text-gray-400">
-          El planeta que buscas no existe en nuestra base de datos
+          Estamos obteniendo la información del destino
         </p>
-        <Button onClick={handleBack}>Volver a explorar planetas</Button>
       </div>
     )
   }
 
-  // Mock additional images for carousel
-  const planetImages = [
-    planet.images[0],
-    planet.images[1] ||
-      'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=800',
-    planet.images[2] ||
-      'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
-    planet.images[3] ||
-      'https://images.unsplash.com/photo-1518066000-4b1b4adefcb4?w=800',
-  ]
+  if (!planet) {
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-4 p-5">
+        <Globe size={64} className="text-gray-400" />
+        <h2>Destino no encontrado</h2>
+        <p className="text-gray-400">
+          El destino que buscas no existe en nuestra base de datos
+        </p>
+        <Button onClick={handleBack}>Volver a explorar destinos</Button>
+      </div>
+    )
+  }
 
-  // Mock technical data
+  const planetImages =
+    planet.images.length > 0
+      ? planet.images
+      : ['https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=800']
+
   const technicalData: TechnicalData[] = [
-    { label: 'Gravedad', value: '0.8g', icon: Activity },
-    { label: 'Atmósfera', value: 'Respirable', icon: Globe },
-    { label: 'Ciclo Día/Noche', value: '28h estándar', icon: Clock },
-    { label: 'Población', value: '2.4 billones', icon: Users },
-    { label: 'Temperatura Media', value: '22°C', icon: Thermometer },
+    { label: 'Gravedad', value: `${planet.gravity}g`, icon: Activity },
+    {
+      label: 'Atmósfera',
+      value: atmosphereName[planet.atmosphere],
+      icon: Globe,
+    },
+    {
+      label: 'Ciclo Día/Noche',
+      value: `${planet.dayNightCycle}h estándar`,
+      icon: Clock,
+    },
+    {
+      label: 'Población',
+      value: planet.population.toLocaleString(),
+      icon: Users,
+    },
+    {
+      label: 'Temperatura Media',
+      value: `${planet.averageTemperature}°C`,
+      icon: Thermometer,
+    },
     { label: 'Distancia', value: `${planet.distance} años luz`, icon: MapPin },
   ]
 
-  // Mock activities with more detail
-  const detailedActivities = [
-    {
-      name: 'Exploración Planetaria',
-      description:
-        'Descubre paisajes únicos y formaciones geológicas inexploradas',
-      difficulty: 'Moderado',
-      duration: '4-6 horas',
-      price: 2500,
-      image:
-        planet.images[1] ||
-        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
-      icon: Mountain,
-    },
-    {
-      name: 'Aventura Acuática',
-      description:
-        'Sumérgete en océanos alienígenas con vida marina bioluminiscente',
-      difficulty: 'Fácil',
-      duration: '2-3 horas',
-      price: 1800,
-      image:
-        planet.images[2] ||
-        'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
-      icon: Waves,
-    },
-    {
-      name: 'Safari Alienígena',
-      description:
-        'Observa la fauna local en su hábitat natural con guías especializados',
-      difficulty: 'Fácil',
-      duration: '5-7 horas',
-      price: 3200,
-      image:
-        planet.images[3] ||
-        'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400',
-      icon: Trees,
-    },
-  ]
-
-  // Mock reviews
-  const reviews: Review[] = [
-    {
-      id: 1,
-      user: 'Comandante Stellar',
-      avatar: '/api/placeholder/40/40',
-      rating: 5,
-      date: '2025-09-15',
-      comment:
-        '¡Increíble experiencia! Los paisajes son realmente de otro mundo. La bioluminiscencia nocturna es algo que nunca olvidaré.',
-      helpful: 24,
-    },
-    {
-      id: 2,
-      user: 'Exploradora Nova',
-      avatar: '/api/placeholder/40/40',
-      rating: 4,
-      date: '2025-09-10',
-      comment:
-        'Excelente destino para relajarse. Las actividades acuáticas son perfectas para familias. Recomiendo quedarse al menos 5 días.',
-      helpful: 18,
-    },
-    {
-      id: 3,
-      user: 'Piloto Cosmic',
-      avatar: '/api/placeholder/40/40',
-      rating: 5,
-      date: '2025-09-05',
-      comment:
-        'La mejor experiencia gastronómica galáctica que he tenido. Los guías locales conocen lugares secretos increíbles.',
-      helpful: 31,
-    },
-  ]
-
-  const ratingDistribution = [
-    { stars: 5, count: 1847, percentage: 65 },
-    { stars: 4, count: 724, percentage: 25 },
-    { stars: 3, count: 203, percentage: 7 },
-    { stars: 2, count: 58, percentage: 2 },
-    { stars: 1, count: 29, percentage: 1 },
-  ]
+  const formattedReviews = reviews.map(review => ({
+    id: review.id,
+    user: review.author.name,
+    avatar: '/api/placeholder/40/40',
+    rating: review.rating,
+    date: new Date(review.createdAt).toLocaleDateString('es-ES'),
+    comment: review.content,
+    helpful: review.likedByUsers.length,
+  }))
 
   return (
     <div className="flex h-screen w-full flex-col gap-4 p-5">
       <Button className="w-max" variant="text" onClick={handleBack}>
         <ArrowLeft className="mr-3" size={16} />
-        Volver a explorar planetas
+        Volver a explorar destinos
       </Button>
 
       <div className="flex gap-4">
         <div className="flex flex-col gap-4">
           <PlanetDetailCard planet={planet} planetImages={planetImages} />
           <PlanetTechnicalSheet technicalData={technicalData} />
-          <PlanetActivities detailedActivities={detailedActivities} />
+          {planet.activities.length > 0 && (
+            <PlanetActivities detailedActivities={planet.activities} />
+          )}
         </div>
         <div className="flex w-1/3 flex-col gap-4">
-          <PlanetRatings
-            planet={planet}
-            ratingDistribution={ratingDistribution}
-          />
-          <PlanetReviews reviews={reviews} />
+          <PlanetRatings planet={planet} />
+
+          {!isLoadingReviews && <PlanetReviews reviews={formattedReviews} />}
 
           <Card>
             <div className="flex w-full flex-col gap-4 p-6">

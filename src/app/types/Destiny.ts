@@ -1,5 +1,6 @@
 import type { Activity } from './Activity'
 import type { AtmosphereType } from './api/destiny/FilterDestiny'
+import type { ReviewSummary } from './ReviewSummary'
 
 export interface Planet {
   id: string
@@ -30,4 +31,5 @@ export interface Destiny {
   price: number
   likedByUsers: number[]
   activities: Activity[]
+  reviewSummary: ReviewSummary
 }

@@ -23,6 +23,20 @@ interface Props {
 }
 
 export const PlanetReviews = ({ reviews }: Props) => {
+  if (reviews.length === 0) {
+    return (
+      <Card>
+        <div className="flex w-full flex-col gap-4 p-6">
+          <Title>Reseñas de viajeros</Title>
+          <p className="text-sm text-muted-foreground">
+            Aún no hay reseñas para este destino. ¡Sé el primero en escribir una
+            !
+          </p>
+        </div>
+      </Card>
+    )
+  }
+
   return (
     <Card>
       <div className="flex w-full flex-col gap-4 p-6">

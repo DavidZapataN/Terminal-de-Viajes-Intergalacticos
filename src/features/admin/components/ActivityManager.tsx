@@ -134,7 +134,6 @@ export const ActivityManager = ({
         {activities.map((activity, index) => (
           <Card key={index} className="p-3!">
             {editingIndex === index ? (
-              // Modo edición
               <div className="flex flex-col gap-2">
                 <Input
                   placeholder="Nombre de la actividad"

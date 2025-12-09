@@ -6,6 +6,24 @@ import type { UpdateDestiny } from '../types/api/destiny/UpdateDestiny'
 import type { CreateActivity } from '../types/api/destiny/CreateActivity'
 import type { Activity } from '../types/Activity'
 import type { FilterDestiny } from '../types/api/destiny/FilterDestiny'
+import type { ReviewSummary } from '../types/ReviewSummary'
+
+export const getDestinyReviewSummary = async (
+  destinyId: number
+): Promise<ReviewSummary> => {
+  try {
+    const response = await api.get<ReviewSummary>(
+      `/destiny/reviews-summary/${destinyId}`
+    )
+    return response.data
+  } catch (error) {
+    console.error(
+      `Error fetching review summary for destiny with id ${destinyId}:`,
+      error
+    )
+    throw new Error('No se pudo obtener el resumen de reseñas del destino')
+  }
+}
 
 export const getDestinies = async (
   filters?: FilterDestiny
