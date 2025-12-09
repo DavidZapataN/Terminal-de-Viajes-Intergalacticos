@@ -11,6 +11,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { useReservationsStore } from '@/app/stores/reservations-store'
 import { useAuthStore } from '@/app/stores/auth-store'
 import type { Reservation } from '@/app/types/Reservation'
+import { showWarning, showSuccess } from '@/lib/toast.config'
 
 const steps = ['Seleccionar nave', 'Datos pasajero', 'Pago', 'Confirmación']
 
@@ -98,6 +99,7 @@ export const Booking = () => {
     }
 
     createReservation(newReservation)
+    showSuccess('Reserva creada exitosamente')
   }
 
   const handleExplorePlanets = () => {
@@ -106,7 +108,7 @@ export const Booking = () => {
 
   const handleNextStep = () => {
     if (!validateStep(step)) {
-      alert('Por favor completa todos los campos requeridos')
+      showWarning('Por favor completa todos los campos requeridos')
       return
     }
 

@@ -36,6 +36,7 @@ import {
 import type { Review as ReviewType } from '@/app/types/Review'
 import type { CreateReview } from '@/app/types/api/review/CreateReview'
 import { CreateReviewModal } from '../components/CreateReviewModal'
+import { showWarning, showError, showSuccess } from '@/lib/toast.config'
 
 const atmosphereName = {
   breathable: 'Respirable',
@@ -78,23 +79,29 @@ export const PlanetInfo = () => {
     }
 
     loadReviews()
-  }, [planet])
+  }, [planet?.id])
 
   const handleBack = () => {
     navigate({ to: '/destinos' })
   }
 
   const handleCreateReview = async (reviewData: CreateReview) => {
-    const newReview = await createReview(reviewData)
-    setReviews(prev => [newReview, ...prev])
+    try {
+      const newReview = await createReview(reviewData)
+      setReviews(prev => [newReview, ...prev])
+      showSuccess('Reseña publicada correctamente')
 
-    if (planet) {
-      try {
-        const updatedSummary = await getDestinyReviewSummary(planet.id)
-        updateDestinyReviewSummary(planet.id, updatedSummary)
-      } catch (error) {
-        console.error('Error al actualizar el resumen de reseñas:', error)
+      if (planet) {
+        try {
+          const updatedSummary = await getDestinyReviewSummary(planet.id)
+          updateDestinyReviewSummary(planet.id, updatedSummary)
+        } catch (error) {
+          console.error('Error al actualizar el resumen de reseñas:', error)
+        }
       }
+    } catch (error) {
+      console.error('Error al crear reseña:', error)
+      showError('Error al publicar la reseña')
     }
   }
 
@@ -122,7 +129,7 @@ export const PlanetInfo = () => {
 
   const handleToggleDestinyLike = async () => {
     if (!currentUser || !planet) {
-      alert('Debes iniciar sesión para agregar a favoritos')
+      showWarning('Debes iniciar sesión para agregar a favoritos')
       return
     }
 
@@ -133,12 +140,14 @@ export const PlanetInfo = () => {
 
       if (isLiked) {
         await unlikeDestiny(planet.id)
+        showSuccess('Eliminado de favoritos')
       } else {
         await likeDestiny(planet.id)
+        showSuccess('Agregado a favoritos')
       }
     } catch (error) {
       console.error('Error al actualizar favoritos:', error)
-      alert('Error al actualizar favoritos')
+      showError('Error al actualizar favoritos')
     } finally {
       setIsTogglingDestinyLike(false)
     }
@@ -146,7 +155,7 @@ export const PlanetInfo = () => {
 
   const handleOpenReviewModal = () => {
     if (!currentUser) {
-      alert('Debes iniciar sesión para escribir una reseña')
+      showWarning('Debes iniciar sesión para escribir una reseña')
       return
     }
     setShowCreateReviewModal(true)
@@ -236,14 +245,13 @@ export const PlanetInfo = () => {
         <div className="flex w-1/3 flex-col gap-4">
           <PlanetRatings planet={planet} />
 
-          {!isLoadingReviews && (
-            <PlanetReviews
-              reviews={formattedReviews}
-              currentUserId={currentUser?.id}
-              onReviewDeleted={handleReviewDeleted}
-              onReviewLikesUpdated={handleReviewLikesUpdated}
-            />
-          )}
+          <PlanetReviews
+            reviews={formattedReviews}
+            currentUserId={currentUser?.id}
+            onReviewDeleted={handleReviewDeleted}
+            onReviewLikesUpdated={handleReviewLikesUpdated}
+            isLoading={isLoadingReviews}
+          />
 
           <Card>
             <div className="flex w-full flex-col gap-4 p-6">

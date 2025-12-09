@@ -28,6 +28,7 @@ import {
 } from '@/app/services/review.service'
 import type { ReviewReply } from '@/app/types/ReviewReply'
 import { Input } from '@/shared/components/Input'
+import { showWarning, showError, showSuccess } from '@/lib/toast.config'
 
 export interface Review {
   id: number
@@ -43,6 +44,7 @@ export interface Review {
 interface Props {
   reviews: Review[]
   currentUserId?: number
+  isLoading?: boolean
   onReviewDeleted: (reviewId: number) => void
   onReviewLikesUpdated: (reviewId: number, likedByUsers: number[]) => void
 }
@@ -77,8 +79,10 @@ const ReviewItem = ({
     try {
       await deleteReview(review.id)
       onDelete(review.id)
+      showSuccess('Reseña eliminada correctamente')
     } catch (error) {
       console.error('Error al eliminar reseña:', error)
+      showError('Error al eliminar la reseña')
     } finally {
       setIsDeleting(false)
     }
@@ -101,7 +105,7 @@ const ReviewItem = ({
 
   const handleReplyClick = () => {
     if (!currentUserId) {
-      alert('Debes iniciar sesión para responder')
+      showWarning('Debes iniciar sesión para responder')
       return
     }
     setShowReplyInput(!showReplyInput)
@@ -124,9 +128,10 @@ const ReviewItem = ({
       if (!showReplies) {
         setShowReplies(true)
       }
+      showSuccess('Respuesta publicada correctamente')
     } catch (error) {
       console.error('Error al crear respuesta:', error)
-      alert('Error al enviar la respuesta')
+      showError('Error al enviar la respuesta')
     } finally {
       setIsSubmittingReply(false)
     }
@@ -136,15 +141,16 @@ const ReviewItem = ({
     try {
       await deleteReviewReply(replyId)
       setReplies(prev => prev.filter(r => r.id !== replyId))
+      showSuccess('Respuesta eliminada correctamente')
     } catch (error) {
       console.error('Error al eliminar respuesta:', error)
-      alert('Error al eliminar la respuesta')
+      showError('Error al eliminar la respuesta')
     }
   }
 
   const handleToggleLike = async () => {
     if (!currentUserId) {
-      alert('Debes iniciar sesión para dar like')
+      showWarning('Debes iniciar sesión para dar like')
       return
     }
 
@@ -156,6 +162,7 @@ const ReviewItem = ({
       onLikesUpdated(review.id, response.likedByUsers)
     } catch (error) {
       console.error('Error al actualizar like:', error)
+      showError('Error al actualizar el like')
     } finally {
       setIsTogglingLike(false)
     }
@@ -348,6 +355,7 @@ const ReviewItem = ({
 export const PlanetReviews = ({
   reviews,
   currentUserId,
+  isLoading = false,
   onReviewDeleted,
   onReviewLikesUpdated,
 }: Props) => {
@@ -357,45 +365,47 @@ export const PlanetReviews = ({
   const displayedReviews = showAll ? reviews : reviews.slice(0, REVIEWS_LIMIT)
   const hasMoreReviews = reviews.length > REVIEWS_LIMIT
 
-  if (reviews.length === 0) {
-    return (
-      <Card>
-        <div className="flex w-full flex-col gap-4 p-6">
-          <Title>Reseñas de viajeros</Title>
-          <p className="text-sm text-muted-foreground">
-            Aún no hay reseñas para este destino. ¡Sé el primero en escribir una
-            !
-          </p>
-        </div>
-      </Card>
-    )
-  }
-
   return (
     <Card>
       <div className="flex w-full flex-col gap-4 p-6">
-        <Title>Reseñas de viajeros ({reviews.length})</Title>
+        <Title>
+          Reseñas de viajeros{' '}
+          {!isLoading && reviews.length > 0 && `(${reviews.length})`}
+        </Title>
 
-        {displayedReviews.map(review => (
-          <ReviewItem
-            key={review.id}
-            review={review}
-            currentUserId={currentUserId}
-            onDelete={onReviewDeleted}
-            onLikesUpdated={onReviewLikesUpdated}
-          />
-        ))}
+        {isLoading ? (
+          <p className="py-4 text-center text-sm text-muted-foreground">
+            Cargando reseñas...
+          </p>
+        ) : reviews.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Aún no hay reseñas para este destino. ¡Sé el primero en escribir
+            una!
+          </p>
+        ) : (
+          <>
+            {displayedReviews.map(review => (
+              <ReviewItem
+                key={review.id}
+                review={review}
+                currentUserId={currentUserId}
+                onDelete={onReviewDeleted}
+                onLikesUpdated={onReviewLikesUpdated}
+              />
+            ))}
 
-        {hasMoreReviews && (
-          <Button
-            variant="text"
-            className="holo-border mt-4 w-full"
-            onClick={() => setShowAll(!showAll)}
-          >
-            {showAll
-              ? 'Ver menos reseñas'
-              : `Ver todas las reseñas (${reviews.length - REVIEWS_LIMIT} más)`}
-          </Button>
+            {hasMoreReviews && (
+              <Button
+                variant="text"
+                className="holo-border mt-4 w-full"
+                onClick={() => setShowAll(!showAll)}
+              >
+                {showAll
+                  ? 'Ver menos reseñas'
+                  : `Ver todas las reseñas (${reviews.length - REVIEWS_LIMIT} más)`}
+              </Button>
+            )}
+          </>
         )}
       </div>
     </Card>
