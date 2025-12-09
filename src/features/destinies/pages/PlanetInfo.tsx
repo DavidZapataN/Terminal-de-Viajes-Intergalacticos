@@ -7,7 +7,6 @@ import {
   Heart,
   MapPin,
   MessageCircle,
-  Share,
   Thermometer,
   Users,
 } from 'lucide-react'
@@ -23,9 +22,15 @@ import { Card } from '@/shared/components/Card'
 import { Title } from '@/shared/components/Title'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { useDestinyStore } from '@/app/stores/destiny-store'
+import { useAuthStore } from '@/app/stores/auth-store'
 import { useEffect, useState, useMemo } from 'react'
-import { getReviewsByDestinyId } from '@/app/services/review.service'
+import {
+  getReviewsByDestinyId,
+  createReview,
+} from '@/app/services/review.service'
 import type { Review as ReviewType } from '@/app/types/Review'
+import type { CreateReview } from '@/app/types/api/review/CreateReview'
+import { CreateReviewModal } from '../components/CreateReviewModal'
 
 const atmosphereName = {
   breathable: 'Respirable',
@@ -39,8 +44,10 @@ export const PlanetInfo = () => {
   const { destinoId } = useParams({ from: '/destinos/$destinoId' })
   const destinies = useDestinyStore(state => state.destinies)
   const isLoadingDestinies = useDestinyStore(state => state.isLoading)
+  const currentUser = useAuthStore(state => state.user)
   const [reviews, setReviews] = useState<ReviewType[]>([])
   const [isLoadingReviews, setIsLoadingReviews] = useState(true)
+  const [showCreateReviewModal, setShowCreateReviewModal] = useState(false)
 
   const planet = useMemo(() => {
     return destinies.find(d => d.id === parseInt(destinoId))
@@ -66,6 +73,23 @@ export const PlanetInfo = () => {
 
   const handleBack = () => {
     navigate({ to: '/destinos' })
+  }
+
+  const handleCreateReview = async (reviewData: CreateReview) => {
+    const newReview = await createReview(reviewData)
+    setReviews(prev => [newReview, ...prev])
+  }
+
+  const handleReviewDeleted = (reviewId: number) => {
+    setReviews(prev => prev.filter(r => r.id !== reviewId))
+  }
+
+  const handleOpenReviewModal = () => {
+    if (!currentUser) {
+      alert('Debes iniciar sesión para escribir una reseña')
+      return
+    }
+    setShowCreateReviewModal(true)
   }
 
   if (isLoadingDestinies) {
@@ -125,6 +149,7 @@ export const PlanetInfo = () => {
 
   const formattedReviews = reviews.map(review => ({
     id: review.id,
+    authorId: review.author.id,
     user: review.author.name,
     avatar: '/api/placeholder/40/40',
     rating: review.rating,
@@ -151,7 +176,13 @@ export const PlanetInfo = () => {
         <div className="flex w-1/3 flex-col gap-4">
           <PlanetRatings planet={planet} />
 
-          {!isLoadingReviews && <PlanetReviews reviews={formattedReviews} />}
+          {!isLoadingReviews && (
+            <PlanetReviews
+              reviews={formattedReviews}
+              currentUserId={currentUser?.id}
+              onReviewDeleted={handleReviewDeleted}
+            />
+          )}
 
           <Card>
             <div className="flex w-full flex-col gap-4 p-6">
@@ -167,21 +198,24 @@ export const PlanetInfo = () => {
               <Button
                 variant="text"
                 className="holo-border w-full justify-start"
+                onClick={handleOpenReviewModal}
               >
                 <MessageCircle size={18} className="mr-2" />
                 Escribir reseña
-              </Button>
-              <Button
-                variant="text"
-                className="holo-border w-full justify-start"
-              >
-                <Share size={18} className="mr-2" />
-                Compartir destino
               </Button>
             </div>
           </Card>
         </div>
       </div>
+
+      {showCreateReviewModal && currentUser && (
+        <CreateReviewModal
+          destinyId={planet.id}
+          userId={currentUser.id}
+          onClose={() => setShowCreateReviewModal(false)}
+          onSubmit={handleCreateReview}
+        />
+      )}
     </div>
   )
 }
