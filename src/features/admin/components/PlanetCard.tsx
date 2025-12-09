@@ -85,7 +85,7 @@ export const PlanetCard = ({ planet, onUpdate, onDelete }: Props) => {
                 </Button>
 
                 <Button
-                  className="holo-border !text-red-400 hover:!text-white"
+                  className="holo-border text-red-400! hover:text-white!"
                   variant="secondary"
                   onClick={() => onDelete?.(planet.id)}
                 >
@@ -102,7 +102,7 @@ export const PlanetCard = ({ planet, onUpdate, onDelete }: Props) => {
                   Guardar
                 </Button>
                 <Button
-                  className="holo-border !text-gray-400"
+                  className="holo-border text-gray-400!"
                   variant="secondary"
                   onClick={cancel}
                 >

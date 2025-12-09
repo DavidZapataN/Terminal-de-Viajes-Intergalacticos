@@ -20,7 +20,7 @@ export const ProfileField = forwardRef<HTMLInputElement, Props>(
     return (
       <div className="flex flex-col gap-0">
         <span className="text-gray-400">{label}</span>
-        <Input className="!px-4" ref={ref} {...props} />
+        <Input className="px-4!" ref={ref} {...props} />
       </div>
     )
   }

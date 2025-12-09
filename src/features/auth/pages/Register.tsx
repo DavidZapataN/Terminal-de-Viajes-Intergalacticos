@@ -76,7 +76,6 @@ export const Register = () => {
         name: data.fullName,
         email: data.email,
         password: data.password,
-        credits: 100,
       })
       dismissToast(loadingToast)
       showSuccess(
@@ -277,9 +276,9 @@ export const Register = () => {
           <span>Volver al inicio</span>
         </Link>
         <Card>
-          <div className="flex w-[28rem] flex-col place-items-center gap-2.5 p-4 opacity-95">
+          <div className="flex w-md flex-col place-items-center gap-2.5 p-4 opacity-95">
             <header className="flex flex-col items-center gap-3.5">
-              <div className="rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-4">
+              <div className="rounded-full bg-linear-to-r from-cyan-500 to-purple-500 p-4">
                 <Shield size={32} />
               </div>
 
@@ -299,7 +298,7 @@ export const Register = () => {
               <div className="flex flex-row justify-center gap-2">
                 {currentStep > 1 && (
                   <Button
-                    className="holo-border grow-1 rounded-md text-center"
+                    className="holo-border grow rounded-md text-center"
                     variant="secondary"
                     type="button"
                     onClick={handleBackStep}
@@ -310,7 +309,7 @@ export const Register = () => {
 
                 {currentStep < 2 ? (
                   <Button
-                    className="flex shrink-0 grow-1 items-center justify-center gap-2 p-0.5"
+                    className="flex shrink-0 grow items-center justify-center gap-2 p-0.5"
                     type="button"
                     onClick={handleNextStep}
                   >
@@ -318,7 +317,7 @@ export const Register = () => {
                   </Button>
                 ) : (
                   <Button
-                    className="flex shrink-0 grow-1 items-center justify-center gap-2 p-0.5"
+                    className="flex shrink-0 grow items-center justify-center gap-2 p-0.5"
                     type="submit"
                     disabled={isSubmitting}
                   >

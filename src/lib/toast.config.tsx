@@ -70,7 +70,7 @@ export const ToasterProvider = () => {
         >
           {({ icon, message }) => (
             <div className="flex items-center gap-3">
-              <div className="flex-shrink-0">{icon}</div>
+              <div className="shrink-0">{icon}</div>
               <div className="flex-1">{message}</div>
             </div>
           )}
@@ -185,7 +185,7 @@ export const showCustom = (
         ...options?.style,
       }}
     >
-      {options?.icon && <div className="flex-shrink-0">{options.icon}</div>}
+      {options?.icon && <div className="shrink-0">{options.icon}</div>}
       <div className="flex-1">{message}</div>
     </div>,
     {

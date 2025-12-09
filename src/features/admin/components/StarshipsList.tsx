@@ -157,7 +157,7 @@ export const StarshipsList = ({
                         Guardar
                       </Button>
                       <Button
-                        className="holo-border !text-gray-400"
+                        className="holo-border text-gray-400!"
                         variant="secondary"
                         onClick={cancelEdit}
                       >
@@ -174,7 +174,7 @@ export const StarshipsList = ({
                         <Edit size={16} />
                       </Button>
                       <Button
-                        className="holo-border !text-red-400 hover:!text-white"
+                        className="holo-border text-red-400! hover:text-white!"
                         variant="secondary"
                         onClick={() => onDelete?.(ship.id)}
                       >

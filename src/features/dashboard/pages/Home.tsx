@@ -79,7 +79,7 @@ export const Home = () => {
         <div className="flex w-full flex-col gap-4">
           <Statistics />
 
-          <Card className="!w-full">
+          <Card className="w-full!">
             <div className="flex flex-col gap-5 p-5">
               <Title>Actividad Reciente</Title>
 

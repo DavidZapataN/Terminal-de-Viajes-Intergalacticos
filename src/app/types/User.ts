@@ -4,6 +4,5 @@ export interface User {
   email: string
   password?: string // Solo para mock
   role: 'user' | 'admin'
-  credits: number
   createdAt: string
 }
