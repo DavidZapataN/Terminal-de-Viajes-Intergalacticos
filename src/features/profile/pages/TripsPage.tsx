@@ -26,7 +26,7 @@ export const Trips = () => {
         <h2 className="text-cyan-400"> Historial de Viajes </h2>
 
         <Button
-          className="!text-gray-800 active:scale-95"
+          className="text-gray-800! active:scale-95"
           onClick={handleNewTrip}
         >
           <Plane className="mr-3" size={16} />

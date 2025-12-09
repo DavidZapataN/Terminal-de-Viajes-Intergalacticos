@@ -75,9 +75,9 @@ export const Login = () => {
           <span>Volver al inicio</span>
         </Link>
         <Card>
-          <div className="flex w-[28rem] flex-col place-items-center gap-2.5 p-4">
+          <div className="flex w-md flex-col place-items-center gap-2.5 p-4">
             <header className="flex flex-col items-center gap-3.5 pb-18">
-              <div className="flex place-items-center rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-4">
+              <div className="flex place-items-center rounded-full bg-linear-to-r from-cyan-500 to-purple-500 p-4">
                 <Rocket size={32} />
               </div>
 

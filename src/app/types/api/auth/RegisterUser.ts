@@ -3,5 +3,4 @@ export interface RegisterUser {
   email: string
   password: string
   role?: 'user' | 'admin'
-  credits?: number
 }

@@ -2,9 +2,9 @@ import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
 import { Input } from '@/shared/components/Input'
 import { Calendar, CreditCard, LockKeyhole, Star } from 'lucide-react'
-import { useShipsStore } from '@/app/stores/ships-store'
 import { usePlanetsStore } from '@/app/stores/planets-store'
 import { useMemo } from 'react'
+import { useStarshipsStore } from '@/app/stores/starship-store'
 
 interface BookingData {
   shipId: string
@@ -39,13 +39,13 @@ export const BookingPayment = ({
   totalCost,
   onUpdatePayment,
 }: Props) => {
-  const ships = useShipsStore(state => state.ships)
+  const ships = useStarshipsStore(state => state.starships)
   const planets = usePlanetsStore(state => state.planets)
 
-  const selectedShip = useMemo(
-    () => ships.find(ship => ship.id === bookingData.shipId),
-    [ships, bookingData.shipId]
-  )
+  // const selectedShip = useMemo(
+  //   () => ships.find(ship => ship.id. === bookingData.shipId),
+  //   [ships, bookingData.shipId]
+  // )
 
   const selectedPlanet = useMemo(
     () => planets.find(planet => planet.id === bookingData.planetId),
@@ -88,7 +88,7 @@ export const BookingPayment = ({
             <h3>Resumen de la reserva</h3>
             <div className="flex justify-between">
               Nave:
-              <span> {selectedShip?.name || 'No seleccionada'}</span>
+              <span> { 'No seleccionada'}</span>
             </div>
             <div className="flex justify-between">
               Fechas:

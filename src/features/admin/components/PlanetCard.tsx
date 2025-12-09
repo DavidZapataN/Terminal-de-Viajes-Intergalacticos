@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { Edit, Trash2 } from 'lucide-react'
-import type { Planet } from '@/app/types/Planet'
+import type { Planet } from '@/app/types/Destiny'
 
 export interface PlanetOld {
   id: string
@@ -85,7 +85,7 @@ export const PlanetCard = ({ planet, onUpdate, onDelete }: Props) => {
                 </Button>
 
                 <Button
-                  className="holo-border !text-red-400 hover:!text-white"
+                  className="holo-border text-red-400! hover:text-white!"
                   variant="secondary"
                   onClick={() => onDelete?.(planet.id)}
                 >
@@ -102,7 +102,7 @@ export const PlanetCard = ({ planet, onUpdate, onDelete }: Props) => {
                   Guardar
                 </Button>
                 <Button
-                  className="holo-border !text-gray-400"
+                  className="holo-border text-gray-400!"
                   variant="secondary"
                   onClick={cancel}
                 >

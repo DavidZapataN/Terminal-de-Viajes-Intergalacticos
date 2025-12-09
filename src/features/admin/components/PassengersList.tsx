@@ -93,7 +93,7 @@ export const PassengersList = () => {
                       <Edit size={16} />
                     </Button> */}
                     <Button
-                      className="holo-border !text-red-400 hover:!text-white"
+                      className="holo-border text-red-400! hover:text-white!"
                       variant="secondary"
                       onClick={() => handleDelete(reservation.id)}
                     >

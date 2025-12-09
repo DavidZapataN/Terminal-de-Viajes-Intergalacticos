@@ -1,4 +1,4 @@
-import type { Planet } from '@/features/admin/components/PlanetCard'
+import type { Planet } from '@/app/types/Destiny'
 import { Card } from '@/shared/components/Card'
 import { Title } from '@/shared/components/Title'
 import { Progress } from '@/shared/components/ui/progress'
@@ -36,9 +36,7 @@ export const PlanetRatings = ({ planet, ratingDistribution }: Props) => {
               />
             ))}
           </div>
-          <div className="text-sm text-muted-foreground">
-            {planet.reviews} reseñas
-          </div>
+          <div className="text-sm text-muted-foreground">20 reseñas</div>
         </div>
 
         {ratingDistribution.map(rating => (

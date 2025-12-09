@@ -1,13 +1,11 @@
-import type { Planet } from '@/app/types/Planet'
+import type { Planet } from '@/app/types/Destiny'
 import type { Reservation } from '@/app/types/Reservation'
-import type { Starship } from '@/app/types/Starship'
-import type { User } from '@/app/types/User'
+import type { StarshipOld } from '@/app/types/Starship'
 import type { ReservationAdmin } from '@/features/admin/components/PassengersList'
 import type { PlanetOld } from '@/features/admin/components/PlanetCard'
-import type { Spaceship } from '@/features/admin/components/StarshipsList'
 import type { ReservationOld } from '@/features/profile/components/ReservationCard'
 
-export const mockStarships: Starship[] = [
+export const mockStarships: StarshipOld[] = [
   {
     id: 'starweaver',
     name: 'Starweaver',
@@ -190,8 +188,8 @@ export const mockPlanetsNew: Planet[] = [
 export const mockReservationsNew: Reservation[] = [
   {
     id: 'res-001',
-    userId: 'GAL-01',
-    planetId: 'kepler-442b',
+    userId: '1',
+    planetId: '3',
     shipId: 'starweaver',
     departureDate: '2025-12-15',
     returnDate: '2025-12-22',
@@ -201,8 +199,8 @@ export const mockReservationsNew: Reservation[] = [
   },
   {
     id: 'res-002',
-    userId: 'GAL-02',
-    planetId: 'trappist-1e',
+    userId: '2',
+    planetId: '1',
     shipId: 'void-runner',
     departureDate: '2025-11-28',
     returnDate: '2025-12-05',
@@ -212,8 +210,8 @@ export const mockReservationsNew: Reservation[] = [
   },
   {
     id: 'res-003',
-    userId: 'GAL-02',
-    planetId: 'gliese-667cc',
+    userId: '2',
+    planetId: '3',
     shipId: 'void-runner',
     departureDate: '2025-11-28',
     returnDate: '2025-12-05',
@@ -223,71 +221,14 @@ export const mockReservationsNew: Reservation[] = [
   },
   {
     id: 'res-004',
-    userId: 'GAL-02',
-    planetId: 'proxima-centauri-b',
+    userId: '1',
+    planetId: '1',
     shipId: 'nebula-dream',
     departureDate: '2025-10-10',
     returnDate: '2025-10-17',
     cabinClass: 'Lujo',
     status: 'in_transit',
     totalCost: 40000,
-  },
-]
-
-export const mockSpaceships: Spaceship[] = [
-  {
-    id: 'starweaver',
-    name: 'Starweaver',
-    class: 'Crucero Galáctico',
-    capacity: 500,
-    speed: 9.8,
-    status: 'active',
-    amenities: [
-      'Spa cuántico',
-      'Holodeck',
-      'Casino gravitacional',
-      'Restaurante molecular',
-    ],
-  },
-  {
-    id: 'void-runner',
-    name: 'Void Runner',
-    class: 'Explorador Rápido',
-    capacity: 150,
-    speed: 12.5,
-    status: 'active',
-    amenities: [
-      'Laboratorio de investigación',
-      'Gimnasio de gravedad cero',
-      'Lounge panorámico',
-    ],
-  },
-  {
-    id: 'nebula-dream',
-    name: 'Nebula Dream',
-    class: 'Lujoso Imperial',
-    capacity: 200,
-    speed: 8.2,
-    status: 'maintenance',
-    amenities: [
-      'Suites imperiales',
-      'Teatro holográfico',
-      'Jardines biológicos',
-      'Spa de teletransporte',
-    ],
-  },
-  {
-    id: 'cosmic-odyssey',
-    name: 'Cosmic Odyssey',
-    class: 'Transbordador Interplanetario',
-    capacity: 300,
-    speed: 10.0,
-    status: 'unavailable',
-    amenities: [
-      'Cafetería estelar',
-      'Sala de juegos antigravedad',
-      'Observatorio espacial',
-    ],
   },
 ]
 
@@ -491,36 +432,5 @@ export const mockReservationsAdmin: ReservationAdmin[] = [
     cabinClass: 'Lujo',
     status: 'in_transit',
     totalCost: 40000,
-  },
-]
-
-// Mock Users for Authentication Testing
-export const mockUsers: User[] = [
-  {
-    id: 'user-001',
-    name: 'Ana Martínez',
-    email: 'ana@example.com',
-    password: 'user123', // En producción esto debería estar hasheado
-    role: 'user',
-    credits: 15000,
-    createdAt: '2024-01-15T10:00:00Z',
-  },
-  {
-    id: 'user-002',
-    name: 'Carlos Rodríguez',
-    email: 'carlos@example.com',
-    password: 'user123',
-    role: 'user',
-    credits: 25000,
-    createdAt: '2024-03-20T14:30:00Z',
-  },
-  {
-    id: 'admin-001',
-    name: 'Admin Principal',
-    email: 'admin@example.com',
-    password: 'admin123', // En producción esto debería estar hasheado
-    role: 'admin',
-    credits: 100000,
-    createdAt: '2023-12-01T08:00:00Z',
   },
 ]

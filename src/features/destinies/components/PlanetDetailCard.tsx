@@ -3,7 +3,7 @@ import { CarrouselImage } from './Carrouselmage'
 import { Title } from '@/shared/components/Title'
 import { Rocket, Star } from 'lucide-react'
 import { Button } from '@/shared/components/Button'
-import type { Planet } from '@/app/types/Planet'
+import type { Planet } from '@/app/types/Destiny'
 import { useNavigate } from '@tanstack/react-router'
 
 interface Props {

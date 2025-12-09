@@ -102,7 +102,7 @@ export const Summary = () => {
               <div className="flex gap-2">
                 {editable && (
                   <Button
-                    className="!text-gray-400 hover:!text-gray-300 active:scale-95"
+                    className="text-gray-400! hover:text-gray-300! active:scale-95"
                     variant="text"
                     type="button"
                     onClick={handleCancelEdit}
@@ -111,7 +111,7 @@ export const Summary = () => {
                   </Button>
                 )}
                 <Button
-                  className="!text-cyan-400 hover:!text-cyan-300 active:scale-95"
+                  className="text-cyan-400! hover:text-cyan-300! active:scale-95"
                   variant="text"
                   type={editable ? 'submit' : 'button'}
                   onClick={!editable ? handleEditClick : undefined}
@@ -195,7 +195,7 @@ export const Summary = () => {
 
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-5">
-              <div className="flex place-items-center rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-4">
+              <div className="flex place-items-center rounded-full bg-linear-to-r from-cyan-500 to-purple-500 p-4">
                 <Shield size={32} />
               </div>
 
@@ -207,7 +207,7 @@ export const Summary = () => {
               </div>
             </div>
 
-            <Badge className="border-cyan-400/30 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400">
+            <Badge className="border-cyan-400/30 bg-linear-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400">
               Activo
             </Badge>
           </div>

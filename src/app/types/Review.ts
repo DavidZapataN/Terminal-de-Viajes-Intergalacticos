@@ -1,9 +1,11 @@
+import type { User } from './User'
+
 export interface Review {
-  id: string
-  planetId: string
-  userId: string
+  id: number
+  author: User
+  content: string
   rating: 1 | 2 | 3 | 4 | 5
-  date: string
-  comment: string
-  helpful: string[]
+  createdAt: string
+  likedByUsers: number[]
+  destinyId: number
 }

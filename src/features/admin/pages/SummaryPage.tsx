@@ -3,23 +3,23 @@ import { SummaryCard } from '../components/SummaryCard'
 import { Card } from '../../../shared/components/Card'
 import { RecentActivityCard } from '../components/RecentActivityCard'
 import { useReservationsStore } from '@/app/stores/reservations-store'
-import { useShipsStore } from '@/app/stores/ships-store'
-import { usePlanetsStore } from '@/app/stores/planets-store'
 import { useMemo } from 'react'
+import { useStarshipsStore } from '@/app/stores/starship-store'
+import { useDestinyStore } from '@/app/stores/destiny-store'
 
 export const Summary = () => {
   const reservations = useReservationsStore(state => state.reservations)
-  const planets = usePlanetsStore(state => state.planets)
+  const destinies = useDestinyStore(state => state.destinies)
   const totalReservations = useReservationsStore(
     state => state.reservations.length
   )
-  const activeShips = useShipsStore(
-    state => state.ships.filter(ship => ship.status === 'active').length
+  const activeShips = useStarshipsStore(
+    state => state.starships.filter(ship => ship.status === 'active').length
   )
   const revenue = useReservationsStore(state =>
     state.reservations.reduce((sum, r) => sum + r.totalCost, 0)
   )
-  const planetsCount = usePlanetsStore(state => state.planets.length)
+  const destiniesCount = useDestinyStore(state => state.destinies.length)
 
   const data = useMemo(
     () => [
@@ -41,9 +41,14 @@ export const Summary = () => {
         icon: TrendingUp,
         color: '#00d492',
       },
-      { title: 'Planetas', count: planetsCount, icon: Globe, color: '#fdc700' },
+      {
+        title: 'Planetas',
+        count: destiniesCount,
+        icon: Globe,
+        color: '#fdc700',
+      },
     ],
-    [activeShips, totalReservations, revenue, planetsCount]
+    [activeShips, totalReservations, revenue, destiniesCount]
   )
 
   return (
@@ -65,11 +70,13 @@ export const Summary = () => {
           <h2 className="text-cyan-400">Actividad Reciente</h2>
 
           {reservations.slice(0, 3).map(reservation => {
-            const planet = planets.find(p => p.id === reservation.planetId)
+            const destiny = destinies.find(
+              d => d.id === parseInt(reservation.planetId)
+            )
             return (
               <RecentActivityCard
                 key={reservation.id}
-                title={`Nueva reserva a ${planet?.name}`}
+                title={`Nueva reserva a ${destiny?.name}`}
                 description={`${reservation.totalCost.toLocaleString()} GC`}
                 status={reservation.status}
               />

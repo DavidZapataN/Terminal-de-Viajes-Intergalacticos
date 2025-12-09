@@ -1,24 +1,81 @@
+import { useState } from 'react'
 import { StarshipsList } from '../components/StarshipsList'
+import { StarshipModal } from '../components/StarshipModal'
 import { Title } from '@/shared/components/Title'
+import { Button } from '@/shared/components/Button'
+import { Plus } from 'lucide-react'
+import { useStarshipsStore } from '@/app/stores/starship-store'
 import type { Starship } from '@/app/types/Starship'
-import { useShipsStore } from '@/app/stores/ships-store'
+import type { StarshipFormData } from '../schemas/starship.schema'
+import {
+  createStarship,
+  updateStarship,
+  deleteStarship,
+} from '@/app/services/starship.service'
+import {
+  showError,
+  showSuccess,
+  showLoading,
+  dismissToast,
+} from '@/lib/toast.config'
 
 export const Starships = () => {
-  const ships = useShipsStore(state => state.ships)
-  const updateShip = useShipsStore(state => state.updateShip)
-  const deleteShip = useShipsStore(state => state.deleteShip)
-  const putInActive = useShipsStore(state => state.putInActive)
+  const ships = useStarshipsStore(state => state.starships)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedShip, setSelectedShip] = useState<Starship | null>(null)
+  const [modalMode, setModalMode] = useState<'create' | 'edit'>('create')
 
-  const handleUpdate = (ship: Starship) => {
-    updateShip(ship)
+  const handleCreate = () => {
+    setSelectedShip(null)
+    setModalMode('create')
+    setIsModalOpen(true)
   }
 
-  const handleDelete = (shipId: string) => {
-    deleteShip(shipId)
+  const handleEdit = (ship: Starship) => {
+    setSelectedShip(ship)
+    setModalMode('edit')
+    setIsModalOpen(true)
   }
 
-  const handlePutActive = (shipId: string) => {
-    putInActive(shipId)
+  const handleDelete = async (shipId: number) => {
+    const loadingToast = showLoading('Eliminando nave...')
+    try {
+      await deleteStarship(shipId)
+      dismissToast(loadingToast)
+      showSuccess('Nave eliminada exitosamente')
+    } catch (error) {
+      dismissToast(loadingToast)
+      showError(
+        error instanceof Error ? error.message : 'Error al eliminar nave'
+      )
+    }
+  }
+
+  const handleSave = async (data: StarshipFormData) => {
+    const loadingToast = showLoading(
+      modalMode === 'create' ? 'Creando nave...' : 'Actualizando nave...'
+    )
+    try {
+      if (modalMode === 'create') {
+        await createStarship(data)
+        dismissToast(loadingToast)
+        showSuccess('Nave creada exitosamente')
+      } else if (selectedShip) {
+        const { cabins, ...updateData } = data
+        await updateStarship(selectedShip.id, updateData)
+        dismissToast(loadingToast)
+        showSuccess('Nave actualizada exitosamente')
+      }
+      setIsModalOpen(false)
+      setSelectedShip(null)
+    } catch (error) {
+      dismissToast(loadingToast)
+      showError(
+        error instanceof Error
+          ? error.message
+          : `Error al ${modalMode === 'create' ? 'crear' : 'actualizar'} nave`
+      )
+    }
   }
 
   return (
@@ -26,17 +83,30 @@ export const Starships = () => {
       <header className="flex items-center justify-between">
         <Title>Gestión de Naves</Title>
 
-        {/* <Button className="!text-gray-800 active:scale-95">
+        <Button
+          className="bg-linear-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 active:scale-95"
+          onClick={handleCreate}
+        >
           <Plus className="mr-3" size={16} />
           Agregar Nave
-        </Button> */}
+        </Button>
       </header>
 
       <StarshipsList
         ships={ships}
-        onUpdate={handleUpdate}
+        onEdit={handleEdit}
         onDelete={handleDelete}
-        onPutInActive={handlePutActive}
+      />
+
+      <StarshipModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          setSelectedShip(null)
+        }}
+        onSave={handleSave}
+        starship={selectedShip}
+        mode={modalMode}
       />
     </div>
   )

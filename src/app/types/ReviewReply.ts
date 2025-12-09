@@ -1,7 +1,9 @@
+import type { User } from './User'
+
 export interface ReviewReply {
-  id: string
-  reviewId: string
-  userId: string
-  date: string
-  comment: string
+  id: number
+  author: User
+  content: string
+  createdAt: string
+  reviewId: number
 }

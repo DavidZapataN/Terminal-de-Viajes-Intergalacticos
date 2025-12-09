@@ -1,4 +1,6 @@
-export interface Starship {
+import type { Cabin } from './Cabin'
+
+export interface StarshipOld {
   id: string
   name: string
   class: string
@@ -6,4 +8,14 @@ export interface Starship {
   speed: number
   status: 'active' | 'maintenance' | 'unavailable'
   amenities: string[]
+}
+
+export interface Starship {
+  id: number
+  name: string
+  class: string
+  capacity: number
+  status: 'active' | 'maintenance' | 'unavailable'
+  amenities: string[]
+  cabins: Cabin[]
 }
