@@ -1,5 +1,5 @@
 import { mockPlanetsNew } from '@/db/mockData'
-import type { Planet } from '../types/Planet'
+import type { Planet } from '../types/Destiny'
 import { create } from 'zustand'
 
 interface PlanetsStore {

@@ -1,12 +1,11 @@
-import type { Planet } from '@/app/types/Planet'
+import type { Planet } from '@/app/types/Destiny'
 import type { Reservation } from '@/app/types/Reservation'
-import type { Starship } from '@/app/types/Starship'
+import type { StarshipOld } from '@/app/types/Starship'
 import type { ReservationAdmin } from '@/features/admin/components/PassengersList'
 import type { PlanetOld } from '@/features/admin/components/PlanetCard'
-import type { Spaceship } from '@/features/admin/components/StarshipsList'
 import type { ReservationOld } from '@/features/profile/components/ReservationCard'
 
-export const mockStarships: Starship[] = [
+export const mockStarships: StarshipOld[] = [
   {
     id: 'starweaver',
     name: 'Starweaver',
@@ -189,8 +188,8 @@ export const mockPlanetsNew: Planet[] = [
 export const mockReservationsNew: Reservation[] = [
   {
     id: 'res-001',
-    userId: 'GAL-01',
-    planetId: 'kepler-442b',
+    userId: '1',
+    planetId: '3',
     shipId: 'starweaver',
     departureDate: '2025-12-15',
     returnDate: '2025-12-22',
@@ -200,8 +199,8 @@ export const mockReservationsNew: Reservation[] = [
   },
   {
     id: 'res-002',
-    userId: 'GAL-02',
-    planetId: 'trappist-1e',
+    userId: '2',
+    planetId: '1',
     shipId: 'void-runner',
     departureDate: '2025-11-28',
     returnDate: '2025-12-05',
@@ -211,8 +210,8 @@ export const mockReservationsNew: Reservation[] = [
   },
   {
     id: 'res-003',
-    userId: 'GAL-02',
-    planetId: 'gliese-667cc',
+    userId: '2',
+    planetId: '3',
     shipId: 'void-runner',
     departureDate: '2025-11-28',
     returnDate: '2025-12-05',
@@ -222,71 +221,14 @@ export const mockReservationsNew: Reservation[] = [
   },
   {
     id: 'res-004',
-    userId: 'GAL-02',
-    planetId: 'proxima-centauri-b',
+    userId: '1',
+    planetId: '1',
     shipId: 'nebula-dream',
     departureDate: '2025-10-10',
     returnDate: '2025-10-17',
     cabinClass: 'Lujo',
     status: 'in_transit',
     totalCost: 40000,
-  },
-]
-
-export const mockSpaceships: Spaceship[] = [
-  {
-    id: 'starweaver',
-    name: 'Starweaver',
-    class: 'Crucero Galáctico',
-    capacity: 500,
-    speed: 9.8,
-    status: 'active',
-    amenities: [
-      'Spa cuántico',
-      'Holodeck',
-      'Casino gravitacional',
-      'Restaurante molecular',
-    ],
-  },
-  {
-    id: 'void-runner',
-    name: 'Void Runner',
-    class: 'Explorador Rápido',
-    capacity: 150,
-    speed: 12.5,
-    status: 'active',
-    amenities: [
-      'Laboratorio de investigación',
-      'Gimnasio de gravedad cero',
-      'Lounge panorámico',
-    ],
-  },
-  {
-    id: 'nebula-dream',
-    name: 'Nebula Dream',
-    class: 'Lujoso Imperial',
-    capacity: 200,
-    speed: 8.2,
-    status: 'maintenance',
-    amenities: [
-      'Suites imperiales',
-      'Teatro holográfico',
-      'Jardines biológicos',
-      'Spa de teletransporte',
-    ],
-  },
-  {
-    id: 'cosmic-odyssey',
-    name: 'Cosmic Odyssey',
-    class: 'Transbordador Interplanetario',
-    capacity: 300,
-    speed: 10.0,
-    status: 'unavailable',
-    amenities: [
-      'Cafetería estelar',
-      'Sala de juegos antigravedad',
-      'Observatorio espacial',
-    ],
   },
 ]
 

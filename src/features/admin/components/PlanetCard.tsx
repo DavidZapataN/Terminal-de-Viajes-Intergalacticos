@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { Edit, Trash2 } from 'lucide-react'
-import type { Planet } from '@/app/types/Planet'
+import type { Planet } from '@/app/types/Destiny'
 
 export interface PlanetOld {
   id: string

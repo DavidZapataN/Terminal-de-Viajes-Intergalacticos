@@ -1,7 +1,7 @@
 import { PlanetCard } from '../components/PlanetCard'
 import { Title } from '@/shared/components/Title'
 import { usePlanetsStore } from '@/app/stores/planets-store'
-import type { Planet } from '@/app/types/Planet'
+import type { Planet } from '@/app/types/Destiny'
 
 export const Planets = () => {
   const planets = usePlanetsStore(state => state.planets)

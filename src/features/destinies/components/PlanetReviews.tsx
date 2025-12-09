@@ -36,7 +36,7 @@ export const PlanetReviews = ({ reviews }: Props) => {
             <div className="flex items-start gap-3">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={review.avatar} />
-                <AvatarFallback className="bg-gradient-to-r from-cyan-500 to-purple-500 text-xs text-white">
+                <AvatarFallback className="bg-linear-to-r from-cyan-500 to-purple-500 text-xs text-white">
                   {review.user
                     .split(' ')
                     .map(n => n[0])

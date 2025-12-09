@@ -9,7 +9,7 @@ interface Props {
 
 export const StarshipInfoCard = ({ ship, checked }: Props) => {
   return (
-    <Card className="h-max !w-full cursor-pointer">
+    <Card className="h-max w-full! cursor-pointer">
       <div className="flex w-full flex-col gap-2.5 p-2">
         <div className="p-4">
           <div className="mb-2 flex items-start justify-between">
