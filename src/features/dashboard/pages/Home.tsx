@@ -4,7 +4,7 @@ import { NavigationCard } from '../components/NavigationCard'
 import { useNavigate } from '@tanstack/react-router'
 import { InteractiveMap } from '../components/InteractiveMap'
 import { Card } from '@/shared/components/Card'
-import { mockPlanets, mockReservationsAdmin } from '@/db/mockData'
+import { mockReservationsAdmin } from '@/db/mockData'
 import { RecentActivityCard } from '../components/RecentActivityCard'
 import { Statistics } from '../components/Statistics'
 import { useEffect, useState } from 'react'
@@ -38,6 +38,8 @@ const quickActions = [
 export const Home = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
+
+  const planets: any[] = []
 
   useEffect(() => {
     const loadData = async () => {
@@ -109,7 +111,7 @@ export const Home = () => {
               <Title>Actividad Reciente</Title>
 
               {mockReservationsAdmin.slice(0, 3).map(reservation => {
-                const planet = mockPlanets.find(
+                const planet = planets.find(
                   p => p.id === reservation.planetId
                 )
                 return (

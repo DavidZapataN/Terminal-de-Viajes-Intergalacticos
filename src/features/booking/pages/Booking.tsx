@@ -88,7 +88,7 @@ export const Booking = () => {
 
     const newReservation: Reservation = {
       id: `RSV-${Date.now()}`,
-      userId: currentUser.id,
+      userId: currentUser.id.toString(),
       planetId: bookingData.planetId,
       shipId: bookingData.shipId,
       departureDate: bookingData.departureDate,

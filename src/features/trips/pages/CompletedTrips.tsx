@@ -4,13 +4,13 @@ import { useReservationsStore } from '@/app/stores/reservations-store'
 import { useMemo } from 'react'
 
 export const CompletedTrips = () => {
-  const user = useAuthStore(state => state.currentUser)
+  const user = useAuthStore(state => state.user)
   const allReservations = useReservationsStore(state => state.reservations)
 
   const completedReservations = useMemo(
     () =>
       allReservations.filter(
-        r => r.status === 'completed' && r.userId === user?.id
+        r => r.status === 'completed' && r.userId === user?.id.toString()
       ),
     [allReservations, user?.id]
   )

@@ -44,7 +44,7 @@ export const PassengerData = ({
   onUpdateData,
 }: Props) => {
   return (
-    <Card className="h-max !w-full">
+    <Card className="h-max w-full!">
       <div className="flex w-full flex-col gap-4 p-6">
         <h3 className="text-cyan-400">Fechas y pasajeros</h3>
 

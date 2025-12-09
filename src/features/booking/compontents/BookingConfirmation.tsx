@@ -2,9 +2,7 @@ import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ArrowLeft, Check, Plane } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
-import { usePlanetsStore } from '@/app/stores/planets-store'
 import { useMemo } from 'react'
-import { useStarshipsStore } from '@/app/stores/starship-store'
 
 interface BookingData {
   shipId: string
@@ -31,8 +29,8 @@ const cabinClassNames: Record<string, string> = {
 
 export const BookingConfirmation = ({ bookingData, totalCost }: Props) => {
   const navigate = useNavigate()
-  const ships = useStarshipsStore(state => state.starships)
-  const planets = usePlanetsStore(state => state.planets)
+  // const ships = useStarshipsStore(state => state.starships)
+  const planets: any[] = []
 
   // const selectedShip = useMemo(
   //   () => ships.find(ship => ship.id.toString() === bookingData.shipId),

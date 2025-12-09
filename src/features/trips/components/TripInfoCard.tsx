@@ -1,5 +1,4 @@
 import type { Reservation } from '@/app/types/Reservation'
-import { mockPlanets, mockSpaceships } from '@/db/mockData'
 import { Badge } from '@/shared/components/Bagde'
 import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
@@ -40,24 +39,24 @@ const status = {
 }
 
 export const TripInfoCard = ({ reservation }: Props) => {
-  const planet = mockPlanets.find(p => p.id === reservation.planetId)
-  const ship = mockSpaceships.find(s => s.id === reservation.shipId)
+  // const planet: any[] = []
+  // const ship: any[] = []
 
   return (
-    <Card className="h-max !w-full">
+    <Card className="h-max w-full!">
       <div className="flex w-full flex-col gap-2.5 p-6">
         <div className="flex gap-4">
-          <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg">
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg">
             <ImageWithFallback
-              src={planet?.image || ''}
-              alt={planet?.name || ''}
+              src=""
+              alt=""
               className="h-full w-full object-cover"
             />
           </div>
 
           <div className="flex flex-1 flex-col justify-center gap-2">
             <header className="flex items-center justify-between">
-              <h3>{planet?.name}</h3>
+              <h3>Prueba</h3>
               <Badge className={status[reservation.status].style}>
                 {status[reservation.status].icon}
                 <span className="ml-1.5">
@@ -78,12 +77,12 @@ export const TripInfoCard = ({ reservation }: Props) => {
               </div>
             </div>
 
-            <p className="mb-2 text-sm text-gray-400">{planet?.system}</p>
+            <p className="mb-2 text-sm text-gray-400">prueba</p>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <p className="flex items-center gap-2.5 text-sm">
                 <Rocket size={16} className="text-emerald-400" />
-                <span>{ship?.name}</span>
+                <span>prueba</span>
               </p>
 
               {/* <p className="flex items-center gap-2.5 text-sm">

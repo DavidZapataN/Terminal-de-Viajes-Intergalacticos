@@ -18,12 +18,6 @@ export const requireLogin = (pathname: string) => {
     throw redirect({ to: '/login', search: { from: pathname } })
 }
 
-/**
- * Formatea una fecha de PostgreSQL a un formato legible
- * @param date - Fecha en formato ISO string o Date
- * @param options - Opciones de formateo
- * @returns Fecha formateada como string
- */
 export const formatDate = (
   date: string | Date | null | undefined,
   options: {
@@ -73,11 +67,7 @@ export const formatDate = (
   return new Intl.DateTimeFormat(locale, formatOptions[format]).format(dateObj)
 }
 
-/**
- * Obtiene el tiempo relativo desde una fecha (ej: "hace 2 días")
- * @param date - Fecha en formato ISO string o Date
- * @returns Tiempo relativo como string
- */
+
 export const formatRelativeTime = (
   date: string | Date | null | undefined
 ): string => {

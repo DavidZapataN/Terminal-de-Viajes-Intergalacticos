@@ -12,7 +12,7 @@ export const Trips = () => {
   const allReservations = useReservationsStore(state => state.reservations)
 
   const reservations = useMemo(
-    () => allReservations.filter(r => r.userId === user?.id),
+    () => allReservations.filter(r => r.userId === user?.id.toString()),
     [allReservations, user?.id]
   )
 

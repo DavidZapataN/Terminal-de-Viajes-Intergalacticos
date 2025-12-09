@@ -1,4 +1,3 @@
-import { usePlanetsStore } from '@/app/stores/planets-store'
 import type { Reservation } from '@/app/types/Reservation'
 import { Badge } from '@/shared/components/Bagde'
 import { Card } from '@/shared/components/Card'
@@ -42,7 +41,7 @@ const status = {
 }
 
 export const ReservationCard = ({ reservation }: Props) => {
-  const planets = usePlanetsStore.getState().planets
+  const planets: any[] = []
   const destinationPlanet = planets.find(p => p.id === reservation.planetId)
   const ship: any[] = []
 

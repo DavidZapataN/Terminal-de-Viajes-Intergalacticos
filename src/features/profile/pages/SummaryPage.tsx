@@ -28,7 +28,7 @@ export const Summary = () => {
   const completedReservations = useMemo(
     () =>
       allReservations.filter(
-        r => r.status === 'completed' && r.userId === user?.id
+        r => r.status === 'completed' && r.userId === user?.id.toString()
       ).length,
     [allReservations, user?.id]
   )
