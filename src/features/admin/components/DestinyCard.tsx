@@ -48,9 +48,7 @@ export const DestinyCard = ({ destiny, onEdit, onDelete }: Props) => {
           />
         </div>
 
-        {/* Información */}
         <div className="flex flex-1 flex-col gap-3 p-5">
-          {/* Header */}
           <div className="flex items-start justify-between">
             <div>
               <h3 className="text-xl font-semibold text-white">
@@ -125,7 +123,6 @@ export const DestinyCard = ({ destiny, onEdit, onDelete }: Props) => {
             </div>
           </div>
 
-          {/* Badges */}
           <div className="flex flex-wrap items-center gap-2">
             <Badge className={atmosphereConfig[destiny.atmosphere].style}>
               {atmosphereConfig[destiny.atmosphere].label}

@@ -261,7 +261,6 @@ export const ActivityManager = ({
         ))}
       </div>
 
-      {/* Formulario de nueva actividad */}
       {isAdding && (
         <Card className="p-3!">
           <div className="flex flex-col gap-2">
