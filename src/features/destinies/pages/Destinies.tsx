@@ -1,60 +1,78 @@
 import { Button } from '@/shared/components/Button'
 import { Input } from '@/shared/components/Input'
 import { Title } from '@/shared/components/Title'
-import { Funnel, Globe, Search, X } from 'lucide-react'
+import { DollarSign, Funnel, Globe, Search, X } from 'lucide-react'
 import { PlanetSummaryCard } from '../components/PlanetSummaryCard'
-import { usePlanetsStore } from '@/app/stores/planets-store'
-import { useState, useMemo } from 'react'
+import { useDestinyStore } from '@/app/stores/destiny-store'
+import { useState, useEffect } from 'react'
+import { getDestinies } from '@/app/services/destiny.service'
+import type {
+  FilterDestiny,
+  AtmosphereType,
+} from '@/app/types/api/destiny/FilterDestiny'
 
-const climateFilters = [
-  'Templado',
-  'Océanico',
-  'Volcánico',
-  'Polar',
-  'Bosque',
-  'Desierto',
+const atmosphereFilters: { label: string; value: AtmosphereType }[] = [
+  { label: 'Respirable', value: 'breathable' },
+  { label: 'No respirable', value: 'not breathable' },
+  { label: 'Tóxica', value: 'toxic' },
+  { label: 'Sin atmósfera', value: 'none' },
 ]
 
 export const Destinies = () => {
-  const planets = usePlanetsStore(state => state.planets)
+  const destinies = useDestinyStore(state => state.destinies)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedClimate, setSelectedClimate] = useState<string | null>(null)
+  const [selectedAtmosphere, setSelectedAtmosphere] =
+    useState<AtmosphereType | null>(null)
+  const [minPrice, setMinPrice] = useState<string>('')
+  const [maxPrice, setMaxPrice] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  const filteredPlanets = useMemo(() => {
-    let filtered = planets
+  const applyFilters = async () => {
+    setIsLoading(true)
+    try {
+      const filters: FilterDestiny = {}
 
-    // Filtrar por búsqueda
-    if (searchQuery.trim()) {
-      const lowerQuery = searchQuery.toLowerCase()
-      filtered = filtered.filter(
-        planet =>
-          planet.name.toLowerCase().includes(lowerQuery) ||
-          planet.system.toLowerCase().includes(lowerQuery) ||
-          planet.description.toLowerCase().includes(lowerQuery) ||
-          planet.climate.toLowerCase().includes(lowerQuery)
-      )
+      if (searchQuery.trim()) {
+        filters.name = searchQuery
+      }
+
+      if (selectedAtmosphere) {
+        filters.atmosphere = selectedAtmosphere
+      }
+
+      if (minPrice) {
+        filters.minPrice = parseFloat(minPrice)
+      }
+
+      if (maxPrice) {
+        filters.maxPrice = parseFloat(maxPrice)
+      }
+
+      await getDestinies(filters)
+    } catch (error) {
+      console.error('Error al aplicar filtros:', error)
+    } finally {
+      setIsLoading(false)
     }
+  }
 
-    // Filtrar por clima
-    if (selectedClimate) {
-      console.log(selectedClimate);
+  useEffect(() => {
+    applyFilters()
+  }, [searchQuery, selectedAtmosphere, minPrice, maxPrice])
 
-      filtered = filtered.filter(
-        planet => planet.climate.toLowerCase().includes(selectedClimate.toLowerCase())
-      )
-    }
-
-    return filtered
-  }, [planets, searchQuery, selectedClimate])
-
-  const handleClimateFilter = (climate: string) => {
-    setSelectedClimate(prev => (prev === climate ? null : climate))
+  const handleAtmosphereFilter = (atmosphere: AtmosphereType) => {
+    setSelectedAtmosphere(prev => (prev === atmosphere ? null : atmosphere))
   }
 
   const clearFilters = () => {
     setSearchQuery('')
-    setSelectedClimate(null)
+    setSelectedAtmosphere(null)
+    setMinPrice('')
+    setMaxPrice('')
   }
+
+  const hasActiveFilters =
+    searchQuery || selectedAtmosphere || minPrice || maxPrice
 
   return (
     <div className="flex h-screen w-full flex-col gap-4 p-5">
@@ -74,46 +92,70 @@ export const Destinies = () => {
           className="flex-1"
         />
 
-        {(searchQuery || selectedClimate) && (
+        {hasActiveFilters && (
           <Button
             variant="secondary"
             className="holo-border w-full md:w-auto"
             onClick={clearFilters}
           >
             <X size={16} className="mr-2" />
-            Limpiar filtros
+            Limpiar
           </Button>
         )}
+      </div>
+
+      <div className="flex gap-5">
+        <Input
+          icon={DollarSign}
+          placeholder="Precio mín"
+          type="number"
+          value={minPrice}
+          onChange={e => setMinPrice(e.target.value)}
+          className="w-32"
+        />
+        <Input
+          icon={DollarSign}
+          placeholder="Precio máx"
+          type="number"
+          value={maxPrice}
+          onChange={e => setMaxPrice(e.target.value)}
+          className="w-32"
+        />
       </div>
 
       <div className="flex flex-wrap gap-2">
         <div className="flex items-center gap-2 text-gray-400">
           <Funnel size={16} />
-          Filtrar por clima:
+          Filtrar por atmósfera:
         </div>
 
-        {climateFilters.map(filter => (
+        {atmosphereFilters.map(filter => (
           <Button
-            key={filter}
+            key={filter.value}
             variant="secondary"
             className={`holo-border ${
-              selectedClimate === filter
+              selectedAtmosphere === filter.value
                 ? 'bg-cyan-400/10 ring-2 ring-cyan-400'
                 : ''
             }`}
-            onClick={() => handleClimateFilter(filter)}
+            onClick={() => handleAtmosphereFilter(filter.value)}
           >
-            {filter}
+            {filter.label}
           </Button>
         ))}
       </div>
 
-      {filteredPlanets.length === 0 ? (
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <Globe size={48} className="mb-4 animate-spin text-cyan-400" />
+          <h3 className="mb-2 text-xl">Buscando destinos...</h3>
+        </div>
+      ) : destinies.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <Globe size={48} className="mb-4 text-gray-400" />
-          <h3 className="mb-2 text-xl">No se encontraron planetas</h3>
+          <h3 className="mb-2 text-xl">No se encontraron destinos</h3>
           <p className="mb-4 text-gray-400">
-            No hay planetas que coincidan con tus criterios de búsqueda
+            No hay destinos que coincidan con tus criterios de búsqueda
           </p>
           <Button onClick={clearFilters}>Limpiar filtros</Button>
         </div>
@@ -121,16 +163,16 @@ export const Destinies = () => {
         <>
           <div className="flex items-center justify-between">
             <span className="text-gray-400">
-              {filteredPlanets.length}{' '}
-              {filteredPlanets.length === 1
-                ? 'planeta encontrado'
-                : 'planetas encontrados'}
+              {destinies.length}{' '}
+              {destinies.length === 1
+                ? 'destino encontrado'
+                : 'destinos encontrados'}
             </span>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredPlanets.map(planet => (
-              <PlanetSummaryCard key={planet.id} planet={planet} />
+            {destinies.map(destiny => (
+              <PlanetSummaryCard key={destiny.id} planet={destiny} />
             ))}
           </div>
         </>

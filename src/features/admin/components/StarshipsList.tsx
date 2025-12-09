@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
@@ -10,20 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/components/Table'
-import { Edit, Trash2, Wrench } from 'lucide-react'
+import { Edit, Trash2 } from 'lucide-react'
 import type { Starship } from '@/app/types/Starship'
 
-export interface Spaceship {
-  id: string
-  name: string
-  class: string
-  capacity: number
-  speed: number
-  status: 'active' | 'maintenance' | 'unavailable'
-  amenities: string[]
-}
-
-const status = {
+const statusConfig = {
   active: {
     name: 'Activa',
     style: 'text-xs bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
@@ -40,47 +29,13 @@ const status = {
 
 interface Props {
   ships: Starship[]
-  onUpdate?: (ship: Starship) => void
-  onDelete?: (shipId: string) => void
-  onPutInActive?: (shipId: string) => void
+  onEdit: (ship: Starship) => void
+  onDelete: (shipId: number) => void
 }
 
-export const StarshipsList = ({
-  ships,
-  onUpdate,
-  onDelete,
-  onPutInActive,
-}: Props) => {
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [form, setForm] = useState({
-    class: '',
-    capacity: '',
-    speed: '',
-    amenities: '',
-  })
-
-  const startEdit = (ship: Spaceship) => {
-    setEditingId(ship.id)
-    setForm({
-      class: ship.class,
-      capacity: String(ship.capacity),
-      speed: String(ship.speed),
-      amenities: ship.amenities.join(', '),
-    })
-  }
-
-  const cancelEdit = () => setEditingId(null)
-
-  const save = (ship: Starship) => {
-    const updated: Starship = {
-      ...ship,
-      class: form.class,
-      capacity: Number(form.capacity) || 0,
-      speed: Number(form.speed) || 0,
-    }
-
-    onUpdate?.(updated)
-    setEditingId(null)
+export const StarshipsList = ({ ships, onEdit, onDelete }: Props) => {
+  const handleDelete = (ship: Starship) => {
+    onDelete(ship.id)
   }
 
   return (
@@ -91,110 +46,53 @@ export const StarshipsList = ({
             <TableHead>Nombre</TableHead>
             <TableHead>Clase</TableHead>
             <TableHead>Capacidad</TableHead>
-            <TableHead>Velocidad</TableHead>
+            <TableHead>Cabinas</TableHead>
             <TableHead>Estado</TableHead>
-            <TableHead>Acciones</TableHead>
+            <TableHead className="text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {ships.map(ship => (
-            <TableRow key={ship.id}>
-              <TableCell>{ship.name}</TableCell>
-              <TableCell>
-                {editingId === ship.id ? (
-                  <input
-                    className="rounded border border-gray-700 bg-transparent p-1"
-                    value={form.class}
-                    onChange={e =>
-                      setForm(f => ({ ...f, class: e.target.value }))
-                    }
-                  />
-                ) : (
-                  ship.class
-                )}
-              </TableCell>
-              <TableCell>
-                {editingId === ship.id ? (
-                  <input
-                    className="rounded border border-gray-700 bg-transparent p-1"
-                    value={form.capacity}
-                    onChange={e =>
-                      setForm(f => ({ ...f, capacity: e.target.value }))
-                    }
-                  />
-                ) : (
-                  ship.capacity
-                )}
-              </TableCell>
-              <TableCell>
-                {editingId === ship.id ? (
-                  <input
-                    className="rounded border border-gray-700 bg-transparent p-1"
-                    value={form.speed}
-                    onChange={e =>
-                      setForm(f => ({ ...f, speed: e.target.value }))
-                    }
-                  />
-                ) : (
-                  `Warp ${ship.speed}`
-                )}
-              </TableCell>
-              <TableCell>
-                {/* status is read-only per requirement */}
-                <Badge className={status[ship.status].style}>
-                  {status[ship.status].name}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <div className="flex gap-2">
-                  {editingId === ship.id ? (
-                    <>
-                      <Button
-                        className="holo-border"
-                        variant="secondary"
-                        onClick={() => save(ship)}
-                      >
-                        Guardar
-                      </Button>
-                      <Button
-                        className="holo-border !text-gray-400"
-                        variant="secondary"
-                        onClick={cancelEdit}
-                      >
-                        Cancelar
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        className="holo-border"
-                        variant="secondary"
-                        onClick={() => startEdit(ship)}
-                      >
-                        <Edit size={16} />
-                      </Button>
-                      <Button
-                        className="holo-border !text-red-400 hover:!text-white"
-                        variant="secondary"
-                        onClick={() => onDelete?.(ship.id)}
-                      >
-                        <Trash2 size={16} />
-                      </Button>
-                      {ship.status !== 'active' && (
-                        <Button
-                          className="holo-border"
-                          variant="secondary"
-                          onClick={() => onPutInActive?.(ship.id)}
-                        >
-                          <Wrench size={16} />
-                        </Button>
-                      )}
-                    </>
-                  )}
-                </div>
+          {ships.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center text-gray-500">
+                No hay naves registradas
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            ships.map(ship => (
+              <TableRow key={ship.id}>
+                <TableCell className="font-medium">{ship.name}</TableCell>
+                <TableCell>{ship.class}</TableCell>
+                <TableCell>
+                  {ship.capacity.toLocaleString()} pasajeros
+                </TableCell>
+                <TableCell>{ship.cabins.length} cabinas</TableCell>
+                <TableCell>
+                  <Badge className={statusConfig[ship.status].style}>
+                    {statusConfig[ship.status].name}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      className="holo-border"
+                      variant="secondary"
+                      onClick={() => onEdit(ship)}
+                    >
+                      <Edit size={16} />
+                    </Button>
+                    <Button
+                      className="holo-border text-red-400! hover:text-red-300!"
+                      variant="secondary"
+                      onClick={() => handleDelete(ship)}
+                    >
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </Card>

@@ -3,11 +3,11 @@ import { CarrouselImage } from './Carrouselmage'
 import { Title } from '@/shared/components/Title'
 import { Rocket, Star } from 'lucide-react'
 import { Button } from '@/shared/components/Button'
-import type { Planet } from '@/app/types/Planet'
+import type { Destiny } from '@/app/types/Destiny'
 import { useNavigate } from '@tanstack/react-router'
 
 interface Props {
-  planet: Planet
+  planet: Destiny
   planetImages: string[]
 }
 
@@ -27,10 +27,12 @@ export const PlanetDetailCard = ({ planet, planetImages }: Props) => {
             <Title>{planet.name}</Title>
             <div className="mb-1 flex items-center gap-1">
               <Star className="h-5 w-5 fill-current text-yellow-400" />
-              <span className="text-sm">{planet.rating}</span>
-              {/* <span className="text-sm text-muted-foreground">
-                ({planet.reviews} reseñas)
-              </span> */}
+              <span className="text-sm">
+                {planet.reviewSummary.averageRating}
+              </span>
+              <span className="text-sm text-muted-foreground">
+                ({planet.reviewSummary.totalReviews} reseñas)
+              </span>
             </div>
           </div>
 

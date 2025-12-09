@@ -1,21 +1,33 @@
-import { Button } from '@/shared/components/Button'
+import type { Activity } from '@/app/types/Activity'
 import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
 import { Title } from '@/shared/components/Title'
-import { Activity, Clock, type LucideIcon } from 'lucide-react'
-
-export interface Activity {
-  name: string
-  description: string
-  difficulty: string
-  duration: string
-  price: number
-  image: string
-  icon: LucideIcon
-}
+import {
+  ActivityIcon,
+  Clock,
+  Droplets,
+  Mountain,
+  Sun,
+  Trees,
+  Wind,
+} from 'lucide-react'
 
 interface Props {
   detailedActivities: Activity[]
+}
+
+const difficultyConfig = {
+  easy: 'Fácil',
+  medium: 'Medio',
+  hard: 'Difícil',
+}
+
+const categoryIcons = {
+  mountain: Mountain,
+  water: Droplets,
+  air: Wind,
+  forest: Trees,
+  desert: Sun,
 }
 
 export const PlanetActivities = ({ detailedActivities }: Props) => {
@@ -26,13 +38,13 @@ export const PlanetActivities = ({ detailedActivities }: Props) => {
 
         <div className="grid gap-4">
           {detailedActivities.map((activity, index) => {
-            const Icon = activity.icon
+            const Icon = categoryIcons[activity.category]
             return (
               <div
                 key={index}
                 className="flex gap-4 rounded-lg border border-border bg-accent/5 p-4 transition-all duration-300 hover:border-cyan-400/30 hover:bg-accent/10"
               >
-                <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
+                <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg">
                   <ImageWithFallback
                     src={activity.image}
                     alt={activity.name}
@@ -41,15 +53,10 @@ export const PlanetActivities = ({ detailedActivities }: Props) => {
                 </div>
 
                 <div className="flex-1">
-                  <div className="mb-2 flex items-center justify-between">
-                    <h4 className="flex items-center gap-2">
-                      <Icon size={16} className="text-cyan-400" />
-                      {activity.name}
-                    </h4>
-                    <span className="text-sm text-cyan-400">
-                      {activity.price.toLocaleString()} GC
-                    </span>
-                  </div>
+                  <h4 className="flex items-center gap-2">
+                    <Icon size={16} className="text-purple-400" />
+                    {activity.name}
+                  </h4>
 
                   <p className="mb-2 text-sm text-muted-foreground">
                     {activity.description}
@@ -58,16 +65,14 @@ export const PlanetActivities = ({ detailedActivities }: Props) => {
                   <div className="flex justify-between">
                     <div className="flex gap-4 text-xs">
                       <span className="flex items-center gap-1">
-                        <Activity className="h-3 w-3" />
-                        {activity.difficulty}
+                        <ActivityIcon className="h-3 w-3" />
+                        {difficultyConfig[activity.difficulty]}
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {activity.duration}
                       </span>
                     </div>
-
-                    <Button className="text-xs">Agregar a mi viaje</Button>
                   </div>
                 </div>
               </div>

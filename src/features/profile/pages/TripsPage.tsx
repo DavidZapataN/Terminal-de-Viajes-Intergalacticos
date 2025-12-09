@@ -8,11 +8,11 @@ import { useNavigate } from '@tanstack/react-router'
 
 export const Trips = () => {
   const navigate = useNavigate()
-  const user = useAuthStore(state => state.currentUser)
+  const user = useAuthStore(state => state.user)
   const allReservations = useReservationsStore(state => state.reservations)
 
   const reservations = useMemo(
-    () => allReservations.filter(r => r.userId === user?.id),
+    () => allReservations.filter(r => r.userId === user?.id.toString()),
     [allReservations, user?.id]
   )
 
@@ -26,7 +26,7 @@ export const Trips = () => {
         <h2 className="text-cyan-400"> Historial de Viajes </h2>
 
         <Button
-          className="!text-gray-800 active:scale-95"
+          className="text-gray-800! active:scale-95"
           onClick={handleNewTrip}
         >
           <Plane className="mr-3" size={16} />

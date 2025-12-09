@@ -1,9 +1,8 @@
 export interface User {
-  id: string
+  id: number
   name: string
   email: string
-  password?: string // Solo para mock
   role: 'user' | 'admin'
-  credits: number
   createdAt: string
+  updatedAt: string
 }

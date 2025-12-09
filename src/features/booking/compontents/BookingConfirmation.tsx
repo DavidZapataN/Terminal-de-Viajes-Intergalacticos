@@ -2,8 +2,6 @@ import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ArrowLeft, Check, Plane } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
-import { useShipsStore } from '@/app/stores/ships-store'
-import { usePlanetsStore } from '@/app/stores/planets-store'
 import { useMemo } from 'react'
 
 interface BookingData {
@@ -31,13 +29,13 @@ const cabinClassNames: Record<string, string> = {
 
 export const BookingConfirmation = ({ bookingData, totalCost }: Props) => {
   const navigate = useNavigate()
-  const ships = useShipsStore(state => state.ships)
-  const planets = usePlanetsStore(state => state.planets)
+  // const ships = useStarshipsStore(state => state.starships)
+  const planets: any[] = []
 
-  const selectedShip = useMemo(
-    () => ships.find(ship => ship.id === bookingData.shipId),
-    [ships, bookingData.shipId]
-  )
+  // const selectedShip = useMemo(
+  //   () => ships.find(ship => ship.id.toString() === bookingData.shipId),
+  //   [ships, bookingData.shipId]
+  // )
 
   const selectedPlanet = useMemo(
     () => planets.find(planet => planet.id === bookingData.planetId),
@@ -90,7 +88,7 @@ export const BookingConfirmation = ({ bookingData, totalCost }: Props) => {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Nave:</span>
-                <span>{selectedShip?.name || 'N/A'}</span>
+                <span>{'N/A'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Fecha de salida:</span>

@@ -4,9 +4,12 @@ import { NavigationCard } from '../components/NavigationCard'
 import { useNavigate } from '@tanstack/react-router'
 import { InteractiveMap } from '../components/InteractiveMap'
 import { Card } from '@/shared/components/Card'
-import { mockPlanets, mockReservationsAdmin } from '@/db/mockData'
+import { mockReservationsAdmin } from '@/db/mockData'
 import { RecentActivityCard } from '../components/RecentActivityCard'
 import { Statistics } from '../components/Statistics'
+import { useEffect, useState } from 'react'
+import { getDestinies } from '@/app/services/destiny.service'
+import { getStarships } from '@/app/services/starship.service'
 
 const quickActions = [
   {
@@ -34,6 +37,22 @@ const quickActions = [
 
 export const Home = () => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+
+  const planets: any[] = []
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await Promise.all([getDestinies(), getStarships()])
+      } catch (error) {
+        console.error('Error loading admin data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadData()
+  }, [])
 
   const handleCardClick = (id: string) => {
     switch (id) {
@@ -49,6 +68,14 @@ export const Home = () => {
       default:
         break
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <span className="animate-pulse text-lg text-gray-500">...</span>
+      </div>
+    )
   }
 
   return (
@@ -79,12 +106,12 @@ export const Home = () => {
         <div className="flex w-full flex-col gap-4">
           <Statistics />
 
-          <Card className="!w-full">
+          <Card className="w-full!">
             <div className="flex flex-col gap-5 p-5">
               <Title>Actividad Reciente</Title>
 
               {mockReservationsAdmin.slice(0, 3).map(reservation => {
-                const planet = mockPlanets.find(
+                const planet = planets.find(
                   p => p.id === reservation.planetId
                 )
                 return (

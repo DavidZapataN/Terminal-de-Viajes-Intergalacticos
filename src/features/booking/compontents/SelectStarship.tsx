@@ -1,6 +1,5 @@
 import { Card } from '@/shared/components/Card'
 import { StarshipInfoCard } from './StarshipInfoCard'
-import { useShipsStore } from '@/app/stores/ships-store'
 import { useMemo } from 'react'
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 }
 
 export const SelectStarship = ({ selectedShipId, onSelectShip }: Props) => {
-  const ships = useShipsStore(state => state.ships)
+  const ships: any[] = []
 
   const availableShips = useMemo(
     () => ships.filter(ship => ship.status === 'active'),
@@ -17,7 +16,7 @@ export const SelectStarship = ({ selectedShipId, onSelectShip }: Props) => {
   )
 
   return (
-    <Card className="h-max !w-full">
+    <Card className="h-max w-full!">
       <div className="flex w-full flex-col gap-4 p-6">
         <h3 className="text-cyan-400">Selecciona la nave</h3>
 

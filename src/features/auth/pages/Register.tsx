@@ -1,97 +1,172 @@
-import { Shield, User, Rocket, X, Zap, Globe } from 'lucide-react'
+import { Shield, User, Rocket, X, Zap, Mail, Check, Home } from 'lucide-react'
 import { Card } from '../../../shared/components/Card'
 import { Input } from '../../../shared/components/Input'
 import { Button } from '../../../shared/components/Button'
 import { useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Title } from '@/shared/components/Title'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  registerSchema,
+  type RegisterFormData,
+} from '../schemas/register.schema'
+import {
+  dismissToast,
+  showError,
+  showLoading,
+  showSuccess,
+} from '@/lib/toast.config'
+import { registerUser } from '@/app/services/auth.service'
 
-type Step = 1 | 2 | 3
-
-const steps: Step[] = [1, 2, 3]
-
-const stepInfo: Record<Step, string> = {
-  1: 'Paso 1 de 3: Información Personal',
-  2: 'Paso 2 de 3: Contacto Galáctico',
-  3: 'Paso 3 de 3: Seguridad Cuántica',
-}
+type Step = 1 | 2
 
 export const Register = () => {
-  const [currentStep, setCurrentStep] = useState(1)
+  const navigate = useNavigate()
+  const [currentStep, setCurrentStep] = useState<Step>(1)
 
-  const handleNextStep = () => {
-    setCurrentStep(prevStep => {
-      if (prevStep < 3) {
-        return prevStep + 1
-      }
-      return prevStep
-    })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, touchedFields },
+    watch,
+    trigger,
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    mode: 'onTouched',
+  })
+
+  const password = watch('password', '')
+
+  const passwordValidations = {
+    minLength: password.length >= 8,
+    hasUppercase: /[A-Z]/.test(password),
+    hasLowercase: /[a-z]/.test(password),
+    hasNumber: /[0-9]/.test(password),
+    hasSpecial: /[^A-Za-z0-9]/.test(password),
+    passwordsMatch:
+      password.length > 0 && watch('confirmPassword', '') === password,
+  }
+
+  const handleNextStep = async () => {
+    let isValid = false
+
+    if (currentStep === 1) {
+      isValid = await trigger(['fullName', 'email'])
+    }
+
+    if (isValid && currentStep < 2) {
+      setCurrentStep(prev => (prev + 1) as Step)
+    }
   }
 
   const handleBackStep = () => {
-    setCurrentStep(prevStep => {
-      if (prevStep > 1) {
-        return prevStep - 1
+    setCurrentStep(prev => {
+      if (prev > 1) {
+        return (prev - 1) as Step
       }
-      return prevStep
+      return prev
     })
+  }
+
+  const onSubmit = async (data: RegisterFormData) => {
+    const loadingToast = showLoading('Registrando en la red galáctica...')
+    try {
+      const user = await registerUser({
+        name: data.fullName,
+        email: data.email,
+        password: data.password,
+      })
+      dismissToast(loadingToast)
+      showSuccess(
+        `¡Bienvenido a la red galáctica, ${user.name || 'Comandante'}!`
+      )
+      navigate({ to: '/' })
+    } catch (error) {
+      dismissToast(loadingToast)
+      showError('Error al registrar en la red galáctica. Intenta nuevamente.')
+      console.error('Error de registro:', error)
+    }
   }
 
   const handleForm = () => {
     if (currentStep === 1) {
       return (
-        <div className="flex flex-col gap-1.5">
-          <Input
-            label="ID Galáctico deseado"
-            placeholder="Ingresa ID galáctico"
-            icon={User}
-            type="text"
-          />
-          <Input
-            label="Nombre completo Deseado"
-            placeholder="Ingresa tu nombre completo"
-            icon={Shield}
-            type="text"
-          />
+        <div className="flex flex-col gap-5" key="step-1">
+          <div>
+            <Input
+              key="fullName-input"
+              label="Nombre completo"
+              placeholder="Ingresa tu nombre completo"
+              icon={User}
+              type="text"
+              autoComplete="name"
+              {...register('fullName')}
+            />
+            {errors.fullName && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.fullName.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <Input
+              key="email-input"
+              label="Email Intergaláctico"
+              placeholder="Ingresa tu email galáctico"
+              icon={Mail}
+              type="email"
+              autoComplete="email"
+              {...register('email')}
+            />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
         </div>
       )
     }
 
     if (currentStep === 2) {
       return (
-        <div className="flex flex-col gap-3">
-          <Input
-            label="Email Intergaláctico *"
-            placeholder="Ingresa ID galáctico"
-            icon={User}
-            type="email"
-          />
-          <span className="text-xs leading-tight text-gray-400">
-            Para notificaciones de viajes y comunicaciones <br /> oficiales
-          </span>
-          <div className="flex flex-col gap-2.5 rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
-            <p className="flex items-center gap-2 text-sm text-white">
-              <Globe className="text-cyan-300" size={16} /> Verificación
-              Intergaláctica
-            </p>
-            <p className="text-xs text-gray-400">
-              Su email será verificado a través de la red <br />
-              cuántica para garantizar la seguridad de sus <br /> viajes.
-            </p>
+        <div className="flex flex-col gap-5" key="step-2">
+          <div>
+            <Input
+              key="password-input"
+              label="Contraseña Cuántica"
+              placeholder="Ingresa tu contraseña cuántica"
+              icon={Shield}
+              type="password"
+              autoComplete="new-password"
+              {...register('password')}
+            />
+            {errors.password && touchedFields.password && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.password.message}
+              </p>
+            )}
           </div>
-        </div>
-      )
-    }
 
-    if (currentStep === 3) {
-      return (
-        <div className="flex flex-col gap-1.5">
-          <Input
-            label="Email Intergaláctico *"
-            placeholder="Ingresa ID galáctico"
-            icon={User}
-            type="email"
-          />
+          <div>
+            <Input
+              key="confirmPassword-input"
+              label="Confirmar Contraseña"
+              placeholder="Confirma tu contraseña"
+              icon={Shield}
+              type="password"
+              autoComplete="new-password"
+              {...register('confirmPassword')}
+            />
+            {errors.confirmPassword && touchedFields.confirmPassword && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
+
           <div className="flex flex-col gap-2.5 rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
             <p className="flex items-center gap-2 text-sm text-white">
               <Zap className="text-cyan-300" size={16} /> Requisitos de
@@ -99,25 +174,89 @@ export const Register = () => {
             </p>
 
             <ul className="flex flex-col gap-1 text-xs text-gray-400">
-              <li className="flex gap-2">
-                <X className="text-red-400" size={14} /> Mínimo 8 caracteres
+              <li className="flex items-center gap-2">
+                {passwordValidations.minLength ? (
+                  <Check className="text-green-400" size={14} />
+                ) : (
+                  <X className="text-red-400" size={14} />
+                )}
+                <span
+                  className={
+                    passwordValidations.minLength ? 'text-green-400' : ''
+                  }
+                >
+                  Mínimo 8 caracteres
+                </span>
               </li>
-              <li className="flex gap-2">
-                <X className="text-red-400" size={14} /> Al menos una mayúscula
+              <li className="flex items-center gap-2">
+                {passwordValidations.hasUppercase ? (
+                  <Check className="text-green-400" size={14} />
+                ) : (
+                  <X className="text-red-400" size={14} />
+                )}
+                <span
+                  className={
+                    passwordValidations.hasUppercase ? 'text-green-400' : ''
+                  }
+                >
+                  Al menos una mayúscula
+                </span>
               </li>
-              <li className="flex gap-2">
-                <X className="text-red-400" size={14} /> Al menos una minúscula
+              <li className="flex items-center gap-2">
+                {passwordValidations.hasLowercase ? (
+                  <Check className="text-green-400" size={14} />
+                ) : (
+                  <X className="text-red-400" size={14} />
+                )}
+                <span
+                  className={
+                    passwordValidations.hasLowercase ? 'text-green-400' : ''
+                  }
+                >
+                  Al menos una minúscula
+                </span>
               </li>
-              <li className="flex gap-2">
-                <X className="text-red-400" size={14} /> Al menos un número
+              <li className="flex items-center gap-2">
+                {passwordValidations.hasNumber ? (
+                  <Check className="text-green-400" size={14} />
+                ) : (
+                  <X className="text-red-400" size={14} />
+                )}
+                <span
+                  className={
+                    passwordValidations.hasNumber ? 'text-green-400' : ''
+                  }
+                >
+                  Al menos un número
+                </span>
               </li>
-              <li className="flex gap-2">
-                <X className="text-red-400" size={14} /> Al menos un carácter
-                especial
+              <li className="flex items-center gap-2">
+                {passwordValidations.hasSpecial ? (
+                  <Check className="text-green-400" size={14} />
+                ) : (
+                  <X className="text-red-400" size={14} />
+                )}
+                <span
+                  className={
+                    passwordValidations.hasSpecial ? 'text-green-400' : ''
+                  }
+                >
+                  Al menos un carácter especial
+                </span>
               </li>
-              <li className="flex gap-2">
-                <X className="text-red-400" size={14} /> Las contraseñas
-                coinciden
+              <li className="flex items-center gap-2">
+                {passwordValidations.passwordsMatch ? (
+                  <Check className="text-green-400" size={14} />
+                ) : (
+                  <X className="text-red-400" size={14} />
+                )}
+                <span
+                  className={
+                    passwordValidations.passwordsMatch ? 'text-green-400' : ''
+                  }
+                >
+                  Las contraseñas coinciden
+                </span>
               </li>
             </ul>
           </div>
@@ -125,78 +264,87 @@ export const Register = () => {
       )
     }
   }
+
   return (
-    <div className="flex h-full w-full flex-col place-items-center justify-center gap-4">
-      <Card>
-        <div className="flex w-[28rem] flex-col place-items-center gap-2.5 p-4 opacity-95">
-          <header className="flex flex-col items-center gap-3.5 pb-7">
-            <div className="rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-4">
-              <Shield size={32} />
-            </div>
+    <div className="flex min-h-full w-full flex-col items-center overflow-y-auto py-8">
+      <div className="flex w-full flex-col items-center gap-4 px-4">
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-cyan-400"
+        >
+          <Home size={16} />
+          <span>Volver al inicio</span>
+        </Link>
+        <Card>
+          <div className="flex w-md flex-col place-items-center gap-2.5 p-4 opacity-95">
+            <header className="flex flex-col items-center gap-3.5">
+              <div className="rounded-full bg-linear-to-r from-cyan-500 to-purple-500 p-4">
+                <Shield size={32} />
+              </div>
 
-            <Title>Registro Galáctico</Title>
+              <Title>Registro Galáctico</Title>
 
-            <span className="text-sm text-gray-400">
-              Únase a la Red de Viajeros Intergalácticos
-            </span>
-
-            <div className="flex gap-2.5">
-              {steps.map(step => (
-                <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full bg-[#2e3569] p-2.5 text-gray-400 ${currentStep === step ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white' : ''}`}
-                  key={step}
-                >
-                  {step}
-                </div>
-              ))}
-            </div>
-
-            <span className="text-sm text-gray-400">
-              {stepInfo[currentStep as Step]}
-            </span>
-          </header>
-
-          <form className="flex w-full flex-col gap-5">
-            {handleForm()}
-
-            <div className="flex flex-row justify-center gap-2">
-              {currentStep > 1 && (
-                <Button
-                  className="holo-border grow-1 rounded-md text-center"
-                  variant="secondary"
-                  type="button"
-                  onClick={handleBackStep}
-                >
-                  Anterior
-                </Button>
-              )}
-
-              <Button
-                className="flex shrink-0 grow-1 items-center justify-center gap-2 p-0.5"
-                type="button"
-                onClick={handleNextStep}
-              >
-                {currentStep === 3 && <Rocket size={16} />}
-                <span className="">
-                  {currentStep === 3 ? 'Completar registro' : 'Siguiente'}
-                </span>
-              </Button>
-            </div>
-
-            <div className="flex flex-col items-center">
               <span className="text-sm text-gray-400">
-                ¿Ya tienes credenciales galácticas?
+                Únase a la Red de Viajeros Intergalácticos
               </span>
-              <Link
-                to="/login"
-                className="ml-1.5 cursor-pointer text-[#06b6d4] hover:text-[#54e5ff]"
-              >
-                Iniciar sesión
-              </Link>
-            </div>
-          </form>
-        </div>
-      </Card>
+            </header>
+
+            <form
+              className="flex w-full flex-col gap-5"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              {handleForm()}
+
+              <div className="flex flex-row justify-center gap-2">
+                {currentStep > 1 && (
+                  <Button
+                    className="holo-border grow rounded-md text-center"
+                    variant="secondary"
+                    type="button"
+                    onClick={handleBackStep}
+                  >
+                    Anterior
+                  </Button>
+                )}
+
+                {currentStep < 2 ? (
+                  <Button
+                    className="flex shrink-0 grow items-center justify-center gap-2 p-0.5"
+                    type="button"
+                    onClick={handleNextStep}
+                  >
+                    <span>Siguiente</span>
+                  </Button>
+                ) : (
+                  <Button
+                    className="flex shrink-0 grow items-center justify-center gap-2 p-0.5"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    <Rocket size={16} />
+                    <span>
+                      {isSubmitting ? 'Registrando...' : 'Completar registro'}
+                    </span>
+                  </Button>
+                )}
+              </div>
+
+              <div className="flex flex-col items-center">
+                <span className="text-sm text-gray-400">
+                  ¿Ya tienes credenciales galácticas?
+                </span>
+                <Link
+                  to="/login"
+                  search={{ from: '' }}
+                  className="ml-1.5 cursor-pointer text-[#06b6d4] hover:text-[#54e5ff]"
+                >
+                  Iniciar sesión
+                </Link>
+              </div>
+            </form>
+          </div>
+        </Card>
+      </div>
     </div>
   )
 }

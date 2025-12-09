@@ -9,6 +9,9 @@ import {
   useNavigate,
 } from '@tanstack/react-router'
 import { Activity, MapPin, Rocket, Users } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { getDestinies } from '@/app/services/destiny.service'
+import { getStarships } from '@/app/services/starship.service'
 
 export const Route = createFileRoute('/_protected/admin')({
   component: Layout,
@@ -30,6 +33,7 @@ const tabs: Tab[] = [
 function Layout() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [loading, setLoading] = useState(true)
 
   const activeTab =
     tabs.find(tab => location.pathname.startsWith(tab.path))?.name || 'Resumen'
@@ -40,6 +44,28 @@ function Layout() {
       navigate({ to: tab.path })
     }
   }
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await Promise.all([getDestinies(), getStarships()])
+      } catch (error) {
+        console.error('Error loading admin data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadData()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <span className="animate-pulse text-lg text-gray-500">...</span>
+      </div>
+    )
+  }
+
   return (
     <div className="flex h-screen w-full flex-col gap-2.5 p-5">
       <Title>Portal Administrativo TVI</Title>

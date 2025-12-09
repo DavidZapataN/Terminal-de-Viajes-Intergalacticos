@@ -3,20 +3,22 @@ import './index.css'
 
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { ToasterProvider } from './lib/toast.config'
 
-// Import the generated route tree
 import { routeTree } from './app/router/routeTree.gen'
+import { QueryClient } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const router = createRouter({
   routeTree,
-  context: {},
+  context: { queryClient },
   defaultPreload: 'intent',
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
 })
 
-// Register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
@@ -29,7 +31,8 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} context={{ queryClient }} />
+      <ToasterProvider />
     </StrictMode>
   )
 }

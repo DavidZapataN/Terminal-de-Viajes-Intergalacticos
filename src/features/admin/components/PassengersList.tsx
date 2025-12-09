@@ -1,5 +1,4 @@
 import { useReservationsStore } from '@/app/stores/reservations-store'
-import { mockPlanets } from '@/db/mockData'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
@@ -50,6 +49,8 @@ export const PassengersList = () => {
     state => state.deleteReservation
   )
 
+  const planets: any[] = []
+
   const handleDelete = (reservationId: string) => {
     deleteReservation(reservationId)
   }
@@ -70,7 +71,7 @@ export const PassengersList = () => {
         </TableHeader>
         <TableBody>
           {reservations.map(reservation => {
-            const planet = mockPlanets.find(p => p.id === reservation.planetId)
+            const planet = planets.find(p => p.id === reservation.planetId)
             return (
               <TableRow key={reservation.id}>
                 <TableCell>{reservation.id.toUpperCase()}</TableCell>
@@ -93,7 +94,7 @@ export const PassengersList = () => {
                       <Edit size={16} />
                     </Button> */}
                     <Button
-                      className="holo-border !text-red-400 hover:!text-white"
+                      className="holo-border text-red-400! hover:text-white!"
                       variant="secondary"
                       onClick={() => handleDelete(reservation.id)}
                     >

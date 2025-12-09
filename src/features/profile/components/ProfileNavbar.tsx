@@ -1,3 +1,4 @@
+import { logout } from '@/app/services/auth.service'
 import { useAuthStore } from '@/app/stores/auth-store'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
@@ -13,8 +14,7 @@ interface Props {
 
 export const ProfileNavbar = ({ tabs, activeTab, setActiveTab }: Props) => {
   const navigate = useNavigate()
-  const user = useAuthStore(state => state.currentUser)
-  const logout = useAuthStore(state => state.logout)
+  const user = useAuthStore(state => state.user)
 
   const avatarInitials = () => {
     if (!user) return 'NA'
@@ -38,7 +38,7 @@ export const ProfileNavbar = ({ tabs, activeTab, setActiveTab }: Props) => {
   return (
     <Card>
       <div className="flex w-[18rem] flex-col items-center gap-4 p-6">
-        <div className="flex h-18 w-18 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-4 font-bold text-white">
+        <div className="flex h-18 w-18 items-center justify-center rounded-full bg-linear-to-r from-cyan-500 to-purple-500 p-4 font-bold text-white">
           {avatarInitials()}
         </div>
 
@@ -71,7 +71,7 @@ export const ProfileNavbar = ({ tabs, activeTab, setActiveTab }: Props) => {
 
         <Button
           variant="text"
-          className="w-full gap-5 !text-destructive hover:!bg-destructive/10 hover:!text-destructive"
+          className="w-full gap-5 text-destructive! hover:bg-destructive/10! hover:text-destructive!"
           onClick={handleLogout}
         >
           Cerrar Sesión

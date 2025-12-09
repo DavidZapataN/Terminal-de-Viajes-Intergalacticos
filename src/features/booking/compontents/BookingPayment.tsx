@@ -2,8 +2,6 @@ import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
 import { Input } from '@/shared/components/Input'
 import { Calendar, CreditCard, LockKeyhole, Star } from 'lucide-react'
-import { useShipsStore } from '@/app/stores/ships-store'
-import { usePlanetsStore } from '@/app/stores/planets-store'
 import { useMemo } from 'react'
 
 interface BookingData {
@@ -39,13 +37,13 @@ export const BookingPayment = ({
   totalCost,
   onUpdatePayment,
 }: Props) => {
-  const ships = useShipsStore(state => state.ships)
-  const planets = usePlanetsStore(state => state.planets)
+  // const ships = useStarshipsStore(state => state.starships)
+  const planets: any[] = []
 
-  const selectedShip = useMemo(
-    () => ships.find(ship => ship.id === bookingData.shipId),
-    [ships, bookingData.shipId]
-  )
+  // const selectedShip = useMemo(
+  //   () => ships.find(ship => ship.id. === bookingData.shipId),
+  //   [ships, bookingData.shipId]
+  // )
 
   const selectedPlanet = useMemo(
     () => planets.find(planet => planet.id === bookingData.planetId),
@@ -57,9 +55,9 @@ export const BookingPayment = ({
       <div className="flex w-full flex-col gap-4 p-6">
         <h3 className="text-cyan-400">Confirmación de reserva</h3>
 
-        <Card className="h-max !w-full">
+        <Card className="h-max w-full!">
           <div className="flex w-full gap-4 p-4">
-            <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg">
+            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg">
               <ImageWithFallback
                 src={
                   selectedPlanet?.images?.[0] ||
@@ -88,7 +86,7 @@ export const BookingPayment = ({
             <h3>Resumen de la reserva</h3>
             <div className="flex justify-between">
               Nave:
-              <span> {selectedShip?.name || 'No seleccionada'}</span>
+              <span> { 'No seleccionada'}</span>
             </div>
             <div className="flex justify-between">
               Fechas:

@@ -26,7 +26,7 @@ export const PlanetTechnicalSheet = ({ technicalData }: Props) => {
                 key={data.label}
                 className="flex items-center gap-3 rounded-lg bg-accent p-3 transition-colors hover:bg-accent/20"
               >
-                <Icon className="h-5 w-5 flex-shrink-0 text-purple-400" />
+                <Icon className="h-5 w-5 shrink-0 text-purple-400" />
                 <div>
                   <div className="text-sm text-muted-foreground">
                     {data.label}
