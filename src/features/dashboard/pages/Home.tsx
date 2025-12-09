@@ -7,6 +7,9 @@ import { Card } from '@/shared/components/Card'
 import { mockPlanets, mockReservationsAdmin } from '@/db/mockData'
 import { RecentActivityCard } from '../components/RecentActivityCard'
 import { Statistics } from '../components/Statistics'
+import { useEffect, useState } from 'react'
+import { getDestinies } from '@/app/services/destiny.service'
+import { getStarships } from '@/app/services/starship.service'
 
 const quickActions = [
   {
@@ -34,6 +37,20 @@ const quickActions = [
 
 export const Home = () => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await Promise.all([getDestinies(), getStarships()])
+      } catch (error) {
+        console.error('Error loading admin data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadData()
+  }, [])
 
   const handleCardClick = (id: string) => {
     switch (id) {
@@ -49,6 +66,14 @@ export const Home = () => {
       default:
         break
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <span className="animate-pulse text-lg text-gray-500">...</span>
+      </div>
+    )
   }
 
   return (

@@ -1,16 +1,16 @@
-import { usePlanetsStore } from '@/app/stores/planets-store'
-import { Star, Thermometer, Users } from 'lucide-react'
+import { Thermometer, Users } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useRef, useState } from 'react'
 import { Title } from './Title'
+import { useDestinyStore } from '@/app/stores/destiny-store'
 
 interface GalacticMapProps {
-  onPlanetClick: (planetId: string) => void
+  onPlanetClick: (planetId: number) => void
 }
 
 export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
-  const planets = usePlanetsStore(state => state.planets)
-  const [hoveredPlanet, setHoveredPlanet] = useState<string | null>(null)
+  const destinies = useDestinyStore(state => state.destinies)
+  const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null)
   const [mapTransform, setMapTransform] = useState({ scale: 1, x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const mapRef = useRef<HTMLDivElement>(null)
@@ -39,7 +39,6 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
   }
 
   const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault()
     const delta = e.deltaY * -0.001
     const newScale = Math.min(Math.max(0.5, mapTransform.scale + delta), 3)
 
@@ -49,7 +48,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
     }))
   }
 
-  const handlePlanetClick = (planetId: string, e: React.MouseEvent) => {
+  const handlePlanetClick = (planetId: number, e: React.MouseEvent) => {
     e.stopPropagation()
     // Trigger zoom galactic animation before navigating
     const planetElement = e.currentTarget as HTMLElement
@@ -62,18 +61,18 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
   }
 
   const connections =
-    planets.length >= 5
+    destinies.length >= 5
       ? [
-          { from: planets[0], to: planets[1] },
-          { from: planets[1], to: planets[2] },
-          { from: planets[2], to: planets[3] },
-          { from: planets[0], to: planets[4] },
-          ...(planets.length > 5 ? [{ from: planets[4], to: planets[5] }] : []),
+          { from: destinies[0], to: destinies[1] },
+          { from: destinies[1], to: destinies[2] },
+          { from: destinies[2], to: destinies[3] },
+          { from: destinies[0], to: destinies[4] },
+          ...(destinies.length > 5 ? [{ from: destinies[4], to: destinies[5] }] : []),
         ]
       : []
 
   return (
-    <div className="relative h-80 w-full cursor-grab overflow-hidden rounded-lg bg-gradient-to-br from-black via-slate-950 to-indigo-950 active:cursor-grabbing">
+    <div className="relative h-80 w-full cursor-grab overflow-hidden rounded-lg bg-linear-to-br from-black via-slate-950 to-indigo-950 active:cursor-grabbing">
       {/* Fondo estrellado */}
       <div className="pointer-events-none absolute inset-0 z-0 h-full w-full">
         {/* Capa de estrellas estáticas */}
@@ -87,7 +86,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
         />
         {/* Capa de estrellas moviéndose */}
         <div
-          className="animate-twinkling absolute inset-0 z-[1] h-full w-full opacity-50"
+          className="animate-twinkling absolute inset-0 z-1 h-full w-full opacity-50"
           style={{
             backgroundImage: "url('/images/estrellas-estaticas.png')",
             backgroundRepeat: 'repeat',
@@ -96,7 +95,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
         />
         {/* Capa de estrellas parpadeantes */}
         <div
-          className="animate-twinkling absolute inset-0 z-[0] h-full w-full"
+          className="animate-twinkling absolute inset-0 z-0 h-full w-full"
           style={{
             backgroundImage: "url('/images/estrellas-parpadeantes.png')",
             backgroundRepeat: 'repeat',
@@ -175,13 +174,13 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
           })}
         </svg>
 
-        {planets.map((planet, index) => (
+        {destinies.map((destiny, index) => (
           <motion.div
-            key={planet.id}
+            key={destiny.id}
             className="group absolute cursor-pointer"
             style={{
-              left: `${planet.position.x}%`,
-              top: `${planet.position.y}%`,
+              left: `${destiny.position.x}%`,
+              top: `${destiny.position.y}%`,
               transform: 'translate(-50%, -50%)',
             }}
             initial={{ scale: 0 }}
@@ -190,20 +189,20 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
               delay: 0.5 + index * 0.2,
               duration: 0.8,
             }}
-            onMouseEnter={() => setHoveredPlanet(planet.id)}
+            onMouseEnter={() => setHoveredPlanet(destiny.id)}
             onMouseLeave={() => setHoveredPlanet(null)}
-            onClick={e => handlePlanetClick(planet.id, e)}
+            onClick={e => handlePlanetClick(destiny.id, e)}
           >
-            <div className="absolute inset-0 animate-pulse rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 opacity-50 blur-md" />
+            <div className="absolute inset-0 animate-pulse rounded-full bg-linear-to-r from-cyan-400 to-purple-400 opacity-50 blur-md" />
 
             <div
-              className="relative h-6 w-6 rounded-full border-2 border-cyan-400 bg-gradient-to-br from-cyan-500 to-purple-500 shadow-lg"
+              className="relative h-6 w-6 rounded-full border-2 border-cyan-400 bg-linear-to-br from-cyan-500 to-purple-500 shadow-lg"
               style={{
                 boxShadow:
                   '0 0 20px rgba(6, 182, 212, 0.6), inset 0 0 10px rgba(139, 92, 246, 0.4)',
               }}
             >
-              <div className="absolute inset-1 rounded-full bg-gradient-to-br from-transparent via-white/10 to-transparent" />
+              <div className="absolute inset-1 rounded-full bg-linear-to-br from-transparent via-white/10 to-transparent" />
             </div>
 
             <div
@@ -217,7 +216,7 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
             />
 
             <AnimatePresence>
-              {hoveredPlanet === planet.id && (
+              {hoveredPlanet === destiny.id && (
                 <motion.div
                   initial={{ opacity: 0, y: 10, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -229,22 +228,18 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
                   }}
                 >
                   <div className="text-sm">
-                    <Title className="mb-1">{planet.name}</Title>
+                    <Title className="mb-1">{destiny.name}</Title>
                     <p className="mb-2 text-xs text-gray-300">
-                      {planet.system}
+                      {destiny.system}
                     </p>
                     <div className="mb-2 flex items-center gap-1 text-xs">
                       <Thermometer size={14} className="text-orange-400" />
-                      <span>{planet.climate}</span>
+                      <span>{destiny.averageTemperature}</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs">
                       <div className="flex items-center gap-1">
                         <Users size={14} className="text-blue-400" />
-                        <span>{planet.distance} años luz</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star size={14} className="text-yellow-400" />
-                        <span>{planet.rating}</span>
+                        <span>{destiny.distance} años luz</span>
                       </div>
                     </div>
 
@@ -296,11 +291,11 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
         <div className="mb-2 text-xs text-gray-300">Leyenda:</div>
         <div className="flex flex-col gap-1 text-xs">
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400" />
+            <div className="h-3 w-3 rounded-full bg-linear-to-r from-cyan-400 to-purple-400" />
             <span className="text-gray-300">Planetas habitables</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-0.5 w-6 bg-gradient-to-r from-cyan-400 to-purple-400" />
+            <div className="h-0.5 w-6 bg-linear-to-r from-cyan-400 to-purple-400" />
             <span className="text-gray-300">Rutas comerciales</span>
           </div>
         </div>

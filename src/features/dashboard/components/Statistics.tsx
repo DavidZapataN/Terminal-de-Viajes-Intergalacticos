@@ -3,7 +3,7 @@ import { Title } from '@/shared/components/Title'
 
 export const Statistics = () => {
   return (
-    <Card className="!w-full">
+    <Card className="w-full!">
       <div className="flex flex-col gap-5 p-5">
         <Title>Estadísticas</Title>
 

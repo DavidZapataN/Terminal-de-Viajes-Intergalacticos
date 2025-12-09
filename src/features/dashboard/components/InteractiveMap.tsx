@@ -7,10 +7,10 @@ import { Map } from 'lucide-react'
 export const InteractiveMap = () => {
   const navigate = useNavigate()
 
-  const handlePlanetClick = (planetId: string) => {
+  const handlePlanetClick = (planetId: number) => {
     navigate({
       to: '/destinos/$destinoId',
-      params: { destinoId: planetId },
+      params: { destinoId: planetId.toString() },
     })
   }
 
