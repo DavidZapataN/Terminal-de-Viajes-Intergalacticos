@@ -1,10 +1,11 @@
-import { Card } from '@/shared/components/Card'
-import { CarrouselImage } from './Carrouselmage'
-import { Title } from '@/shared/components/Title'
-import { Rocket, Star } from 'lucide-react'
-import { Button } from '@/shared/components/Button'
+import { useBookingStore } from '@/app/stores/booking-store'
 import type { Destiny } from '@/app/types/Destiny'
+import { Button } from '@/shared/components/Button'
+import { Card } from '@/shared/components/Card'
+import { Title } from '@/shared/components/Title'
 import { useNavigate } from '@tanstack/react-router'
+import { Rocket, Star } from 'lucide-react'
+import { CarrouselImage } from './Carrouselmage'
 
 interface Props {
   planet: Destiny
@@ -13,9 +14,12 @@ interface Props {
 
 export const PlanetDetailCard = ({ planet, planetImages }: Props) => {
   const navigate = useNavigate()
+  const { setDestiny, resetBooking } = useBookingStore()
 
   const handleBooking = () => {
-    navigate({ to: '/reservas' })
+    resetBooking()
+    setDestiny(planet)
+    navigate({ to: '/reservas/fechas' })
   }
 
   return (
