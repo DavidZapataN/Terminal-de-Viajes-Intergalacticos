@@ -1,0 +1,1428 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateUserDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refreshTokens",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RefreshTokenDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/profile": {
+      "get": {
+        "operationId": "AuthController_getProfile",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"]
+      },
+      "patch": {
+        "operationId": "AuthController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateProfileDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/change-password": {
+      "post": {
+        "operationId": "AuthController_changePassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChangePasswordDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/user": {
+      "post": {
+        "operationId": "UserController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateUserDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"]
+      },
+      "get": {
+        "operationId": "UserController_findAll",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"]
+      }
+    },
+    "/api/user/{id}": {
+      "get": {
+        "operationId": "UserController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"]
+      },
+      "patch": {
+        "operationId": "UserController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateUserDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"]
+      },
+      "delete": {
+        "operationId": "UserController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["User"]
+      }
+    },
+    "/api/starship": {
+      "get": {
+        "operationId": "StarshipController_findAll",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Starship"]
+      },
+      "post": {
+        "operationId": "StarshipController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateStarshipDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Starship"]
+      }
+    },
+    "/api/starship/{id}": {
+      "get": {
+        "operationId": "StarshipController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Starship"]
+      },
+      "patch": {
+        "operationId": "StarshipController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateStarshipDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Starship"]
+      },
+      "delete": {
+        "operationId": "StarshipController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["Starship"]
+      }
+    },
+    "/api/starship/{id}/status": {
+      "patch": {
+        "operationId": "StarshipController_updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStarshipStatusDto"
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Starship"]
+      }
+    },
+    "/api/destiny": {
+      "post": {
+        "operationId": "DestiniesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateDestinyDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Destino creado exitosamente" },
+          "400": { "description": "Datos de entrada inválidos" },
+          "401": { "description": "No autorizado" },
+          "409": { "description": "El destino ya existe" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Crear un nuevo destino",
+        "tags": ["destiny"]
+      },
+      "get": {
+        "operationId": "DestiniesController_findAll",
+        "parameters": [
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Filtrar por nombre (búsqueda parcial)",
+            "schema": { "example": "marte", "type": "string" }
+          },
+          {
+            "name": "system",
+            "required": false,
+            "in": "query",
+            "description": "Filtrar por sistema estelar (búsqueda parcial)",
+            "schema": { "example": "solar", "type": "string" }
+          },
+          {
+            "name": "atmosphere",
+            "required": false,
+            "in": "query",
+            "description": "Filtrar por tipo de atmósfera",
+            "schema": {
+              "type": "string",
+              "enum": ["breathable", "not breathable", "toxic", "none"]
+            }
+          },
+          {
+            "name": "minPrice",
+            "required": false,
+            "in": "query",
+            "description": "Precio mínimo",
+            "schema": { "minimum": 0, "example": 10000, "type": "number" }
+          },
+          {
+            "name": "maxPrice",
+            "required": false,
+            "in": "query",
+            "description": "Precio máximo",
+            "schema": { "example": 100000, "type": "number" }
+          },
+          {
+            "name": "minDistance",
+            "required": false,
+            "in": "query",
+            "description": "Distancia mínima en millones de km",
+            "schema": { "example": 100, "type": "number" }
+          },
+          {
+            "name": "maxDistance",
+            "required": false,
+            "in": "query",
+            "description": "Distancia máxima en millones de km",
+            "schema": { "example": 1000, "type": "number" }
+          },
+          {
+            "name": "minTemperature",
+            "required": false,
+            "in": "query",
+            "description": "Temperatura mínima en °C",
+            "schema": { "example": -100, "type": "number" }
+          },
+          {
+            "name": "maxTemperature",
+            "required": false,
+            "in": "query",
+            "description": "Temperatura máxima en °C",
+            "schema": { "example": 50, "type": "number" }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Número de página",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Cantidad de resultados por página",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Campo para ordenar",
+            "schema": {
+              "default": "name",
+              "type": "string",
+              "enum": ["name", "price", "distance", "averageTemperature"]
+            }
+          },
+          {
+            "name": "order",
+            "required": false,
+            "in": "query",
+            "description": "Dirección del ordenamiento",
+            "schema": {
+              "default": "ASC",
+              "type": "string",
+              "enum": ["ASC", "DESC"]
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de destinos obtenida exitosamente" },
+          "401": { "description": "No autorizado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener todos los destinos con filtros y paginación",
+        "tags": ["destiny"]
+      }
+    },
+    "/api/destiny/reviews-summary/{id}": {
+      "get": {
+        "operationId": "DestiniesController_getReviewsSummary",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del destino",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resumen de reseñas obtenido exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "averageRating": { "type": "number", "example": 4.35 },
+                    "totalReviews": { "type": "number", "example": 150 },
+                    "rating1": { "type": "number", "example": 5 },
+                    "rating2": { "type": "number", "example": 10 },
+                    "rating3": { "type": "number", "example": 15 },
+                    "rating4": { "type": "number", "example": 50 },
+                    "rating5": { "type": "number", "example": 70 }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener resumen de reseñas de un destino",
+        "tags": ["destiny"]
+      }
+    },
+    "/api/destiny/{id}": {
+      "get": {
+        "operationId": "DestiniesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del destino",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Destino encontrado" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener un destino por ID",
+        "tags": ["destiny"]
+      },
+      "patch": {
+        "operationId": "DestiniesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del destino a actualizar",
+            "schema": { "type": "number" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateDestinyDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Destino actualizado exitosamente" },
+          "400": { "description": "Datos de entrada inválidos" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Actualizar un destino",
+        "tags": ["destiny"]
+      },
+      "delete": {
+        "operationId": "DestiniesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del destino a eliminar",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Destino eliminado exitosamente" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Eliminar un destino",
+        "tags": ["destiny"]
+      }
+    },
+    "/api/destiny/like/{id}": {
+      "post": {
+        "operationId": "DestiniesController_addLike",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del destino",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Like agregado exitosamente" },
+          "400": { "description": "Ya has dado like a este destino" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Dar like a un destino",
+        "tags": ["destiny"]
+      },
+      "delete": {
+        "operationId": "DestiniesController_removeLike",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del destino",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Like removido exitosamente" },
+          "400": { "description": "No has dado like a este destino" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Quitar like de un destino",
+        "tags": ["destiny"]
+      }
+    },
+    "/api/review": {
+      "post": {
+        "operationId": "ReviewsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateReviewDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Reseña creada exitosamente" },
+          "400": { "description": "Datos de entrada inválidos" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Autor o destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Crear una nueva reseña",
+        "tags": ["review"]
+      }
+    },
+    "/api/review/destiny/{destinyId}": {
+      "get": {
+        "operationId": "ReviewsController_findByDestiny",
+        "parameters": [
+          {
+            "name": "destinyId",
+            "required": true,
+            "in": "path",
+            "description": "ID del destino",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de reseñas obtenida exitosamente" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Destino no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener todas las reseñas de un destino",
+        "tags": ["review"]
+      }
+    },
+    "/api/review/{id}": {
+      "get": {
+        "operationId": "ReviewsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reseña",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Reseña encontrada" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Reseña no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener una reseña por ID",
+        "tags": ["review"]
+      },
+      "delete": {
+        "operationId": "ReviewsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reseña a eliminar",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Reseña eliminada exitosamente" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Reseña no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Eliminar una reseña",
+        "tags": ["review"]
+      }
+    },
+    "/api/review/like/{id}": {
+      "post": {
+        "operationId": "ReviewsController_addLike",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reseña",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Like agregado exitosamente" },
+          "400": { "description": "Ya has dado like a esta reseña" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Reseña no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Dar like a una reseña",
+        "tags": ["review"]
+      },
+      "delete": {
+        "operationId": "ReviewsController_removeLike",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reseña",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Like removido exitosamente" },
+          "400": { "description": "No has dado like a esta reseña" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Reseña no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Quitar like de una reseña",
+        "tags": ["review"]
+      }
+    },
+    "/api/cabin/{starshipId}": {
+      "post": {
+        "operationId": "CabinController_create",
+        "parameters": [
+          {
+            "name": "starshipId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateCabinDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Cabin"]
+      }
+    },
+    "/api/cabin": {
+      "get": {
+        "operationId": "CabinController_findAll",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cabin"]
+      }
+    },
+    "/api/cabin/{id}": {
+      "get": {
+        "operationId": "CabinController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cabin"]
+      },
+      "patch": {
+        "operationId": "CabinController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateCabinDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cabin"]
+      },
+      "delete": {
+        "operationId": "CabinController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["Cabin"]
+      }
+    },
+    "/api/cabin/starship/{starshipId}": {
+      "get": {
+        "operationId": "CabinController_findByStarship",
+        "parameters": [
+          {
+            "name": "starshipId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cabin"]
+      }
+    },
+    "/api/activity/{destinyId}": {
+      "post": {
+        "operationId": "ActivityController_create",
+        "parameters": [
+          {
+            "name": "destinyId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateActivityDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Activity"]
+      }
+    },
+    "/api/activity": {
+      "get": {
+        "operationId": "ActivityController_findAll",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Activity"]
+      }
+    },
+    "/api/activity/{id}": {
+      "get": {
+        "operationId": "ActivityController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Activity"]
+      },
+      "patch": {
+        "operationId": "ActivityController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateActivityDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["Activity"]
+      },
+      "delete": {
+        "operationId": "ActivityController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["Activity"]
+      }
+    },
+    "/api/activity/destiny/{destinyId}": {
+      "get": {
+        "operationId": "ActivityController_findByDestiny",
+        "parameters": [
+          {
+            "name": "destinyId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Activity"]
+      }
+    },
+    "/api/review-reply": {
+      "post": {
+        "operationId": "ReviewReplyController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateReviewReplyDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Respuesta creada exitosamente" },
+          "400": { "description": "Datos de entrada inválidos" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Autor o reseña no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Crear una nueva respuesta a una reseña",
+        "tags": ["review-reply"]
+      }
+    },
+    "/api/review-reply/review/{reviewId}": {
+      "get": {
+        "operationId": "ReviewReplyController_findByReview",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reseña",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de respuestas obtenida exitosamente" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Reseña no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener todas las respuestas de una reseña",
+        "tags": ["review-reply"]
+      }
+    },
+    "/api/review-reply/{id}": {
+      "get": {
+        "operationId": "ReviewReplyController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la respuesta",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Respuesta encontrada" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Respuesta no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener una respuesta por ID",
+        "tags": ["review-reply"]
+      },
+      "delete": {
+        "operationId": "ReviewReplyController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la respuesta a eliminar",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Respuesta eliminada exitosamente" },
+          "401": { "description": "No autorizado" },
+          "404": { "description": "Respuesta no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Eliminar una respuesta",
+        "tags": ["review-reply"]
+      }
+    },
+    "/api/booking": {
+      "post": {
+        "operationId": "BooksController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateBookDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Reserva creada exitosamente" },
+          "400": { "description": "Datos inválidos o capacidad insuficiente" },
+          "404": { "description": "Usuario, destino o cabina no encontrado" },
+          "409": {
+            "description": "Nave no disponible para el destino en las fechas"
+          }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Crear una nueva reserva",
+        "tags": ["booking"]
+      },
+      "get": {
+        "operationId": "BooksController_findAll",
+        "parameters": [],
+        "responses": { "200": { "description": "Lista de reservas" } },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener todas las reservas",
+        "tags": ["booking"]
+      }
+    },
+    "/api/booking/available-starships": {
+      "get": {
+        "operationId": "BooksController_getAvailableStarships",
+        "parameters": [
+          {
+            "name": "destinyId",
+            "required": true,
+            "in": "query",
+            "description": "ID del destino",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "departureDate",
+            "required": true,
+            "in": "query",
+            "description": "Fecha de salida (YYYY-MM-DD)",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "returnDate",
+            "required": true,
+            "in": "query",
+            "description": "Fecha de regreso (YYYY-MM-DD)",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de naves disponibles con capacidad" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener naves disponibles para un destino y fechas",
+        "tags": ["booking"]
+      }
+    },
+    "/api/booking/user/{userId}": {
+      "get": {
+        "operationId": "BooksController_findByUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "ID del usuario",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de reservas del usuario" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener reservas de un usuario",
+        "tags": ["booking"]
+      }
+    },
+    "/api/booking/{id}": {
+      "get": {
+        "operationId": "BooksController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reserva",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Reserva encontrada" },
+          "404": { "description": "Reserva no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener una reserva por ID",
+        "tags": ["booking"]
+      },
+      "patch": {
+        "operationId": "BooksController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reserva",
+            "schema": { "type": "number" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateBookDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Reserva actualizada" },
+          "404": { "description": "Reserva no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Actualizar estado de una reserva",
+        "tags": ["booking"]
+      }
+    },
+    "/api/booking/{id}/cancel": {
+      "patch": {
+        "operationId": "BooksController_cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reserva",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Reserva cancelada" },
+          "400": { "description": "La reserva ya está cancelada o completada" },
+          "404": { "description": "Reserva no encontrada" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Cancelar una reserva",
+        "tags": ["booking"]
+      }
+    },
+    "/api/ticket": {
+      "get": {
+        "operationId": "TicketsController_findAll",
+        "parameters": [],
+        "responses": { "200": { "description": "Lista de tickets" } },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener todos los tickets",
+        "tags": ["ticket"]
+      }
+    },
+    "/api/ticket/booking/{bookingId}": {
+      "get": {
+        "operationId": "TicketsController_findByBooking",
+        "parameters": [
+          {
+            "name": "bookingId",
+            "required": true,
+            "in": "path",
+            "description": "ID de la reserva",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de tickets de la reserva" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener tickets de una reserva",
+        "tags": ["ticket"]
+      }
+    },
+    "/api/ticket/{id}": {
+      "get": {
+        "operationId": "TicketsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del ticket",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ticket encontrado" },
+          "404": { "description": "Ticket no encontrado" }
+        },
+        "security": [{ "JWT-auth": [] }],
+        "summary": "Obtener un ticket por ID",
+        "tags": ["ticket"]
+      }
+    }
+  },
+  "info": {
+    "title": "TVI Backend API",
+    "description": "API para gestión de viajes interplanetarios",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [
+    { "name": "auth", "description": "Autenticación y gestión de sesiones" },
+    {
+      "name": "destinies",
+      "description": "Gestión de destinos interplanetarios"
+    },
+    { "name": "reviews", "description": "Reseñas de destinos" },
+    { "name": "users", "description": "Gestión de usuarios" },
+    { "name": "starships", "description": "Gestión de naves espaciales" }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "JWT-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "name": "JWT",
+        "description": "Ingresa tu token JWT",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "CreateUserDto": { "type": "object", "properties": {} },
+      "LoginDto": { "type": "object", "properties": {} },
+      "RefreshTokenDto": { "type": "object", "properties": {} },
+      "UpdateProfileDto": { "type": "object", "properties": {} },
+      "ChangePasswordDto": { "type": "object", "properties": {} },
+      "UpdateUserDto": { "type": "object", "properties": {} },
+      "CreateStarshipDto": { "type": "object", "properties": {} },
+      "UpdateStarshipDto": { "type": "object", "properties": {} },
+      "UpdateStarshipStatusDto": { "type": "object", "properties": {} },
+      "CreateDestinyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre del destino",
+            "example": "Marte"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripción detallada del destino",
+            "example": "El planeta rojo, cuarto planeta del sistema solar"
+          },
+          "images": {
+            "description": "URLs de las imágenes del destino",
+            "example": [
+              "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9"
+            ],
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "gravity": {
+            "type": "number",
+            "description": "Gravedad en m/s²",
+            "example": 3.72,
+            "minimum": 0
+          },
+          "system": {
+            "type": "string",
+            "description": "Sistema estelar donde se encuentra el destino",
+            "example": "Sistema Solar"
+          },
+          "dayNightCycle": {
+            "type": "number",
+            "description": "Duración del ciclo día/noche en horas",
+            "example": 25,
+            "minimum": 1
+          },
+          "atmosphere": {
+            "type": "string",
+            "description": "Tipo de atmósfera",
+            "enum": ["breathable", "not breathable", "toxic", "none"],
+            "example": "not breathable"
+          },
+          "population": {
+            "type": "number",
+            "description": "Población del destino",
+            "example": "2500000"
+          },
+          "averageTemperature": {
+            "type": "number",
+            "description": "Temperatura promedio en grados Celsius",
+            "example": -63
+          },
+          "distance": {
+            "type": "number",
+            "description": "Distancia desde la Tierra en millones de km",
+            "example": 225,
+            "minimum": 0
+          },
+          "position": {
+            "type": "object",
+            "description": "Posición en el mapa galáctico",
+            "example": { "x": 100, "y": 200 }
+          },
+          "price": {
+            "type": "number",
+            "description": "Precio del viaje en créditos",
+            "example": 50000,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "images",
+          "gravity",
+          "system",
+          "dayNightCycle",
+          "atmosphere",
+          "population",
+          "averageTemperature",
+          "distance",
+          "position",
+          "price"
+        ]
+      },
+      "UpdateDestinyDto": { "type": "object", "properties": {} },
+      "CreateReviewDto": {
+        "type": "object",
+        "properties": {
+          "authorId": {
+            "type": "number",
+            "description": "ID del usuario autor de la reseña",
+            "example": 1,
+            "minimum": 1
+          },
+          "destinyId": {
+            "type": "number",
+            "description": "ID del destino que se está reseñando",
+            "example": 1,
+            "minimum": 1
+          },
+          "content": {
+            "type": "string",
+            "description": "Contenido de la reseña",
+            "example": "Increíble experiencia en Marte. Los paisajes rojos son impresionantes."
+          },
+          "rating": {
+            "type": "number",
+            "description": "Calificación del destino (1-5 estrellas)",
+            "example": 5,
+            "minimum": 1,
+            "maximum": 5
+          }
+        },
+        "required": ["authorId", "destinyId", "content", "rating"]
+      },
+      "CreateCabinDto": { "type": "object", "properties": {} },
+      "UpdateCabinDto": { "type": "object", "properties": {} },
+      "CreateActivityDto": { "type": "object", "properties": {} },
+      "UpdateActivityDto": { "type": "object", "properties": {} },
+      "CreateReviewReplyDto": {
+        "type": "object",
+        "properties": {
+          "authorId": {
+            "type": "number",
+            "description": "ID del usuario autor de la respuesta",
+            "example": 1,
+            "minimum": 1
+          },
+          "reviewId": {
+            "type": "number",
+            "description": "ID de la reseña que se está respondiendo",
+            "example": 1,
+            "minimum": 1
+          },
+          "content": {
+            "type": "string",
+            "description": "Contenido de la respuesta",
+            "example": "Gracias por tu comentario. Nos alegra que hayas disfrutado la experiencia."
+          }
+        },
+        "required": ["authorId", "reviewId", "content"]
+      },
+      "PassengerDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre del pasajero",
+            "example": "Juan Pérez"
+          }
+        },
+        "required": ["name"]
+      },
+      "CreateBookDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number",
+            "description": "ID del usuario que realiza la reserva",
+            "example": 1
+          },
+          "destinyId": {
+            "type": "number",
+            "description": "ID del destino",
+            "example": 1
+          },
+          "cabinId": {
+            "type": "number",
+            "description": "ID de la cabina seleccionada",
+            "example": 1
+          },
+          "departureDate": {
+            "type": "string",
+            "description": "Fecha de salida (YYYY-MM-DD)",
+            "example": "2025-06-15"
+          },
+          "returnDate": {
+            "type": "string",
+            "description": "Fecha de regreso (YYYY-MM-DD)",
+            "example": "2025-06-30"
+          },
+          "passengers": {
+            "description": "Lista de pasajeros",
+            "example": [{ "name": "Juan Pérez" }, { "name": "María García" }],
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PassengerDto" }
+          }
+        },
+        "required": [
+          "userId",
+          "destinyId",
+          "cabinId",
+          "departureDate",
+          "returnDate",
+          "passengers"
+        ]
+      },
+      "UpdateBookDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Estado de la reserva",
+            "enum": ["confirmed", "completed", "cancelled"],
+            "example": "cancelled"
+          }
+        }
+      }
+    }
+  }
+}
