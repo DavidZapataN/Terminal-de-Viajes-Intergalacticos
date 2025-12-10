@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { getDestinies } from '@/app/services/destiny.service'
 import { useDestinyStore } from '@/app/stores/destiny-store'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export const Route = createFileRoute('/destinos')({
   component: RouteComponent,
@@ -9,10 +9,12 @@ export const Route = createFileRoute('/destinos')({
 
 function RouteComponent() {
   const { destinies, isLoading, setIsLoading } = useDestinyStore()
+  const hasLoadedRef = useRef(false)
 
   useEffect(() => {
     const loadDestinies = async () => {
-      if (destinies.length === 0 && !isLoading) {
+      if (!hasLoadedRef.current && destinies.length === 0 && !isLoading) {
+        hasLoadedRef.current = true
         setIsLoading(true)
         try {
           await getDestinies()
