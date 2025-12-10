@@ -1,3 +1,4 @@
+import { useBookingStore } from '@/app/stores/booking-store'
 import type { Destiny } from '@/app/types/Destiny'
 import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
@@ -19,6 +20,7 @@ const atmosphereName = {
 
 export const PlanetSummaryCard = ({ planet }: Props) => {
   const navigate = useNavigate()
+  const { setDestiny, resetBooking } = useBookingStore()
 
   const handleCardClick = () => {
     navigate({
@@ -29,7 +31,9 @@ export const PlanetSummaryCard = ({ planet }: Props) => {
 
   const handleBooking = (e: React.MouseEvent) => {
     e.stopPropagation()
-    navigate({ to: '/reservas' })
+    resetBooking()
+    setDestiny(planet)
+    navigate({ to: '/reservas/fechas' })
   }
 
   return (

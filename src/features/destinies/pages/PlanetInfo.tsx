@@ -228,21 +228,67 @@ export const PlanetInfo = () => {
   }))
 
   return (
-    <div className="flex h-screen w-full flex-col gap-4 p-5">
+    <div className="flex min-h-screen w-full flex-col gap-4 overflow-auto p-4 md:p-5">
       <Button className="w-max" variant="text" onClick={handleBack}>
         <ArrowLeft className="mr-3" size={16} />
-        Volver a explorar destinos
+        <span className="hidden sm:inline">Volver a explorar destinos</span>
+        <span className="sm:hidden">Volver</span>
       </Button>
 
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-4">
+      {/* Main Grid - 1 col mobile, 3 cols desktop */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {/* Left Column - Planet Details */}
+        <div className="flex flex-col gap-4 lg:col-span-2">
           <PlanetDetailCard planet={planet} planetImages={planetImages} />
           <PlanetTechnicalSheet technicalData={technicalData} />
           {planet.activities.length > 0 && (
             <PlanetActivities detailedActivities={planet.activities} />
           )}
         </div>
-        <div className="flex w-1/3 flex-col gap-4">
+
+        {/* Right Column - Ratings, Reviews & Actions */}
+        <div className="flex flex-col gap-4">
+          {/* Quick Actions - Mobile: at top, Desktop: at bottom */}
+          <Card className="order-first lg:order-last">
+            <div className="flex w-full flex-col gap-3 p-4 md:p-6">
+              <Title className="text-base">Acciones rápidas</Title>
+
+              <div className="flex flex-col gap-2 sm:flex-row lg:flex-col">
+                <Button
+                  variant="text"
+                  className={`holo-border flex-1 justify-start ${
+                    currentUser && planet.likedByUsers.includes(currentUser.id)
+                      ? 'text-red-400'
+                      : ''
+                  }`}
+                  onClick={handleToggleDestinyLike}
+                  disabled={isTogglingDestinyLike}
+                >
+                  <Heart
+                    size={18}
+                    className={`mr-2 ${
+                      currentUser &&
+                      planet.likedByUsers.includes(currentUser.id)
+                        ? 'fill-current'
+                        : ''
+                    }`}
+                  />
+                  {currentUser && planet.likedByUsers.includes(currentUser.id)
+                    ? 'Quitar de favoritos'
+                    : 'Agregar a favoritos'}
+                </Button>
+                <Button
+                  variant="text"
+                  className="holo-border flex-1 justify-start"
+                  onClick={handleOpenReviewModal}
+                >
+                  <MessageCircle size={18} className="mr-2" />
+                  Escribir reseña
+                </Button>
+              </div>
+            </div>
+          </Card>
+
           <PlanetRatings planet={planet} />
 
           <PlanetReviews
@@ -252,43 +298,6 @@ export const PlanetInfo = () => {
             onReviewLikesUpdated={handleReviewLikesUpdated}
             isLoading={isLoadingReviews}
           />
-
-          <Card>
-            <div className="flex w-full flex-col gap-4 p-6">
-              <Title>Acciones rápidas</Title>
-
-              <Button
-                variant="text"
-                className={`holo-border w-full justify-start ${
-                  currentUser && planet.likedByUsers.includes(currentUser.id)
-                    ? 'text-red-400'
-                    : ''
-                }`}
-                onClick={handleToggleDestinyLike}
-                disabled={isTogglingDestinyLike}
-              >
-                <Heart
-                  size={18}
-                  className={`mr-2 ${
-                    currentUser && planet.likedByUsers.includes(currentUser.id)
-                      ? 'fill-current'
-                      : ''
-                  }`}
-                />
-                {currentUser && planet.likedByUsers.includes(currentUser.id)
-                  ? 'Quitar de favoritos'
-                  : 'Agregar a favoritos'}
-              </Button>
-              <Button
-                variant="text"
-                className="holo-border w-full justify-start"
-                onClick={handleOpenReviewModal}
-              >
-                <MessageCircle size={18} className="mr-2" />
-                Escribir reseña
-              </Button>
-            </div>
-          </Card>
         </div>
       </div>
 
