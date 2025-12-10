@@ -9,7 +9,7 @@ import {
   useLocation,
   useNavigate,
 } from '@tanstack/react-router'
-import { ArrowLeft, Plane, Shield, Lock } from 'lucide-react'
+import { ArrowLeft, Shield, Lock } from 'lucide-react'
 
 export const Route = createFileRoute('/_protected/perfil')({
   component: ProfileLayout,
@@ -23,7 +23,6 @@ export const Route = createFileRoute('/_protected/perfil')({
 
 const tabs: Tab[] = [
   { name: 'Resumen', icon: Shield, path: '/perfil/resumen' },
-  { name: 'Mis Viajes', icon: Plane, path: '/perfil/viajes' },
   { name: 'Seguridad', icon: Lock, path: '/perfil/seguridad' },
   // { name: 'Métodos de Pago', icon: CreditCard, path: '/perfil/metodos-pago' } // No se sabe si se implementará,
   // { name: 'Datos Biométricos', icon: Heart, path: '/perfil/biometrics' }, // No se sabe si se implementará

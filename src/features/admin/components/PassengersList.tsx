@@ -1,5 +1,4 @@
-import { useReservationsStore } from '@/app/stores/reservations-store'
-import { Badge } from '@/shared/components/Bagde'
+import { getAllUsers, deleteUser, type User } from '@/app/services/user.service'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import {
@@ -10,103 +9,116 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/components/Table'
-import { Trash2 } from 'lucide-react'
-
-export interface ReservationAdmin {
-  id: string
-  planetId: string
-  shipId: string
-  departureDate: string
-  returnDate: string
-  passengers: number
-  cabinClass: string
-  status: 'confirmed' | 'in_transit' | 'completed' | 'cancelled'
-  totalCost: number
-}
-
-const status = {
-  confirmed: {
-    name: 'Confirmada',
-    style: 'text-xs bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
-  },
-  in_transit: {
-    name: 'En tránsito',
-    style: 'text-xs bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-  },
-  completed: {
-    name: 'Completada',
-    style: 'text-xs bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-  },
-  cancelled: {
-    name: 'Cancelada',
-    style: 'text-xs bg-red-500/20 text-red-400 border-red-500/30',
-  },
-}
+import { Loader2, Trash2, User as UserIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { showSuccess, showError } from '@/lib/toast.config'
+import { format, parseISO } from 'date-fns'
+import { es } from 'date-fns/locale'
 
 export const PassengersList = () => {
-  const reservations = useReservationsStore(state => state.reservations)
-  const deleteReservation = useReservationsStore(
-    state => state.deleteReservation
-  )
+  const [users, setUsers] = useState<User[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [deletingId, setDeletingId] = useState<number | null>(null)
 
-  const planets: any[] = []
+  const fetchUsers = async () => {
+    try {
+      const data = await getAllUsers()
+      setUsers(data)
+    } catch (error) {
+      console.error('Error fetching users:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
-  const handleDelete = (reservationId: string) => {
-    deleteReservation(reservationId)
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  const handleDelete = async (userId: number) => {
+    if (!confirm('¿Estás seguro de que deseas eliminar este usuario?')) return
+
+    setDeletingId(userId)
+    try {
+      await deleteUser(userId)
+      showSuccess('Usuario eliminado exitosamente')
+      fetchUsers()
+    } catch (error) {
+      showError('Error al eliminar el usuario')
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <Card>
+        <div className="flex items-center justify-center gap-2 py-12">
+          <Loader2 className="h-6 w-6 animate-spin text-cyan-400" />
+          <span className="text-gray-400">Cargando usuarios...</span>
+        </div>
+      </Card>
+    )
+  }
+
+  if (users.length === 0) {
+    return (
+      <Card>
+        <div className="flex flex-col items-center justify-center gap-4 py-12">
+          <UserIcon className="h-12 w-12 text-gray-600" />
+          <p className="text-gray-400">No hay usuarios registrados</p>
+        </div>
+      </Card>
+    )
   }
 
   return (
     <Card>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Destino</TableHead>
-            <TableHead>Fecha</TableHead>
-            <TableHead>Pasajeros</TableHead>
-            <TableHead>Estado</TableHead>
-            <TableHead>Total</TableHead>
-            <TableHead>Acciones</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {reservations.map(reservation => {
-            const planet = planets.find(p => p.id === reservation.planetId)
-            return (
-              <TableRow key={reservation.id}>
-                <TableCell>{reservation.id.toUpperCase()}</TableCell>
-                <TableCell>{planet?.name}</TableCell>
-                <TableCell>
-                  {new Date(reservation.departureDate).toLocaleDateString()}
-                </TableCell>
-                <TableCell> - </TableCell>
-                <TableCell>
-                  <Badge className={status[reservation.status].style}>
-                    {status[reservation.status].name}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-cyan-400">
-                  {reservation.totalCost.toLocaleString()} GC
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Nombre</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Fecha de Registro</TableHead>
+              <TableHead>Acciones</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {users.map(user => (
+              <TableRow key={user.id}>
+                <TableCell className="font-mono text-cyan-400">
+                  #{user.id}
                 </TableCell>
                 <TableCell>
-                  <div className="flex gap-2">
-                    {/* <Button className="holo-border" variant="secondary">
-                      <Edit size={16} />
-                    </Button> */}
-                    <Button
-                      className="holo-border text-red-400! hover:text-white!"
-                      variant="secondary"
-                      onClick={() => handleDelete(reservation.id)}
-                    >
+                  {user.name} {user.lastName}
+                </TableCell>
+                <TableCell className="text-gray-400">{user.email}</TableCell>
+                <TableCell className="text-gray-400">
+                  {format(parseISO(user.createdAt), "d 'de' MMM, yyyy", {
+                    locale: es,
+                  })}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    className="holo-border text-red-400! hover:text-white!"
+                    variant="secondary"
+                    onClick={() => handleDelete(user.id)}
+                    disabled={deletingId === user.id}
+                  >
+                    {deletingId === user.id ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
                       <Trash2 size={16} />
-                    </Button>
-                  </div>
+                    )}
+                  </Button>
                 </TableCell>
               </TableRow>
-            )
-          })}
-        </TableBody>
-      </Table>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </Card>
   )
 }

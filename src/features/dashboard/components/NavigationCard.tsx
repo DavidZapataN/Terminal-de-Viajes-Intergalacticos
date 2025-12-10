@@ -19,15 +19,18 @@ export const NavigationCard = ({
   onClick,
 }: Props) => {
   return (
-    <Card className="group hover:neon-glow h-max w-full min-w-56 cursor-pointer transition-all duration-300">
-      <div className="p-6" onClick={() => onClick(id)}>
+    <Card className="group hover:neon-glow h-full w-full cursor-pointer transition-all duration-300 hover:scale-[1.02]">
+      <div
+        className="flex h-full flex-col p-4 sm:p-6"
+        onClick={() => onClick(id)}
+      >
         <div
-          className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-tr p-2 text-white ${color} transition-transform duration-300 group-hover:scale-110`}
+          className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-tr p-2 text-white shadow-lg ${color} transition-transform duration-300 group-hover:scale-110`}
         >
-          {<Icon size={20} />}
+          <Icon size={20} />
         </div>
-        <span className="mb-2">{title}</span>
-        <p className="text-sm text-muted-foreground">{subtitle}</p>
+        <h3 className="mb-1 font-semibold text-white">{title}</h3>
+        <p className="text-sm text-gray-400">{subtitle}</p>
       </div>
     </Card>
   )

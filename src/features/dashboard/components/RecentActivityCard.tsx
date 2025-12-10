@@ -1,19 +1,23 @@
-import { Badge } from "@/shared/components/Bagde"
+import { Badge } from '@/shared/components/Bagde'
 
 interface Props {
   title: string
   description?: string
-  status: 'confirmed' | 'in_transit' | 'completed' | 'cancelled'
+  status: 'pending' | 'confirmed' | 'in_transit' | 'completed' | 'cancelled'
 }
 
 const statusStyles = {
+  pending: {
+    name: 'Pendiente',
+    style: 'text-xs bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  },
   confirmed: {
     name: 'Confirmada',
     style: 'text-xs bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
   },
   in_transit: {
     name: 'En tránsito',
-    style: 'text-xs bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+    style: 'text-xs bg-orange-500/20 text-orange-400 border-orange-500/30',
   },
   completed: {
     name: 'Completada',
