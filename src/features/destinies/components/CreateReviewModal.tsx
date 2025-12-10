@@ -44,27 +44,27 @@ export const CreateReviewModal = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
       <Card className="w-full max-w-lg">
-        <div className="flex w-full flex-col gap-4 p-6">
+        <div className="flex w-full flex-col gap-3 p-4 md:gap-4 md:p-6">
           <div className="flex items-center justify-between">
-            <Title>Escribir reseña</Title>
+            <Title className="text-base md:text-lg">Escribir reseña</Title>
             <Button
               variant="text"
               className="h-8 w-8 p-0"
               onClick={onClose}
               disabled={isSubmitting}
             >
-              <X size={20} />
+              <X size={18} />
             </Button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
             <div>
-              <label className="mb-2 block text-sm">
+              <label className="mb-2 block text-xs md:text-sm">
                 Calificación <span className="text-red-500">*</span>
               </label>
-              <div className="flex gap-2">
+              <div className="flex gap-1 md:gap-2">
                 {[1, 2, 3, 4, 5].map(star => (
                   <button
                     key={star}
@@ -75,12 +75,12 @@ export const CreateReviewModal = ({
                     className="transition-transform hover:scale-110"
                   >
                     <Star
-                      size={32}
-                      className={
+                      size={24}
+                      className={`md:h-8 md:w-8 ${
                         star <= (hoveredStar || rating)
                           ? 'fill-current text-yellow-400'
                           : 'text-gray-400'
-                      }
+                      }`}
                     />
                   </button>
                 ))}
@@ -88,7 +88,10 @@ export const CreateReviewModal = ({
             </div>
 
             <div>
-              <label htmlFor="content" className="mb-2 block text-sm">
+              <label
+                htmlFor="content"
+                className="mb-2 block text-xs md:text-sm"
+              >
                 Tu opinión <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -96,18 +99,18 @@ export const CreateReviewModal = ({
                 value={content}
                 onChange={e => setContent(e.target.value)}
                 placeholder="Comparte tu experiencia en este destino..."
-                className="w-full rounded-lg border border-border bg-background p-3 text-sm outline-none focus:border-cyan-400"
-                rows={5}
+                className="w-full rounded-lg border border-border bg-background p-3 text-xs outline-none focus:border-cyan-400 md:text-sm"
+                rows={4}
                 required
                 disabled={isSubmitting}
               />
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <Button
                 type="button"
                 variant="secondary"
-                className="flex-1"
+                className="flex-1 text-sm"
                 onClick={onClose}
                 disabled={isSubmitting}
               >
@@ -115,7 +118,7 @@ export const CreateReviewModal = ({
               </Button>
               <Button
                 type="submit"
-                className="flex-1"
+                className="flex-1 text-sm"
                 disabled={!content.trim() || isSubmitting}
               >
                 {isSubmitting ? 'Publicando...' : 'Publicar reseña'}

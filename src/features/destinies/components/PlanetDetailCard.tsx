@@ -26,37 +26,44 @@ export const PlanetDetailCard = ({ planet, planetImages }: Props) => {
     <Card className="overflow-hidden">
       <div className="flex w-full flex-col overflow-hidden">
         <CarrouselImage planet={planet} planetImages={planetImages} />
-        <div className="flex flex-col gap-4 p-6">
-          <div className="flex justify-between">
-            <Title>{planet.name}</Title>
-            <div className="mb-1 flex items-center gap-1">
-              <Star className="h-5 w-5 fill-current text-yellow-400" />
+        <div className="flex flex-col gap-3 p-4 md:gap-4 md:p-6">
+          {/* Title & Rating */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <Title className="text-lg md:text-xl">{planet.name}</Title>
+            <div className="flex items-center gap-1">
+              <Star className="h-4 w-4 fill-current text-yellow-400 md:h-5 md:w-5" />
               <span className="text-sm">
                 {planet.reviewSummary.averageRating}
               </span>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-xs text-muted-foreground md:text-sm">
                 ({planet.reviewSummary.totalReviews} reseñas)
               </span>
             </div>
           </div>
 
-          <div className="flex justify-between">
-            <p className="text-sm text-muted-foreground">
+          {/* System & Price */}
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-muted-foreground md:text-sm">
               {planet.system} • Cuadrante Alpha
             </p>
-            <div className="text-cyan-400">
+            <div className="text-lg font-semibold text-cyan-400 md:text-xl">
               {planet.price.toLocaleString()}{' '}
               <span className="text-sm">GC</span>
             </div>
           </div>
 
-          <p className="mb-6 text-sm text-muted-foreground">
+          {/* Description */}
+          <p className="text-xs text-muted-foreground md:text-sm">
             {planet.description}
           </p>
 
-          <Button onClick={handleBooking} className="mt-4 w-full">
+          {/* Book Button */}
+          <Button onClick={handleBooking} className="mt-2 w-full md:mt-4">
             <Rocket size={16} className="mr-2" />
-            Reservar Viaje a {planet.name}
+            <span className="hidden sm:inline">
+              Reservar Viaje a {planet.name}
+            </span>
+            <span className="sm:hidden">Reservar Viaje</span>
           </Button>
         </div>
       </div>

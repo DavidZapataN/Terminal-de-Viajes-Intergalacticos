@@ -45,10 +45,10 @@ export const PlanetRatings = ({ planet }: Props) => {
 
   return (
     <Card>
-      <div className="flex w-full flex-col gap-4 p-6">
-        <Title>Valoraciones</Title>
-        <div className="mb-4 text-center">
-          <div className="mb-1 text-3xl">
+      <div className="flex w-full flex-col gap-3 p-4 md:gap-4 md:p-6">
+        <Title className="text-base">Valoraciones</Title>
+        <div className="mb-2 text-center md:mb-4">
+          <div className="mb-1 text-2xl md:text-3xl">
             {planet.reviewSummary.averageRating.toFixed(1)}
           </div>
 
@@ -56,7 +56,7 @@ export const PlanetRatings = ({ planet }: Props) => {
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                size={16}
+                size={14}
                 className={
                   i < Math.floor(planet.reviewSummary.averageRating || 0)
                     ? 'fill-current text-yellow-400'
@@ -65,18 +65,28 @@ export const PlanetRatings = ({ planet }: Props) => {
               />
             ))}
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-xs text-muted-foreground md:text-sm">
             {planet.reviewSummary.totalReviews} reseñas
           </div>
         </div>
 
-        {ratingDistribution.map(rating => (
-          <div key={rating.stars} className="flex items-center gap-2 text-sm">
-            <span className="w-8">{rating.stars} ★</span>
-            <Progress value={rating.percentage} className="h-2 flex-1" />
-            <span className="w-12 text-muted-foreground">{rating.count}</span>
-          </div>
-        ))}
+        <div className="space-y-2">
+          {ratingDistribution.map(rating => (
+            <div
+              key={rating.stars}
+              className="flex items-center gap-2 text-xs md:text-sm"
+            >
+              <span className="w-6 md:w-8">{rating.stars} ★</span>
+              <Progress
+                value={rating.percentage}
+                className="h-1.5 flex-1 md:h-2"
+              />
+              <span className="w-8 text-right text-muted-foreground md:w-12">
+                {rating.count}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </Card>
   )

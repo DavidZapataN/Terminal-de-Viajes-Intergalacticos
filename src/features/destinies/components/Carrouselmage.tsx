@@ -25,7 +25,7 @@ export const CarrouselImage = ({ planet, planetImages }: Props) => {
   }
 
   return (
-    <div className="relative h-96 overflow-hidden rounded-t-xl bg-linear-to-br from-indigo-950 to-purple-950">
+    <div className="relative h-48 overflow-hidden rounded-t-xl bg-linear-to-br from-indigo-950 to-purple-950 sm:h-64 md:h-80 lg:h-96">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentImageIndex}
@@ -44,45 +44,49 @@ export const CarrouselImage = ({ planet, planetImages }: Props) => {
         </motion.div>
       </AnimatePresence>
 
+      {/* Navigation Arrows */}
       <button
         onClick={prevImage}
-        className="absolute top-1/2 left-4 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70"
+        className="absolute top-1/2 left-2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70 md:left-4 md:h-10 md:w-10"
       >
-        <ChevronLeft size={16} className="text-cyan-400" />
+        <ChevronLeft size={14} className="text-cyan-400 md:h-4 md:w-4" />
       </button>
       <button
         onClick={nextImage}
-        className="absolute top-1/2 right-4 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70"
+        className="absolute top-1/2 right-2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-cyan-400/50 bg-black/50 transition-all duration-300 hover:border-cyan-400 hover:bg-black/70 md:right-4 md:h-10 md:w-10"
       >
-        <ChevronRight size={16} className="text-cyan-400" />
+        <ChevronRight size={14} className="text-cyan-400 md:h-4 md:w-4" />
       </button>
 
-      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+      {/* Dots Indicator */}
+      <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5 md:bottom-4 md:gap-2">
         {planetImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentImageIndex(index)}
-            className={`h-2 w-2 rounded-full transition-all duration-300 ${
+            className={`h-1.5 w-1.5 rounded-full transition-all duration-300 md:h-2 md:w-2 ${
               index === currentImageIndex
-                ? 'w-6 bg-cyan-400'
+                ? 'w-4 bg-cyan-400 md:w-6'
                 : 'bg-white/50 hover:bg-white/70'
             }`}
           />
         ))}
       </div>
 
-      <div className="absolute top-4 left-4">
-        <Badge className="border-cyan-400/50 bg-black/50 text-white backdrop-blur-sm">
+      {/* System Badge */}
+      <div className="absolute top-2 left-2 md:top-4 md:left-4">
+        <Badge className="border-cyan-400/50 bg-black/50 text-xs text-white backdrop-blur-sm md:text-sm">
           {planet.system}
         </Badge>
       </div>
 
-      <div className="absolute top-4 right-4 flex gap-2">
+      {/* Gallery Button - Hidden on mobile */}
+      <div className="absolute top-2 right-2 hidden gap-2 sm:flex md:top-4 md:right-4">
         <Button
           variant="text"
-          className="cursor-text! border border-cyan-400/50 bg-black/50! text-white backdrop-blur-sm"
+          className="cursor-text! border border-cyan-400/50 bg-black/50! text-xs text-white backdrop-blur-sm md:text-sm"
         >
-          <Camera size={16} className="mr-2" />
+          <Camera size={14} className="mr-1 md:mr-2 md:h-4 md:w-4" />
           Galería
         </Button>
       </div>

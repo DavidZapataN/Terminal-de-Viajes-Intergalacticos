@@ -367,18 +367,18 @@ export const PlanetReviews = ({
 
   return (
     <Card>
-      <div className="flex w-full flex-col gap-4 p-6">
-        <Title>
+      <div className="flex w-full flex-col gap-3 p-4 md:gap-4 md:p-6">
+        <Title className="text-base">
           Reseñas de viajeros{' '}
           {!isLoading && reviews.length > 0 && `(${reviews.length})`}
         </Title>
 
         {isLoading ? (
-          <p className="py-4 text-center text-sm text-muted-foreground">
+          <p className="py-4 text-center text-xs text-muted-foreground md:text-sm">
             Cargando reseñas...
           </p>
         ) : reviews.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground md:text-sm">
             Aún no hay reseñas para este destino. ¡Sé el primero en escribir
             una!
           </p>
@@ -397,7 +397,7 @@ export const PlanetReviews = ({
             {hasMoreReviews && (
               <Button
                 variant="text"
-                className="holo-border mt-4 w-full"
+                className="holo-border mt-2 w-full text-sm md:mt-4"
                 onClick={() => setShowAll(!showAll)}
               >
                 {showAll
