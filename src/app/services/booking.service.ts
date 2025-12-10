@@ -68,3 +68,13 @@ export const cancelBooking = async (id: number): Promise<Booking> => {
     throw new Error('No se pudo cancelar la reserva')
   }
 }
+
+export const getAllBookings = async (): Promise<Booking[]> => {
+  try {
+    const response = await api.get<Booking[]>('/booking')
+    return response.data
+  } catch (error) {
+    console.error('Error fetching all bookings:', error)
+    throw new Error('No se pudieron obtener todas las reservas')
+  }
+}

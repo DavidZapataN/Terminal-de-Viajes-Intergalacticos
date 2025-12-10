@@ -4,7 +4,7 @@ import { Badge } from '@/shared/components/Bagde'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ImageWithFallback } from '@/shared/components/ImageWithFallback'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
 import {
   Calendar,
@@ -17,8 +17,15 @@ import {
   Users,
   XCircle,
 } from 'lucide-react'
+
 import { useState } from 'react'
 import { showSuccess, showError } from '@/lib/toast.config'
+
+// Parse UTC date string and format without timezone conversion
+const formatUTCDate = (dateString: string) => {
+  const date = parseISO(dateString)
+  return format(date, 'd/MM/yyyy', { locale: es })
+}
 
 interface Props {
   booking: Booking
@@ -74,7 +81,7 @@ export const BookingCard = ({
       setIsCancelling(false)
     }
   }
-
+  console.log(booking)
   const status = statusConfig[booking.status]
   const bookingCode = `TVI-${booking.id.toString().padStart(6, '0')}`
 
@@ -127,7 +134,7 @@ export const BookingCard = ({
               <div className="flex items-center gap-1.5">
                 <Rocket size={14} className="text-emerald-400" />
                 <span className="text-gray-300">
-                  {booking.starship?.name || 'Nave'}
+                  {booking.cabin?.starship?.name || 'Nave'}
                 </span>
               </div>
 
@@ -142,17 +149,11 @@ export const BookingCard = ({
               <div className="flex items-center gap-1.5">
                 <Calendar size={14} className="text-cyan-400" />
                 <span className="text-gray-300">
-                  Salida:{' '}
-                  {format(new Date(booking.departureDate), 'd/MM/yyyy', {
-                    locale: es,
-                  })}
+                  Salida: {formatUTCDate(booking.departureDate)}
                 </span>
                 <span className="text-gray-500">-</span>
                 <span className="text-gray-300">
-                  Regreso:{' '}
-                  {format(new Date(booking.returnDate), 'd/MM/yyyy', {
-                    locale: es,
-                  })}
+                  Regreso: {formatUTCDate(booking.returnDate)}
                 </span>
               </div>
             </div>

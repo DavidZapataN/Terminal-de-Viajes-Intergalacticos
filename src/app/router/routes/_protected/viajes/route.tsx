@@ -63,13 +63,20 @@ function TripsLayout() {
     [bookings]
   )
 
-  const totalSpentAll = useMemo(
-    () => bookings.reduce((sum, b) => sum + b.totalPrice, 0),
+  // Exclude cancelled bookings from total spent
+  const nonCancelledBookings = useMemo(
+    () => bookings.filter(b => b.status !== 'cancelled'),
     [bookings]
   )
 
+  const totalSpentAll = useMemo(
+    () =>
+      nonCancelledBookings.reduce((sum, b) => sum + Number(b.totalPrice), 0),
+    [nonCancelledBookings]
+  )
+
   const totalSpentCompleted = useMemo(
-    () => completedBookings.reduce((sum, b) => sum + b.totalPrice, 0),
+    () => completedBookings.reduce((sum, b) => sum + Number(b.totalPrice), 0),
     [completedBookings]
   )
 

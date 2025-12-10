@@ -11,7 +11,6 @@ import {
   Copy,
   Download,
   Plane,
-  Rocket,
   Ticket,
   Users,
 } from 'lucide-react'
@@ -50,12 +49,7 @@ export const BookingConfirmationStep = () => {
 
   const handleGoToTrips = () => {
     resetBooking()
-    navigate({ to: '/perfil/viajes' })
-  }
-
-  const handleNewBooking = () => {
-    resetBooking()
-    navigate({ to: '/destinos' })
+    navigate({ to: '/viajes' })
   }
 
   const totalPrice = calculateTotalPrice()
@@ -67,7 +61,9 @@ export const BookingConfirmationStep = () => {
           <p className="text-gray-400">
             No hay información de reserva disponible
           </p>
-          <Button onClick={handleNewBooking}>Hacer una reserva</Button>
+          <Button onClick={() => navigate({ to: '/destinos' })}>
+            Explorar destinos
+          </Button>
         </div>
       </Card>
     )
@@ -232,11 +228,6 @@ export const BookingConfirmationStep = () => {
             >
               <Plane size={18} />
               Mis Viajes
-            </Button>
-
-            <Button onClick={handleNewBooking} className="gap-2">
-              <Rocket size={18} />
-              Nueva Reserva
             </Button>
           </div>
         </div>

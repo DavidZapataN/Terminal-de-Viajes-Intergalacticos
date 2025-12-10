@@ -1,25 +1,44 @@
-import { Rocket, Users, Globe, TrendingUp } from 'lucide-react'
+import { Rocket, Users, Globe, TrendingUp, Loader2 } from 'lucide-react'
 import { SummaryCard } from '../components/SummaryCard'
 import { Card } from '../../../shared/components/Card'
 import { RecentActivityCard } from '../components/RecentActivityCard'
-import { useReservationsStore } from '@/app/stores/reservations-store'
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { useStarshipsStore } from '@/app/stores/starship-store'
 import { useDestinyStore } from '@/app/stores/destiny-store'
+import { getAllBookings } from '@/app/services/booking.service'
+import type { Booking } from '@/app/types/api/booking/Booking'
 
 export const Summary = () => {
-  const reservations = useReservationsStore(state => state.reservations)
-  const destinies = useDestinyStore(state => state.destinies)
-  const totalReservations = useReservationsStore(
-    state => state.reservations.length
-  )
+  const [bookings, setBookings] = useState<Booking[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
   const activeShips = useStarshipsStore(
     state => state.starships.filter(ship => ship.status === 'active').length
   )
-  const revenue = useReservationsStore(state =>
-    state.reservations.reduce((sum, r) => sum + r.totalCost, 0)
-  )
   const destiniesCount = useDestinyStore(state => state.destinies.length)
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const data = await getAllBookings()
+        setBookings(data)
+      } catch (error) {
+        console.error('Error fetching bookings:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchBookings()
+  }, [])
+
+  const totalReservations = bookings.length
+  const revenue = useMemo(
+    () =>
+      bookings
+        .filter(b => b.status !== 'cancelled')
+        .reduce((sum, b) => sum + Number(b.totalPrice), 0),
+    [bookings]
+  )
 
   const data = useMemo(
     () => [
@@ -51,9 +70,18 @@ export const Summary = () => {
     [activeShips, totalReservations, revenue, destiniesCount]
   )
 
+  if (isLoading) {
+    return (
+      <div className="mt-6 flex items-center justify-center gap-2 py-12">
+        <Loader2 className="h-6 w-6 animate-spin text-cyan-400" />
+        <span className="text-gray-400">Cargando datos...</span>
+      </div>
+    )
+  }
+
   return (
     <div className="mt-6 flex flex-col gap-5">
-      <div className="flex w-full gap-5">
+      <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {data.map(item => (
           <SummaryCard
             key={item.title}
@@ -69,19 +97,20 @@ export const Summary = () => {
         <div className="flex flex-col gap-5 p-5">
           <h2 className="text-cyan-400">Actividad Reciente</h2>
 
-          {reservations.slice(0, 3).map(reservation => {
-            const destiny = destinies.find(
-              d => d.id === parseInt(reservation.planetId)
-            )
-            return (
-              <RecentActivityCard
-                key={reservation.id}
-                title={`Nueva reserva a ${destiny?.name}`}
-                description={`${reservation.totalCost.toLocaleString()} GC`}
-                status={reservation.status}
-              />
-            )
-          })}
+          {bookings.length === 0 ? (
+            <p className="text-gray-500">No hay reservas registradas</p>
+          ) : (
+            bookings
+              .slice(0, 5)
+              .map(booking => (
+                <RecentActivityCard
+                  key={booking.id}
+                  title={`Nueva reserva a ${booking.destiny?.name || 'Destino desconocido'}`}
+                  description={`${Number(booking.totalPrice).toLocaleString()} GC`}
+                  status={booking.status}
+                />
+              ))
+          )}
         </div>
       </Card>
     </div>
