@@ -1,5 +1,4 @@
 import type { Reservation } from '@/app/types/Reservation'
-import type { ReservationAdmin } from '@/features/admin/components/PassengersList'
 import type { ReservationOld } from '@/features/profile/components/ReservationCard'
 
 export const mockReservationsNew: Reservation[] = [
@@ -88,47 +87,47 @@ export const mockReservations: ReservationOld[] = [
   },
 ]
 
-export const mockReservationsAdmin: ReservationAdmin[] = [
+export const mockReservationsAdmin: Reservation[] = [
   {
     id: 'res-001',
+    userId: 'user-001',
     planetId: 'kepler-442b',
     shipId: 'starweaver',
     departureDate: '2025-12-15',
     returnDate: '2025-12-22',
-    passengers: 2,
     cabinClass: 'Lujo',
     status: 'confirmed',
     totalCost: 30000,
   },
   {
     id: 'res-002',
+    userId: 'user-002',
     planetId: 'trappist-1e',
     shipId: 'void-runner',
     departureDate: '2025-11-28',
     returnDate: '2025-12-05',
-    passengers: 1,
     cabinClass: 'Estándar',
     status: 'completed',
     totalCost: 25000,
   },
   {
     id: 'res-003',
+    userId: 'user-003',
     planetId: 'gliese-667cc',
     shipId: 'void-runner',
     departureDate: '2025-11-28',
     returnDate: '2025-12-05',
-    passengers: 4,
     cabinClass: 'Estándar',
     status: 'cancelled',
     totalCost: 25000,
   },
   {
     id: 'res-004',
+    userId: 'user-004',
     planetId: 'proxima-centauri-b',
     shipId: 'nebula-dream',
     departureDate: '2025-10-10',
     returnDate: '2025-10-17',
-    passengers: 3,
     cabinClass: 'Lujo',
     status: 'in_transit',
     totalCost: 40000,

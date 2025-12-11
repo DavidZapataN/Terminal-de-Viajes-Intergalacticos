@@ -3,7 +3,6 @@ import {
   Home,
   LogOut,
   Map,
-  Rocket,
   Settings,
   User,
 } from 'lucide-react'
