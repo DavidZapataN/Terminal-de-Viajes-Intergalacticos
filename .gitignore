@@ -27,4 +27,3 @@ count.txt
 .env
 .nitro
 .tanstack
-routeTree.gen.ts
