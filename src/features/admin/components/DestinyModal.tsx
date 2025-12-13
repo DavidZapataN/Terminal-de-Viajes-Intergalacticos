@@ -116,7 +116,7 @@ export const DestinyModal = ({
       setActivities([])
       setImagesInput('')
     }
-  }, [destiny, mode, reset])
+  }, [destiny, mode, reset, isOpen])
 
   useEffect(() => {
     setValue('activities', activities)

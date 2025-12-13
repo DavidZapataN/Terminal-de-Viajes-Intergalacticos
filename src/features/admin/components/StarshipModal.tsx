@@ -94,7 +94,7 @@ export const StarshipModal = ({
       setCabins([])
       setAmenitiesInput('')
     }
-  }, [starship, mode, reset])
+  }, [starship, mode, reset, isOpen])
 
   useEffect(() => {
     setValue('cabins', cabins)

@@ -61,13 +61,15 @@ export function GalacticMap({ onPlanetClick }: GalacticMapProps) {
   }
 
   const connections =
-    destinies.length >= 5
+    destinies && destinies.length >= 5
       ? [
           { from: destinies[0], to: destinies[1] },
           { from: destinies[1], to: destinies[2] },
           { from: destinies[2], to: destinies[3] },
           { from: destinies[0], to: destinies[4] },
-          ...(destinies.length > 5 ? [{ from: destinies[4], to: destinies[5] }] : []),
+          ...(destinies.length > 5
+            ? [{ from: destinies[4], to: destinies[5] }]
+            : []),
         ]
       : []
 

@@ -65,8 +65,8 @@ export const Login = () => {
   }
 
   return (
-    <div className="flex min-h-full w-full flex-col items-center overflow-y-auto py-8">
-      <div className="flex w-full flex-col items-center gap-4 px-4">
+    <div className="flex min-h-full w-full flex-col items-center overflow-y-auto px-4 py-8">
+      <div className="flex w-full max-w-md flex-col items-center gap-4">
         <Link
           to="/"
           className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-cyan-400"
@@ -75,13 +75,15 @@ export const Login = () => {
           <span>Volver al inicio</span>
         </Link>
         <Card>
-          <div className="flex w-md flex-col place-items-center gap-2.5 p-4">
-            <header className="flex flex-col items-center gap-3.5 pb-18">
+          <div className="flex w-full flex-col place-items-center gap-2.5 p-4 sm:w-md">
+            <header className="flex flex-col items-center gap-3.5 pb-8 sm:pb-18">
               <div className="flex place-items-center rounded-full bg-linear-to-r from-cyan-500 to-purple-500 p-4">
                 <Rocket size={32} />
               </div>
 
-              <Title>Terminal de Viajes Intergalácticos</Title>
+              <Title className="text-center text-lg sm:text-xl">
+                Terminal de Viajes Intergalácticos
+              </Title>
 
               <span className="text-sm text-gray-400">
                 Acceso Seguro a la Red Galáctica

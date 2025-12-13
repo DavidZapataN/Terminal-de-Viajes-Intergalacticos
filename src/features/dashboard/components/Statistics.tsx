@@ -11,7 +11,7 @@ export const Statistics = () => {
   const user = useAuthStore(state => state.user)
   const destinies = useDestinyStore(state => state.destinies)
   const [bookings, setBookings] = useState<Booking[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -69,6 +69,18 @@ export const Statistics = () => {
       },
     ]
   }, [bookings, destinies.length])
+
+  if (!user) {
+    return (
+      <Card className="w-full!">
+        <div className="flex flex-col items-center justify-center gap-3 p-8">
+          <span className="text-sm text-gray-400">
+            Inicia sesión para ver tus estadísticas
+          </span>
+        </div>
+      </Card>
+    )
+  }
 
   if (isLoading) {
     return (
